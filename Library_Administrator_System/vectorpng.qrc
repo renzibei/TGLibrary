@@ -1,11 +1,11 @@
 <RCC>
     <qresource prefix="/">
-        <file>Image/很多按钮.jpg</file>
-        <file>Image/四本书 黑白.png</file>
-        <file>Image/图书馆书架.png</file>
-        <file>Image/紫色按钮.PNG</file>
-        <file>Image/黄色按钮.PNG</file>
-        <file>Image/蓝色按钮.PNG</file>
-        <file>Image/绿色按钮.PNG</file>
+        <file>Image/Blue_Button.PNG</file>
+        <file>Image/Book_Colorless.png</file>
+        <file>Image/Colorful_Button.jpg</file>
+        <file>Image/Green_Button.PNG</file>
+        <file>Image/Library_Shell.png</file>
+        <file>Image/Purple_Button.PNG</file>
+        <file>Image/Yellow_Button.PNG</file>
     </qresource>
 </RCC>

@@ -27,7 +27,7 @@
    </property>
    <property name="icon">
     <iconset resource="vectorpng.qrc">
-     <normaloff>:/Image/紫色按钮.PNG</normaloff>:/Image/紫色按钮.PNG</iconset>
+     <normaloff>:/Image/Purple_Button.PNG</normaloff>:/Image/Purple_Button.PNG</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -50,7 +50,7 @@
    </property>
    <property name="icon">
     <iconset resource="vectorpng.qrc">
-     <normaloff>:/Image/黄色按钮.PNG</normaloff>:/Image/黄色按钮.PNG</iconset>
+     <normaloff>:/Image/Yellow_Button.PNG</normaloff>:/Image/Yellow_Button.PNG</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -73,7 +73,7 @@
    </property>
    <property name="icon">
     <iconset resource="vectorpng.qrc">
-     <normaloff>:/Image/绿色按钮.PNG</normaloff>:/Image/绿色按钮.PNG</iconset>
+     <normaloff>:/Image/Green_Button.PNG</normaloff>:/Image/Green_Button.PNG</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -96,7 +96,7 @@
    </property>
    <property name="icon">
     <iconset resource="vectorpng.qrc">
-     <normaloff>:/Image/蓝色按钮.PNG</normaloff>:/Image/蓝色按钮.PNG</iconset>
+     <normaloff>:/Image/Blue_Button.PNG</normaloff>:/Image/Blue_Button.PNG</iconset>
    </property>
    <property name="iconSize">
     <size>
