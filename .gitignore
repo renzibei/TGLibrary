@@ -20,6 +20,7 @@ object_script.*.Debug
 *.qbs.user
 *.qbs.user.*
 *.moc
+.qmake.stash
 moc_*.cpp
 moc_*.h
 qrc_*.cpp
@@ -41,3 +42,7 @@ target_wrapper.*
 
 # QtCreator CMake
 CMakeLists.txt.user*
+
+# mac
+.DS_Store
+*.app
