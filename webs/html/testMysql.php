@@ -20,26 +20,29 @@ function getLine($fileHandle)
 set_error_handler("customError");
 */
 
-$userFilePath =  dirname(dirname(__DIR__)) . '/dbusers/dbadmin';
-if(!file_exists($userFilePath))
+//$userFilePath =  dirname(dirname(__DIR__)) . '/dbusers/dbadmin';
+$dbAdminFilePath = dirname(dirname(__DIR__)) . '/dbusers/dbadmin.php';
+if(!file_exists($dbAdminFilePath))
  {
 	echo("File not found");
  }
 else
  {
- 	$userFile = fopen($userFilePath, "r"); 
-	if($userFile != false) {
+ 	//$userFile = fopen($userFilePath, "r"); 
+
+	include $dbAdminFilePath;
+	//if($userFile != false) {
 		echo "读取成功" . '<br />';
-		$db_username2 = getLine($userFile);
-		$db_passwd2 = getLine($userFile);
-		$db_server2 = getLine($userFile);
-		$conn = new mysqli($db_server2, $db_username2, $db_passwd2);
+		//$db_username2 = getLine($userFile);
+		//$db_passwd2 = getLine($userFile);
+		//$db_server2 = getLine($userFile);
+		$conn = new mysqli($db_serverhost, $db_username, $db_password);
 		if($conn->connect_error) {
 			die('连接失败：' . $coon->connect_error);
 		}
 		else echo '连接成功' . '<br />';
-	}
-	else echo"读取失败";
+	//}
+	//else echo"读取失败";
  }
 
 /*
