@@ -20,7 +20,7 @@ function getLine($fileHandle)
 set_error_handler("customError");
 */
 
-$userFilePath =  dirname(__DIR__) . '/dbusers/dbadmin';
+$userFilePath =  dirname(dirname(__DIR__)) . '/dbusers/dbadmin';
 if(!file_exists($userFilePath))
  {
 	echo("File not found");
