@@ -31,7 +31,8 @@ SOURCES += \
     readermanagement.cpp \
     record.cpp \
     confirm.cpp \
-    errorinput_e.cpp
+    errorinput_e.cpp \
+    addnewreader.cpp
 
 HEADERS += \
         welcomepage.h \
@@ -40,7 +41,8 @@ HEADERS += \
     readermanagement.h \
     record.h \
     confirm.h \
-    errorinput_e.h
+    errorinput_e.h \
+    addnewreader.h
 
 FORMS += \
         welcomepage.ui \
@@ -49,7 +51,8 @@ FORMS += \
     readermanagement.ui \
     record.ui \
     confirm.ui \
-    errorinput_e.ui
+    errorinput_e.ui \
+    addnewreader.ui
 
 RESOURCES += \
     vectorpng.qrc

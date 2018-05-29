@@ -16,7 +16,11 @@ public:
     ~BookManagement();
 
 private slots:
-    void on_pushButton_4_clicked();
+    void on_AddBook_Bt_clicked();
+
+    void on_Delete_Book_clicked();
+
+    void on_pushButton_clicked();
 
 private:
     Ui::BookManagement *ui;

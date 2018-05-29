@@ -15,6 +15,9 @@ public:
     explicit Record(QWidget *parent = 0);
     ~Record();
 
+private slots:
+    void on_pushButton_clicked();
+
 private:
     Ui::Record *ui;
 };

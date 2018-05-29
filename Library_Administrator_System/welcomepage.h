@@ -2,7 +2,7 @@
 #define WELCOMEPAGE_H
 
 #include <QMainWindow>
-#include "mainpage.h" //For windows shifted
+#include <QMovie>
 
 namespace Ui {
 class WelcomePage;
@@ -18,12 +18,11 @@ public:
 
 private slots:
     void on_En_Bt_clicked();
-
     void on_Ex_Bt_clicked();
+    void reshow();
 
 private:
     Ui::WelcomePage *ui;
-  //  MainPage mainpage;
 };
 
 #endif // WELCOMEPAGE_H
