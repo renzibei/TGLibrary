@@ -1,26 +1,57 @@
 <?php
-
+echo "begin include <br />";
+function _error_handler($errno, $errstr ,$errfile, $errline)
+{
+    SystemFrame::log_info( "错误编号errno: $errno" );
+    SystemFrame::log_info( "错误信息errstr: $errstr");
+    SystemFrame::log_info( "出错文件errfile: $errfile");
+    SystemFrame::log_info( "出错行号errline: $errline");
+}
+set_error_handler('_error_handler', E_ALL | E_STRICT);
 
 require_once 'errorTable.php';
+require_once dirname(dirname(dirname(__FILE__))) . '/dbusers/dbadmin.php';
 
+class SystemFrame{
 
-class systemFrame{
+    private static $__instance;
+
 
 
 	protected $rootDirPath;
-	protected  $configFilePath;
+	protected $configFilePath;
 	protected $logFilePath;
-	
 
-	function __construct()
+
+
+	protected function __construct()
 	{
-		$this->rootDirPath = dirname(dirname(dirname(__FILE__)));
+        echo "construct <br />";
+	    $this->rootDirPath = dirname(dirname(dirname(__FILE__)));
 		$this->configFilePath = $this->rootDirPath . '/dbusers/dbadmin.php';
+
 	}
 
-	public function log_info($info)
+	public function getLogFilePath()
+    {
+        return $this->logFilePath;
+    }
+
+
+
+	public static function instance()
+    {
+        if(empty(self::$__instance)) {
+            self::$__instance = new SystemFrame();
+            self::$__instance->setTime();
+            self::$__instance->initLogFile();
+        }
+        return self::$__instance;
+    }
+
+	public static function log_info($info)
 	{
-		error_log( $info ,3, $this->logFilePath . PHP_EOL );
+		error_log( $info . PHP_EOL,3, self::instance()->getLogFilePath());
 	}
 
 	protected function setTime()
@@ -34,7 +65,7 @@ class systemFrame{
      */
 	protected function initLogFile()
 	{
-		$this->logFilePath = $this->rootDirPath . '/info' . date("Y-m-d-H:m:s") . '.log';
+		$this->logFilePath = $this->rootDirPath . '/log/info' . date("Y-m-d-H:m:s") . '.log';
 		if(!file_exists($this->logFilePath)) {
 			$fileHandler = fopen($this->logFilePath, "w");
 			if($fileHandler === false)
@@ -57,7 +88,7 @@ class systemFrame{
 				throw new Exception($conn->connect_error, \ErrorCode\ConnectDBError);
 			}
 			
-			$createDBSql = "CREATE DATABASE IF NOT EXISTS" . $config['tg_database'] . "default character set utf8 COLLATE utf8_general_ci";
+			$createDBSql = "CREATE DATABASE IF NOT EXISTS " . $config['tg_database'] . " default character set utf8 COLLATE utf8_general_ci";
 			if($conn->query($createDBSql) === false)
 				throw new Exception("Fail to create Database " . $conn->error, \errorCode\CreateDBError);
 			if($conn->select_db($config['tg_database']) === false)
@@ -165,20 +196,21 @@ class systemFrame{
                                         userId INT NOT NULL,
                                         bookId INT NOT NULL,
                                         docId INT,
-                                        beginDate TIMESTAMP NOT NULL default CURRENT_TIME,
-                                        dueDate TIMESTAMP NOT NULL default CURRENT_TIME,
+                                        beginDate TIMESTAMP NOT NULL default CURRENT_TIMESTAMP,
+                                        dueDate TIMESTAMP NOT NULL default CURRENT_TIMESTAMP,
                                         checkedIn BOOL default FALSE
                                     )";
-            if($conn->query($createBorrowRecordSql) === false)
-                throw new Exception("Fail to create Table " . $config['borrowRecord'], \errorCode\CreateDBTableError);
+            $result = $conn->query($createBorrowRecordSql);
+            if($result === false)
+                throw new Exception("Fail to create Table " . $config['borrowRecord'] ." $conn->error", \errorCode\CreateDBTableError);
 
             $createReserveRecordSql = "CREATE TABLE IF NOT EXISTS " . $config['reserveRecord'] . "(
                                         recordId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                         userId INT NOT NULL,
                                         bookId INT NOT NULL,
                                         docId INT,
-                                        beginDate TIMESTAMP NOT NULL default CURRENT_TIME,
-                                        dueDate TIMESTAMP NOT NULL default CURRENT_TIME,
+                                        beginDate TIMESTAMP NOT NULL default CURRENT_TIMESTAMP,
+                                        dueDate TIMESTAMP NOT NULL default CURRENT_TIMESTAMP,
                                         checkedIn BOOL default FALSE
                                     )";
             if($conn->query($createReserveRecordSql) === false)
@@ -286,14 +318,14 @@ class systemFrame{
         {
 
             try {
-                $this->setTime();
-                $this->initLogFile();
+                //$this->setTime();
+                //$this->initLogFile();
                 $coon = $this->createDatabase();
                 $this->createTables($coon);
 
 
             } catch (Exception $e) {
-
+                self::log_info($e->getMessage());
                 throw $e;
             }
 
