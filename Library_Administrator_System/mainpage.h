@@ -2,6 +2,7 @@
 #define MAINPAGE_H
 
 #include <QDialog>
+#include <QMovie>
 
 namespace Ui {
 class MainPage;
@@ -16,9 +17,18 @@ public:
     ~MainPage();
 
 private slots:
+    void on_Book_bt_clicked();
+
     void on_Return_bt_clicked();
 
-    void on_Book_bt_clicked();
+    void on_toolButton_2_clicked();
+
+    void on_toolButton_clicked();
+
+    void on_To_Confirm_button_clicked();
+
+signals:
+    void sendsignal();
 
 private:
     Ui::MainPage *ui;

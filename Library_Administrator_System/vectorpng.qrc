@@ -7,5 +7,10 @@
         <file>Image/Library_Shell.png</file>
         <file>Image/Purple_Button.PNG</file>
         <file>Image/Yellow_Button.PNG</file>
+        <file>Image/sakura_pink1.gif</file>
+        <file>Image/member.png</file>
+        <file>Image/record.png</file>
+        <file>Image/record1.png</file>
+        <file>Image/stamp.png</file>
     </qresource>
 </RCC>

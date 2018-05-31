@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>审核操作</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="vectorpng.qrc">
+    <normaloff>:/Image/stamp.png</normaloff>:/Image/stamp.png</iconset>
   </property>
   <widget class="QLabel" name="label">
    <property name="geometry">
@@ -121,7 +125,7 @@
     <string>刷新</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_4">
+  <widget class="QPushButton" name="Confirm_Return_bt">
    <property name="geometry">
     <rect>
      <x>450</x>
@@ -140,6 +144,8 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="vectorpng.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>借还记录</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="vectorpng.qrc">
+    <normaloff>:/Image/record.png</normaloff>:/Image/record.png</iconset>
   </property>
   <widget class="QLabel" name="label">
    <property name="geometry">
@@ -168,7 +172,7 @@
     <string>查询</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="Record_Return_bt">
    <property name="geometry">
     <rect>
      <x>580</x>
@@ -244,7 +248,7 @@
     <string>详细信息</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="Input_Edit1">
    <property name="geometry">
     <rect>
      <x>490</x>
@@ -278,6 +282,8 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="vectorpng.qrc"/>
+ </resources>
  <connections/>
 </ui>
