@@ -56,7 +56,7 @@ class SystemFrame{
 
 	protected function setTime()
 	{
-		date_default_timezone_set("PRC");
+		date_default_timezone_set("Asia/Shanghai");
 		
 	}
 
@@ -65,7 +65,7 @@ class SystemFrame{
      */
 	protected function initLogFile()
 	{
-		$this->logFilePath = $this->rootDirPath . '/log/info' . date("Y-m-d-H:m:s") . '.log';
+		$this->logFilePath = $this->rootDirPath . '/log/info' . date("Y-m-d-H:i:s") . '.log';
 		if(!file_exists($this->logFilePath)) {
 			$fileHandler = fopen($this->logFilePath, "w");
 			if($fileHandler === false)
