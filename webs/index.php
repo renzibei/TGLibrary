@@ -11,6 +11,7 @@
 	echo "begin <br />";
 	require 'html/SystemFrame.php';
 
+
 	SystemFrame::log_info("begin to init");
 	SystemFrame::instance()->initServer();
 	SystemFrame::log_info("finish");

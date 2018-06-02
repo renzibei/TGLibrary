@@ -174,7 +174,7 @@ class SystemFrame{
         global $docTypeList;
         global $config;
         global $identifierTypeList;
-        require_once dirname(dirname(dirname(__FILE__))) . '/dbusers/docinfo.php';
+        require_once dirname(dirname(dirname(__FILE__))) . '/dbusers/docInfo.php';
 
         $sqlQuery = "DELETE FROM " . $config['docType'];
         if($conn->query($sqlQuery) === false )
