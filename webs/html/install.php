@@ -20,6 +20,9 @@ set_error_handler('_error_handler', E_ALL | E_STRICT);
 require_once 'errorTable.php';
 require_once dirname(dirname(dirname(__FILE__))) . '/dbusers/dbadmin.php';
 
+/**
+ * Class SystemFrame
+ */
 class SystemFrame{
 
     private static $__instance;
@@ -124,7 +127,7 @@ class SystemFrame{
 
 	protected function tableExists(string $tableName, mysqli $conn)
 	{
-		$queryTableSql = 'SHOW TABLES LIKE ' . $tableName;
+		$queryTableSql = 'SHOW TABLES LIKE \'' . $tableName . '\'';
 		$result = $conn->query($queryTableSql);
 		if($result === false)
 			throw new Exception("Query for Table Error" . $conn->error, \ErrorCode\QueryTableError);
@@ -151,7 +154,51 @@ class SystemFrame{
     protected function isTablePrepared(mysqli $conn)
     {
         global $config;
-        return $this->tableExists($config['lastTable'], $conn);
+        if($this->tableExists($config['lastTable'], $conn) === false)
+            return false;
+        $querySql = "SELECT * FROM " . $config['lastTable'];
+        $result = $conn->query($querySql);
+        if($result->num_rows > 0)
+            return 1;
+        else return 0;
+    }
+
+    /**
+     * @param mysqli $conn
+     * @throws Exception
+     */
+    protected function initTables(mysqli $conn)
+    {
+        global $docTypeList;
+        global $config;
+        global $identifierTypeList;
+        require_once dirname(dirname(dirname(__FILE__))) . '/dbusers/docinfo.php';
+
+        $sqlQuery = "DELETE FROM " . $config['docType'];
+        if($conn->query($sqlQuery) === false )
+            throw new Exception("Fail to delete data in" . $config['docType'] . $conn->error, \errorCode\DeleteFromTableError);
+
+
+        $sqlQuery = "DELETE FROM " . $config['identifierType'];
+        if($conn->query($sqlQuery) === false )
+            throw new Exception("Fail to delete data in" . $config['identifierType'] . $conn->error, \errorCode\DeleteFromTableError);
+
+        for($i = 1; $i <= count($docTypeList); $i++ ) {
+            $sqlQuery = "INSERT INTO " . $config['docType'] . " ( " . 'typeId' . "," . " typeName " . ")  " . "VALUES " . "($i , '$docTypeList[$i]' )";
+            if($conn->query($sqlQuery) === false)
+                throw new Exception("Fail to insert Initial Data into Table" . $conn->error, \errorCode\InsertIntoTableError);
+        }
+        for($i = 1; $i <= count($identifierTypeList); $i++) {
+            $sqlQuery = "INSERT INTO " . $config['identifierType'] . " ( typeId, typeName ) VALUES " . "($i, '$identifierTypeList[$i]' )";
+            if($conn->query($sqlQuery) === false)
+                throw new Exception("fail to insert Inital Data into Table" . $conn->error, \errorCode\InsertIntoTableError);
+        }
+
+        $sqlQuery = "INSERT INTO " . $config['lastTable'] . ' VALUES ()';
+
+        if($conn->query($sqlQuery) === false)
+            throw new Exception("Fail to insert initial Data into Table" . $conn->error, \errorCode\InsertIntoTableError);
+
     }
 
 
@@ -226,10 +273,12 @@ class SystemFrame{
                                         bookId INT NOT NULL,
                                         docId INT,
                                         beginDate TIMESTAMP NOT NULL default CURRENT_TIMESTAMP,
-                                        dueDate TIMESTAMP,
-                                        returnDate TIMESTAMP,
+                                        dueDate DATETIME,
+                                        returnDate DATETIME,
                                         returned BOOL default FALSE
                                     )";
+
+           // self::log_info($createBorrowRecordSql);
             $result = $conn->query($createBorrowRecordSql);
             if($result === false)
                 throw new Exception("Fail to create Table " . $config['borrowRecord'] ." $conn->error", \errorCode\CreateDBTableError);
@@ -360,12 +409,13 @@ class SystemFrame{
                 throw new Exception("Fail to create Table " . $config['placeTable'], \errorCode\CreateDBTableError);
 
             $createLastTableSql = "CREATE TABLE IF NOT EXISTS " . $config['lastTable'] . "(
-                                                id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY
+                                                id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                                                placeHolder INT
                                             )";
             if($conn->query($createLastTableSql) === false)
                 throw new Exception("Fail to create Table " . $config['lastTable'], \errorCode\CreateDBTableError);
 
-
+            $this->initTables($conn);
 
     }
 

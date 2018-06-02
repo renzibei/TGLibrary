@@ -163,26 +163,20 @@
 |                           |                   |
 |                           |                   |
 
-
-
 ***
 
-### User
+### Person (Abstract Class)
 
 #### Member Function
 
-| Function Name            |        |
-| ------------------------ | ------ |
-| getUsername              | string |
-| getPassword              | string |
-| getUid //编号            | string |
-| getName                  | string |
-| setPasswd(newPasswd)     | void   |
-| setUsername(newUsername) | void   |
-| setUid(newUid)           | void   |
-| setName(newName)         | void   |
-
-
+| Function Name            | Return Type |
+| ------------------------ | ----------- |
+| getUsername              | string      |
+| getPassword              | string      |
+| getName                  | string      |
+| setName                  | void        |
+| setPasswd(newPasswd)     | void        |
+| setUsername(newUsername) | void        |
 
 
 
@@ -196,7 +190,74 @@
 
 ***
 
-### UserData
+### User (extends Person)
+
+#### Member Function
+
+| Function Name            | Return Type |
+| ------------------------ | ----------- |
+| getUsername              | string      |
+| getPassword              | string      |
+| getUid //编号            | string      |
+| getName                  | string      |
+| setPasswd(newPasswd)     | void        |
+| setUsername(newUsername) | void        |
+| setUid(newUid)           | void        |
+| setName(newName)         | void        |
+
+
+
+
+
+
+
+***
+
+### Admin (extends Person)
+
+#### Member Functions
+
+#### 
+
+| Function Name            | Return Type |
+| ------------------------ | ----------- |
+| getUsername              | string      |
+| getPassword              | string      |
+| getName                  | string      |
+| setPasswd(newPasswd)     | void        |
+| setUsername(newUsername) | void        |
+| setName(newName)         | void        |
+
+
+
+***
+
+### PersonData (interface)
+
+#### Member Functions
+
+#### 
+
+| Function Name                                                | Return Type     |
+| ------------------------------------------------------------ | --------------- |
+| userList                                                     | array of Person |
+| queryFromName(name)                                          | array of Person |
+| queryFromUsername(username)                                  | Person&         |
+| queryFromUid(uid)                                            | Person&         |
+| addPerson(&\$Person)                                         | void            |
+| deleteUser(\$uuid, \$deleteType) //type 为2时uuid为为uid，为1时uuid为usename,默认为1 | void            |
+
+
+
+
+
+
+
+
+
+***
+
+### UserData （implements PersonData)
 
 
 
@@ -214,3 +275,20 @@
 |                                                              |               |
 
 
+
+***
+
+### AdminData (implements PersonData)
+
+#### Member Functions
+
+| Function Name                                                | Return Type    |
+| ------------------------------------------------------------ | -------------- |
+| adminsList                                                   | array of Admin |
+| queryFromName(name)                                          | array of Admin |
+| queryFromUsername(username)                                  | Admin&         |
+| queryFromUid(uid)                                            | User&          |
+| addUser(&\$User)                                             | void           |
+| deleteUser(\$uuid, \$deleteType) //type 为1时uuid为username, 默认为1. | void           |
+|                                                              |                |
+|                                                              |                |

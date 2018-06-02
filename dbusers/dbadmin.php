@@ -28,5 +28,6 @@ $config = [
     'borrowRequest' => 'borrowRequest',
     'placeTable' => 'placeTable',
     'lastTable' => 'lastTable'
-]
+];
+
 ?>

@@ -7,6 +7,8 @@ namespace errorCode {
     const QueryTableError = 1004;
     const CreateLogFileError = 1005;
     const CreateDBTableError = 1006;
+    const InsertIntoTableError = 1007;
+    const DeleteFromTableError = 1008;
     //echo __NAMESPACE__ . " <br />" ;
     //const con = 1;
     }
