@@ -24,6 +24,9 @@ $config = [
 	'subjectRecord' => 'subjectRecord',
     'descriptionTable' => 'descriptionTable',
     'identifierType' => 'identifierType',
-    'keywordRecord' => 'keywordRecord'
+    'keywordRecord' => 'keywordRecord',
+    'borrowRequest' => 'borrowRequest',
+    'placeTable' => 'placeTable',
+    'lastTable' => 'lastTable'
 ]
 ?>

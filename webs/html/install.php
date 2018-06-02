@@ -1,5 +1,13 @@
 <?php
 echo "begin include <br />";
+
+/**
+ * @param $errno
+ * @param $errstr
+ * @param $errfile
+ * @param $errline
+ * @throws Exception
+ */
 function _error_handler($errno, $errstr ,$errfile, $errline)
 {
     SystemFrame::log_info( "错误编号errno: $errno" );
@@ -37,9 +45,10 @@ class SystemFrame{
         return $this->logFilePath;
     }
 
-
-
-	public static function instance()
+    /**
+     * @throws Exception
+     */
+    public static function instance()
     {
         if(empty(self::$__instance)) {
             self::$__instance = new SystemFrame();
@@ -49,6 +58,10 @@ class SystemFrame{
         return self::$__instance;
     }
 
+    /**
+     * @param string $info
+     * @throws Exception
+     */
 	public static function log_info($info)
 	{
 		error_log( $info . PHP_EOL,3, self::instance()->getLogFilePath());
@@ -69,7 +82,7 @@ class SystemFrame{
 		if(!file_exists($this->logFilePath)) {
 			$fileHandler = fopen($this->logFilePath, "w");
 			if($fileHandler === false)
-				throw new Exception("CreateLogFileFailed", 'CreateLogFileError');
+				throw new Exception("CreateLogFileFailed", \errorCode\CreateLogFileError);
 
 			fclose($fileHandler);
 		}
@@ -104,15 +117,17 @@ class SystemFrame{
 
     /**
      * @throws Exception
-     * @mysqli $conn
+     * @param string $tableName
+     * @param mysqli $conn
+     * @return BOOL
      */
-    /*
-	protected function tableExists($tableName, $conn) 
+
+	protected function tableExists(string $tableName, mysqli $conn)
 	{
 		$queryTableSql = 'SHOW TABLES LIKE ' . $tableName;
 		$result = $conn->query($queryTableSql);
 		if($result === false)
-			throw new Exception("Query for Table Error" . $conn->error, QueryTableError);
+			throw new Exception("Query for Table Error" . $conn->error, \ErrorCode\QueryTableError);
 		else {
 			$rows = $result->fetch_all();
 			if(count($rows) > 0)
@@ -122,8 +137,22 @@ class SystemFrame{
 		}
 			
 	}
-    */
-	
+
+
+
+    /**
+     *
+     * Tell whether the dataBases if prepared.
+     * If prepared, return true, else false.
+     * @throws Exception
+     * @param mysqli $conn
+     * @return BOOL
+     */
+    protected function isTablePrepared(mysqli $conn)
+    {
+        global $config;
+        return $this->tableExists($config['lastTable'], $conn);
+    }
 
 
     /**
@@ -131,7 +160,7 @@ class SystemFrame{
      * @param mysqli $conn
      */
     protected function createTables(mysqli $conn)
-        {
+    {
             global $config;
             $createDocTableSql = 'CREATE TABLE IF NOT EXISTS ' . $config['docTable'] ." (
                                     docId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -158,7 +187,7 @@ class SystemFrame{
                                     version INT,
                                     publicYear YEAR,
                                     isOnShelf BOOL,
-                                    place VARChar(4096),
+                                    placeId INT,
                                     languageId INT
                                     )";
             if($conn->query($createBookTableSql) === false)
@@ -197,8 +226,9 @@ class SystemFrame{
                                         bookId INT NOT NULL,
                                         docId INT,
                                         beginDate TIMESTAMP NOT NULL default CURRENT_TIMESTAMP,
-                                        dueDate TIMESTAMP NOT NULL default CURRENT_TIMESTAMP,
-                                        checkedIn BOOL default FALSE
+                                        dueDate TIMESTAMP,
+                                        returnDate TIMESTAMP,
+                                        returned BOOL default FALSE
                                     )";
             $result = $conn->query($createBorrowRecordSql);
             if($result === false)
@@ -307,8 +337,37 @@ class SystemFrame{
             if($conn->query($createKeywordRecord) === false)
                 throw new Exception("Fail to create Table " . $config['keywordRecord'], \errorCode\CreateDBTableError);
 
+            $createBorrowRequestSql = "CREATE TABLE IF NOT EXISTS " . $config['borrowRequest'] . "(
+                                        recordId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                                        userId INT NOT NULL,
+                                        bookId INT NOT NULL,
+                                        docId INT NOT NULL,
+                                        requestTime TIMESTAMP NOT NULL default CURRENT_TIMESTAMP,
+                                        answerTime TIMESTAMP NOT NULL default CURRENT_TIMESTAMP,
+                                        allow BOOL,
+                                        isAnswered BOOL,
+                                        adminId INT
+                                    )";
+            if($conn->query($createBorrowRequestSql) === false)
+                throw new Exception("Fail to create Table " . $config['borrowRecord'], \errorCode\CreateDBTableError);
 
-        }
+
+            $createPlaceTableSql = "CREATE TABLE IF NOT EXISTS " . $config['placeTable'] . "(
+                                            placeId INT PRIMARY KEY,
+                                            placeName VARCHAR(4096)
+                                        )";
+            if($conn->query($createPlaceTableSql) === false)
+                throw new Exception("Fail to create Table " . $config['placeTable'], \errorCode\CreateDBTableError);
+
+            $createLastTableSql = "CREATE TABLE IF NOT EXISTS " . $config['lastTable'] . "(
+                                                id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY
+                                            )";
+            if($conn->query($createLastTableSql) === false)
+                throw new Exception("Fail to create Table " . $config['lastTable'], \errorCode\CreateDBTableError);
+
+
+
+    }
 
 
     /**
@@ -320,8 +379,9 @@ class SystemFrame{
             try {
                 //$this->setTime();
                 //$this->initLogFile();
-                $coon = $this->createDatabase();
-                $this->createTables($coon);
+                $conn = $this->createDatabase();
+                if(! $this->isTablePrepared($conn) )
+                     $this->createTables($conn);
 
 
             } catch (Exception $e) {
