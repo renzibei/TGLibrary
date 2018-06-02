@@ -289,6 +289,6 @@
 | queryFromUsername(username)                                  | Admin&         |
 | queryFromUid(uid)                                            | User&          |
 | addUser(&\$User)                                             | void           |
-| deleteUser(\$uuid, \$deleteType) //type 为1时uuid为username, 默认为1. | void           |
+| deleteUser(\$uuid, \$deleteType) //type 为1时uuid为username, 默认为1 | void           |
 |                                                              |                |
 |                                                              |                |

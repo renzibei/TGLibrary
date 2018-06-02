@@ -1,5 +1,5 @@
 <?php
-echo "begin include <br />";
+
 
 /**
  * @param $errno
@@ -20,6 +20,7 @@ set_error_handler('_error_handler', E_ALL | E_STRICT);
 require_once 'errorTable.php';
 require_once dirname(dirname(dirname(__FILE__))) . '/dbusers/dbadmin.php';
 
+
 /**
  * Class SystemFrame
  */
@@ -32,6 +33,7 @@ class SystemFrame{
 	protected $rootDirPath;
 	protected $configFilePath;
 	protected $logFilePath;
+	protected $sqlConn;
 
 
 
@@ -332,14 +334,14 @@ class SystemFrame{
                 throw new Exception("Fail to create Table " . $config['urlTable'], \errorCode\CreateDBTableError);
 
             $createLanguageTableSql = "CREATE TABLE IF NOT EXISTS " . $config['languageTable'] . "(
-                                        languageId INT PRIMARY KEY,
+                                        languageId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                         lanName VARCHAR(256)
                                     )";
             if($conn->query($createLanguageTableSql) === false)
                 throw new Exception("Fail to create Table " . $config['languageTable'], \errorCode\CreateDBTableError);
 
             $createSubjectTableSql = "CREATE TABLE IF NOT EXISTS " . $config['subjectTable'] . "(
-                                        subjectId INT PRIMARY KEY,
+                                        subjectId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                         subjectName VARCHAR(1024)
                                     )";
             if($conn->query($createSubjectTableSql) === false)
@@ -419,17 +421,26 @@ class SystemFrame{
 
     }
 
+    /**
+     * @return mysqli
+     */
+    public function getConnection()
+    {
+        return $this->sqlConn;
+    }
+
 
     /**
      * @throws Exception
      */
-    function initServer()
-        {
+    public function initServer()
+    {
 
             try {
                 //$this->setTime();
                 //$this->initLogFile();
                 $conn = $this->createDatabase();
+                $this->sqlConn = $conn;
                 if(! $this->isTablePrepared($conn) )
                      $this->createTables($conn);
 
@@ -442,6 +453,9 @@ class SystemFrame{
         }
 
     }
+
+
+
 
 
 

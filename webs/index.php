@@ -9,7 +9,7 @@
 <body>
 <?php
 	echo "begin <br />";
-	require 'html/install.php';
+	require 'html/SystemFrame.php';
 
 	SystemFrame::log_info("begin to init");
 	SystemFrame::instance()->initServer();
