@@ -49,3 +49,7 @@ CMakeLists.txt.user*
 
 #password
 dbadmin
+
+
+$log
+*.log
