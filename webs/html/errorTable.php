@@ -1,5 +1,5 @@
 <?php
-namespace errorCode {
+namespace tg\errorCode {
     const FileNotExist = 1000;
     const ConnectDBError = 1001;
     const CreateDBError = 1002;

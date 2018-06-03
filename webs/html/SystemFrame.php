@@ -1,24 +1,15 @@
 <?php
 
 
-/**
- * @param $errno
- * @param $errstr
- * @param $errfile
- * @param $errline
- * @throws Exception
- */
-function _error_handler($errno, $errstr ,$errfile, $errline)
-{
-    SystemFrame::log_info( "错误编号errno: $errno" );
-    SystemFrame::log_info( "错误信息errstr: $errstr");
-    SystemFrame::log_info( "出错文件errfile: $errfile");
-    SystemFrame::log_info( "出错行号errline: $errline");
-}
-set_error_handler('_error_handler', E_ALL | E_STRICT);
+namespace tg;
+
+use \Exception;
+use \mysqli;
+//use systemConfig\config
 
 require_once 'errorTable.php';
 require_once dirname(dirname(dirname(__FILE__))) . '/dbusers/dbadmin.php';
+require_once 'DocData.php';
 
 
 /**
@@ -27,7 +18,7 @@ require_once dirname(dirname(dirname(__FILE__))) . '/dbusers/dbadmin.php';
 class SystemFrame{
 
     private static $__instance;
-
+    protected $__docdata;
 
 
 	protected $rootDirPath;
@@ -37,12 +28,13 @@ class SystemFrame{
 
 
 
+
 	protected function __construct()
 	{
         echo "construct <br />";
 	    $this->rootDirPath = dirname(dirname(dirname(__FILE__)));
 		$this->configFilePath = $this->rootDirPath . '/dbusers/dbadmin.php';
-
+        $this->__docdata = new DocData();
 	}
 
 	public function getLogFilePath()
@@ -51,7 +43,8 @@ class SystemFrame{
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
+     *
      */
     public static function instance()
     {
@@ -63,9 +56,17 @@ class SystemFrame{
         return self::$__instance;
     }
 
+    public function docData()
+    {
+        return $this->__docdata;
+    }
+
+
+
+
     /**
      * @param string $info
-     * @throws Exception
+     * @throws \Exception
      */
 	public static function log_info($info)
 	{
@@ -79,7 +80,7 @@ class SystemFrame{
 	}
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
 	protected function initLogFile()
 	{
@@ -87,35 +88,37 @@ class SystemFrame{
 		if(!file_exists($this->logFilePath)) {
 			$fileHandler = fopen($this->logFilePath, "w");
 			if($fileHandler === false)
-				throw new Exception("CreateLogFileFailed", \errorCode\CreateLogFileError);
+				throw new Exception("CreateLogFileFailed", errorCode\CreateLogFileError);
 
 			fclose($fileHandler);
 		}
 	}
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     protected function createDatabase()
 	{
-		global $config;
+		//SystemFrame::log_info(__NAMESPACE__);
+	    //// $config;
+
 		if(file_exists($this->configFilePath)) {
 			
-			$conn = new mysqli($config['db_serverhost'], $config['db_username'], $config['db_password']);
+			$conn = new \mysqli(systemConfig\config['db_serverhost'], systemConfig\config['db_username'], systemConfig\config['db_password']);
 			if( $conn->connect_error) {
-				throw new Exception($conn->connect_error, \ErrorCode\ConnectDBError);
+				throw new \Exception($conn->connect_error, errorCode\ConnectDBError);
 			}
 			
-			$createDBSql = "CREATE DATABASE IF NOT EXISTS " . $config['tg_database'] . " default character set utf8 COLLATE utf8_general_ci";
+			$createDBSql = "CREATE DATABASE IF NOT EXISTS " . systemConfig\config['tg_database'] . " default character set utf8 COLLATE utf8_general_ci";
 			if($conn->query($createDBSql) === false)
-				throw new Exception("Fail to create Database " . $conn->error, \errorCode\CreateDBError);
-			if($conn->select_db($config['tg_database']) === false)
-					throw new Exception("Fail to Choose Database " . $conn->error, \errorCode\ChooseDBError);
+				throw new \Exception("Fail to create Database " . $conn->error, errorCode\CreateDBError);
+			if($conn->select_db(systemConfig\config['tg_database']) === false)
+					throw new \Exception("Fail to Choose Database " . $conn->error, errorCode\ChooseDBError);
 					
 
 			return $conn;
 		}
-		else throw new Exception("Config file does not exists", \ErrorCode\FileNotExist);
+		else throw new Exception("Config file does not exists", errorCode\FileNotExist);
 		
 	}
 
@@ -132,7 +135,7 @@ class SystemFrame{
 		$queryTableSql = 'SHOW TABLES LIKE \'' . $tableName . '\'';
 		$result = $conn->query($queryTableSql);
 		if($result === false)
-			throw new Exception("Query for Table Error" . $conn->error, \ErrorCode\QueryTableError);
+			throw new Exception("Query for Table Error" . $conn->error, errorCode\QueryTableError);
 		else {
 			$rows = $result->fetch_all();
 			if(count($rows) > 0)
@@ -155,10 +158,10 @@ class SystemFrame{
      */
     protected function isTablePrepared(mysqli $conn)
     {
-        global $config;
-        if($this->tableExists($config['lastTable'], $conn) === false)
+        // $config;
+        if($this->tableExists(systemConfig\config['lastTable'], $conn) === false)
             return false;
-        $querySql = "SELECT * FROM " . $config['lastTable'];
+        $querySql = "SELECT * FROM " . systemConfig\config['lastTable'];
         $result = $conn->query($querySql);
         if($result->num_rows > 0)
             return 1;
@@ -172,34 +175,34 @@ class SystemFrame{
     protected function initTables(mysqli $conn)
     {
         global $docTypeList;
-        global $config;
+        // $config;
         global $identifierTypeList;
         require_once dirname(dirname(dirname(__FILE__))) . '/dbusers/docInfo.php';
 
-        $sqlQuery = "DELETE FROM " . $config['docType'];
+        $sqlQuery = "DELETE FROM " . systemConfig\config['docType'];
         if($conn->query($sqlQuery) === false )
-            throw new Exception("Fail to delete data in" . $config['docType'] . $conn->error, \errorCode\DeleteFromTableError);
+            throw new Exception("Fail to delete data in" . systemConfig\config['docType'] . $conn->error, errorCode\DeleteFromTableError);
 
 
-        $sqlQuery = "DELETE FROM " . $config['identifierType'];
+        $sqlQuery = "DELETE FROM " . systemConfig\config['identifierType'];
         if($conn->query($sqlQuery) === false )
-            throw new Exception("Fail to delete data in" . $config['identifierType'] . $conn->error, \errorCode\DeleteFromTableError);
+            throw new Exception("Fail to delete data in" . systemConfig\config['identifierType'] . $conn->error, errorCode\DeleteFromTableError);
 
         for($i = 1; $i <= count($docTypeList); $i++ ) {
-            $sqlQuery = "INSERT INTO " . $config['docType'] . " ( " . 'typeId' . "," . " typeName " . ")  " . "VALUES " . "($i , '$docTypeList[$i]' )";
+            $sqlQuery = "INSERT INTO " . systemConfig\config['docType'] . " ( " . 'typeId' . "," . " typeName " . ")  " . "VALUES " . "($i , '$docTypeList[$i]' )";
             if($conn->query($sqlQuery) === false)
-                throw new Exception("Fail to insert Initial Data into Table" . $conn->error, \errorCode\InsertIntoTableError);
+                throw new Exception("Fail to insert Initial Data into Table" . $conn->error, errorCode\InsertIntoTableError);
         }
         for($i = 1; $i <= count($identifierTypeList); $i++) {
-            $sqlQuery = "INSERT INTO " . $config['identifierType'] . " ( typeId, typeName ) VALUES " . "($i, '$identifierTypeList[$i]' )";
+            $sqlQuery = "INSERT INTO " . systemConfig\config['identifierType'] . " ( typeId, typeName ) VALUES " . "($i, '$identifierTypeList[$i]' )";
             if($conn->query($sqlQuery) === false)
-                throw new Exception("fail to insert Inital Data into Table" . $conn->error, \errorCode\InsertIntoTableError);
+                throw new Exception("fail to insert Inital Data into Table" . $conn->error, errorCode\InsertIntoTableError);
         }
 
-        $sqlQuery = "INSERT INTO " . $config['lastTable'] . ' VALUES ()';
+        $sqlQuery = "INSERT INTO " . systemConfig\config['lastTable'] . ' VALUES ()';
 
         if($conn->query($sqlQuery) === false)
-            throw new Exception("Fail to insert initial Data into Table" . $conn->error, \errorCode\InsertIntoTableError);
+            throw new Exception("Fail to insert initial Data into Table" . $conn->error, errorCode\InsertIntoTableError);
 
     }
 
@@ -210,8 +213,8 @@ class SystemFrame{
      */
     protected function createTables(mysqli $conn)
     {
-            global $config;
-            $createDocTableSql = 'CREATE TABLE IF NOT EXISTS ' . $config['docTable'] ." (
+            // $config;
+            $createDocTableSql = 'CREATE TABLE IF NOT EXISTS ' . systemConfig\config['docTable'] ." (
                                     docId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                     PublicYear YEAR,
                                     title VARCHAR(1024) NOT NULL ,
@@ -227,9 +230,9 @@ class SystemFrame{
                                     onlineAccess BOOL 
                                      )";
             if($conn->query($createDocTableSql) === false)
-                throw new Exception("Fail to create Table " . $config['docTable'], \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['docTable'], errorCode\CreateDBTableError);
 
-            $createBookTableSql = 'CREATE TABLE IF NOT EXISTS ' . $config['bookTable'] . "(
+            $createBookTableSql = 'CREATE TABLE IF NOT EXISTS ' . systemConfig\config['bookTable'] . "(
                                     bookId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                     callNumber VARCHAR(256),
                                     docId INT,
@@ -240,26 +243,26 @@ class SystemFrame{
                                     languageId INT
                                     )";
             if($conn->query($createBookTableSql) === false)
-                throw new Exception("Fail to create Table " . $config['bookTable'], \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['bookTable'], errorCode\CreateDBTableError);
 
-            $createAuthorTableSql = 'CREATE TABLE IF NOT EXISTS ' . $config['authorTable'] . "(
+            $createAuthorTableSql = 'CREATE TABLE IF NOT EXISTS ' . systemConfig\config['authorTable'] . "(
                                         authorId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                         name VARCHAR(1024),
                                         description TEXT
                                         )";
             if($conn->query($createAuthorTableSql) === false)
-                throw new Exception("Fail to create Table " . $config['authorTable'], \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['authorTable'], errorCode\CreateDBTableError);
 
-            $createAdminTableSql = "CREATE TABLE IF NOT EXISTS " . $config['adminTable'] . "(
+            $createAdminTableSql = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['adminTable'] . "(
                                         adminId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                         username VARCHAR(256),
                                         password VARCHAR(256),
                                         name VARCHAR(256)
                                     )";
             if($conn->query($createAdminTableSql) === false)
-                throw new Exception("Fail to create Table " . $config['adminTable'], \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['adminTable'], errorCode\CreateDBTableError);
 
-            $createUserTableSql = "CREATE TABLE IF NOT EXISTS " . $config['userTable'] . "(
+            $createUserTableSql = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['userTable'] . "(
                                         userId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                         username VARCHAR(256),
                                         password VARCHAR(256),
@@ -267,9 +270,9 @@ class SystemFrame{
                                         name VARCHAR(256)
                                     )";
             if($conn->query($createUserTableSql) === false)
-                throw new Exception("Fail to create Table " . $config['userTable'], \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['userTable'], errorCode\CreateDBTableError);
 
-            $createBorrowRecordSql = "CREATE TABLE IF NOT EXISTS " . $config['borrowRecord'] . "(
+            $createBorrowRecordSql = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['borrowRecord'] . "(
                                         recordId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                         userId INT NOT NULL,
                                         bookId INT NOT NULL,
@@ -283,9 +286,9 @@ class SystemFrame{
            // self::log_info($createBorrowRecordSql);
             $result = $conn->query($createBorrowRecordSql);
             if($result === false)
-                throw new Exception("Fail to create Table " . $config['borrowRecord'] ." $conn->error", \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['borrowRecord'] ." $conn->error", errorCode\CreateDBTableError);
 
-            $createReserveRecordSql = "CREATE TABLE IF NOT EXISTS " . $config['reserveRecord'] . "(
+            $createReserveRecordSql = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['reserveRecord'] . "(
                                         recordId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                         userId INT NOT NULL,
                                         bookId INT NOT NULL,
@@ -295,26 +298,26 @@ class SystemFrame{
                                         checkedIn BOOL default FALSE
                                     )";
             if($conn->query($createReserveRecordSql) === false)
-                throw new Exception("Fail to create Table " . $config['reserveRecord'], \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['reserveRecord'], errorCode\CreateDBTableError);
 
-            $createDocTypeTableSql = "CREATE TABLE IF NOT EXISTS " . $config['docType'] . "(
+            $createDocTypeTableSql = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['docType'] . "(
                                         typeId INT PRIMARY KEY,
                                         typeName VARCHAR(256)
                                     )";
             if($conn->query($createDocTypeTableSql) === false)
-                throw new Exception("Fail to create Table " . $config['docType'], \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['docType'], errorCode\CreateDBTableError);
 
 
 
-            $createWritingTableSql = "CREATE TABLE IF NOT EXISTS " . $config['writingTable'] . "(
+            $createWritingTableSql = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['writingTable'] . "(
                                         recordId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                         authorId INT ,
                                         docId INT
                                     )";
             if($conn->query($createWritingTableSql) === false)
-                throw new Exception("Fail to create Table " . $config['writingTable'], \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['writingTable'], errorCode\CreateDBTableError);
 
-            $createIdentifierTableSql = "CREATE TABLE IF NOT EXISTS " . $config['identifierTable'] . "(
+            $createIdentifierTableSql = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['identifierTable'] . "(
                                         identifierId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                         docId INT,
                                         identifierNum VARCHAR(256),
@@ -323,46 +326,46 @@ class SystemFrame{
                                     
                                     )";
             if($conn->query($createIdentifierTableSql) === false)
-                throw new Exception("Fail to create Table " . $config['identifierTable'], \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['identifierTable'], errorCode\CreateDBTableError);
 
-            $createUrlTableSql = "CREATE TABLE IF NOT EXISTS " . $config['urlTable'] . "(
+            $createUrlTableSql = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['urlTable'] . "(
                                         urlId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                         docId INT ,
                                         url VARCHAR(4096)
                                     )";
             if($conn->query($createUrlTableSql) === false)
-                throw new Exception("Fail to create Table " . $config['urlTable'], \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['urlTable'], errorCode\CreateDBTableError);
 
-            $createLanguageTableSql = "CREATE TABLE IF NOT EXISTS " . $config['languageTable'] . "(
+            $createLanguageTableSql = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['languageTable'] . "(
                                         languageId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                         lanName VARCHAR(256)
                                     )";
             if($conn->query($createLanguageTableSql) === false)
-                throw new Exception("Fail to create Table " . $config['languageTable'], \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['languageTable'], errorCode\CreateDBTableError);
 
-            $createSubjectTableSql = "CREATE TABLE IF NOT EXISTS " . $config['subjectTable'] . "(
+            $createSubjectTableSql = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['subjectTable'] . "(
                                         subjectId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                         subjectName VARCHAR(1024)
                                     )";
             if($conn->query($createSubjectTableSql) === false)
-                throw new Exception("Fail to create Table " . $config['subjectTable'], \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['subjectTable'], errorCode\CreateDBTableError);
 
-            $createKeywordTableSql = "CREATE TABLE IF NOT EXISTS " . $config['keywordTable'] . "(
+            $createKeywordTableSql = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['keywordTable'] . "(
                                         keywordId INT PRIMARY KEY,
                                         keyword VARCHAR(256)
                                     )";
             if($conn->query($createKeywordTableSql) === false)
-                throw new Exception("Fail to create Table " . $config['keywordTable'], \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['keywordTable'], errorCode\CreateDBTableError);
 
-            $createSubjectRecord = "CREATE TABLE IF NOT EXISTS " . $config['subjectRecord'] . "(
+            $createSubjectRecord = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['subjectRecord'] . "(
                                         recordId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                         subjectId INT ,
                                         docId INT
                                     )";
             if($conn->query($createSubjectRecord) === false)
-                throw new Exception("Fail to create Table " . $config['subjectRecord'], \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['subjectRecord'], errorCode\CreateDBTableError);
 
-            $createDescriptionTable = "CREATE TABLE IF NOT EXISTS " . $config['descriptionTable'] . "(
+            $createDescriptionTable = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['descriptionTable'] . "(
                                         descriptionId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                         pages INT ,
                                         other VARCHAR(4096),
@@ -370,25 +373,25 @@ class SystemFrame{
                                         docId INT
                                     )";
             if($conn->query($createDescriptionTable) === false)
-                throw new Exception("Fail to create Table " . $config['descriptionTable'], \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['descriptionTable'], errorCode\CreateDBTableError);
 
 
-            $createIdentifierTypeSql = "CREATE TABLE IF NOT EXISTS " . $config['identifierType'] . "(
+            $createIdentifierTypeSql = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['identifierType'] . "(
                                         typeId INT PRIMARY KEY,
                                         typeName VARCHAR(64)
                                     )";
             if($conn->query($createIdentifierTypeSql) === false)
-                throw new Exception("Fail to create Table " . $config['identifierType'], \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['identifierType'], errorCode\CreateDBTableError);
 
-            $createKeywordRecord = "CREATE TABLE IF NOT EXISTS " . $config['keywordRecord'] . "(
+            $createKeywordRecord = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['keywordRecord'] . "(
                                         recordId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                         keywordId INT NOT NULL,
                                         docId INT NOT NULL
                                     )";
             if($conn->query($createKeywordRecord) === false)
-                throw new Exception("Fail to create Table " . $config['keywordRecord'], \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['keywordRecord'], errorCode\CreateDBTableError);
 
-            $createBorrowRequestSql = "CREATE TABLE IF NOT EXISTS " . $config['borrowRequest'] . "(
+            $createBorrowRequestSql = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['borrowRequest'] . "(
                                         recordId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                         userId INT NOT NULL,
                                         bookId INT NOT NULL,
@@ -400,22 +403,22 @@ class SystemFrame{
                                         adminId INT
                                     )";
             if($conn->query($createBorrowRequestSql) === false)
-                throw new Exception("Fail to create Table " . $config['borrowRecord'], \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['borrowRecord'], errorCode\CreateDBTableError);
 
 
-            $createPlaceTableSql = "CREATE TABLE IF NOT EXISTS " . $config['placeTable'] . "(
+            $createPlaceTableSql = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['placeTable'] . "(
                                             placeId INT PRIMARY KEY,
                                             placeName VARCHAR(4096)
                                         )";
             if($conn->query($createPlaceTableSql) === false)
-                throw new Exception("Fail to create Table " . $config['placeTable'], \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['placeTable'], errorCode\CreateDBTableError);
 
-            $createLastTableSql = "CREATE TABLE IF NOT EXISTS " . $config['lastTable'] . "(
+            $createLastTableSql = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['lastTable'] . "(
                                                 id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                                 placeHolder INT
                                             )";
             if($conn->query($createLastTableSql) === false)
-                throw new Exception("Fail to create Table " . $config['lastTable'], \errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['lastTable'], errorCode\CreateDBTableError);
 
             $this->initTables($conn);
 
