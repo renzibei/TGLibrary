@@ -1,0 +1,174 @@
+<html><!--<!DOCTYPE HTML>--><head>
+<meta http-equiv="X-UA-Compatible" content="IE=9">
+<title>选课登录</title>
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<link type="text/css" href="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/menu.css" rel="stylesheet">
+<link type="text/css" href="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/datepicker.css" rel="StyleSheet">
+<link type="text/css" href="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/grid.css" rel="stylesheet">
+<link type="text/css" href="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/css.css" rel="stylesheet">
+<link type="text/css" href="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/default.css" rel="stylesheet">
+<link type="text/css" href="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/common.css" rel="stylesheet">
+<link type="text/css" href="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/topmenu.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/easyui.css">
+<link rel="stylesheet" type="text/css" href="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/icon.css">
+<link rel="stylesheet" type="text/css" href="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/demo.html">
+<script type="text/javascript" src="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/jquery_003.js"></script>
+<script type="text/javascript" src="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/jquery.js"></script>
+<script type="text/javascript" src="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/jquery_002.js"></script>
+<script type="text/javascript" src="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/easyui-lang-zh_CN.js" charset="utf-8"></script>
+<script type="text/javascript" src="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/ckeditor.js"></script>
+<script type="text/javascript" src="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/grid.js"></script>
+<script type="text/javascript" src="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/prototype.js"></script>
+<script type="text/javascript" src="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/page.js"></script>
+<script type="text/javascript" src="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/selectlist.js"></script>
+<script type="text/javascript" src="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/validation.js"></script>
+<script type="text/javascript" src="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/datepicker.js"></script>
+<script type="text/javascript" src="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/menu.js"></script>
+<script type="text/javascript" src="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/validator.jsp"></script>
+<script type="text/javascript" src="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/pubFunction.js"></script>
+
+
+
+</head>
+
+<body class="infoBody" onpageshow='event.persisted &amp;&amp; (function(){var allInstances = CKEDITOR.instances, editor, doc;for ( var i in allInstances ){	editor = allInstances[ i ];	doc = editor.document;	if ( doc )	{		doc.$.designMode = "off";		doc.$.designMode = "on";	}}})();' style="transform-origin: left top 0px; transform: scale(1.4);">
+
+
+
+
+
+<style type="text/css">
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	background-image:url("Dreamy Grassland under the Sun.jpg");
+}
+h1
+{
+	text-align:center;
+	color:orange;
+}
+#main {
+	width:100%;
+	margin:auto;
+}
+#head {
+	width:565px;
+	height:377px;
+	background:url(/image/bg.jpg) no-repeat;
+	margin:auto;
+}
+#headyw {
+	width:565px;
+	height:377px;
+	background:url(/image/bg-yw.jpg) no-repeat;
+	margin:auto;
+}
+#head .table {
+	margin-left:120px;
+	margin-right:120px;
+}
+.STYLE1 {
+	color: #2D4051
+}
+#button {
+	border:0;
+	margin-left:120px;
+	margin-right:35px;
+}
+</style>
+
+
+
+
+<script>
+function doLogin(){
+  var frm = window.document.frm;
+  if(isEmpty(frm.j_username.value)){
+    alert("用户名不能为空！");
+    frm.j_username.focus();
+    return;
+  }
+  if(confirmSubmited(frm)){
+    frm.submit();
+  }
+}
+
+//初始化函数
+function init(){
+  window.document.title = "登录界面";
+  window.document.frm.j_username.focus();
+}
+Event.observe(window, "load", init, false);
+</script>
+
+<br><br>
+
+
+
+<form name="frm" action="https://zhjwxk.cic.tsinghua.edu.cn:443/j_acegi_formlogin_xsxk.do" method="post">
+<div id="main" align="center">
+
+  <div id="head">
+
+    <div class="table">
+      <table style="padding-top:150px;margin-top:150px" width="65%" cellspacing="8" cellpadding="0" border="0">
+        <tbody><tr>
+          <td width="25%" height="24"><span class="STYLE1">用户名<!--用户名--></span></td>
+          <td width="50%"><label>
+            <input name="j_username" id="j_username" type="input">
+            </label></td>
+          <td width="25%">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="STYLE1">密&nbsp;码<!--密&nbsp;码--></td>
+          <td><label>
+            <input name="j_password" id="j_password" type="password">
+            </label></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="STYLE1">验证码<!--验证码--></td>
+          <td><label>
+     <input name="captchaflag" value="login1" type="hidden">
+     <input name="_login_image_" type="input">
+
+            </label></td>
+          <td><img id="captcha" src="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/login-jcaptcah.jpg" width="90" height="30">  </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div id="button">
+      <table style="margin-top:50px;" width="50%" cellspacing="8" cellpadding="0" border="0" align="right">
+        <tbody><tr>
+          <td><a href="#" onclick="doLogin();"><img src="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/button-1.jpg" width="98" height="36" border="0"></a></td>
+          <td><a href="#" onclick="reset();"><img src="%E9%80%89%E8%AF%BE%E7%99%BB%E5%BD%95_files/button-2.jpg" width="98" height="36" border="0"></a></td>
+        </tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+<div align="center">
+	<br>
+<a style="color:red;font-size:16px;">
+
+
+</a>
+
+</div>
+</form>
+<!--依据浏览器来提示用户-->
+<script type="text/javascript">
+var browser=navigator.appName
+var b_version=navigator.appVersion
+var version=parseFloat(b_version)
+if ((browser=="Microsoft Internet Explorer") && (version<=4))
+{
+  alert("浏览器版本低，建议用户更换浏览器");
+}
+</script>
+
+</body></html>

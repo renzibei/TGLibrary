@@ -7,25 +7,35 @@
 <style>
 body
 {
-	background-image:url("Dreamy Grassland under the Sun.jpg");
+	background-image:url("timg.jpeg");
 }
 
 h1
 {
-	position:relative;
-	left:150px;
+	text-align: center;
 	color:orange;
+}
+
+div {
+    width: 400px;
+    padding: 10px;
+    margin: auto;
+		position:relative;
+		left:40px;
 }
 
 h3 {color:white;}
 
-.indent
-{
-	position: relative;
-	left:50px;
+.small{
+	width: 50px;
+	padding: 10px;
+	margin: auto;
+	position:relative;
+	left:-10px;
 }
 
 .white {color:white;}
+.enlarge {font-size:150%;}
 
 .img1
 {
@@ -40,10 +50,12 @@ h3 {color:white;}
 
 p
 {
-	font-family:"Times New Roman";
 	color:white;
 	font-size:20px;
 	white-space:nowrap;
+	position: absolute;
+	top: 50%;
+	left: 50%;
 }
 
 .error {color: #FF0000;}
@@ -93,13 +105,19 @@ function test_input($data)
 }
 ?>
 
+
+
 <img class="img1" src="logo.jpeg" width="100" height="100" position="left top"/>
 <h1>登录界面</h1>
-<span class = "white indent">
+<span class="white center enlarge">
+<div>
 <form method="post" action="index (logged in).html">
-<br><br>学生ID/教工ID:<br><input type="text" name="ID">
-<br>密码:<br><input type="password" name="password">
+<br><br>学生ID/教工ID:　　<input type="text" name="ID">
+<br><br>密码:　　　　　　<input type="password" name="password">
+</div>
+<div class="small">
 <br><br><input type="submit" name = "submit" value="登录">
+</div>
 </form>
 </span>
 </body>

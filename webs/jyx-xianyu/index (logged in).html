@@ -11,14 +11,27 @@ a:active {color:white; text-decoration: underline;}  /* 鼠标点击时 */
 
 body
 {
-	background-image:url("Dreamy Grassland under the Sun.jpg");
+	background-image:url("timg.jpeg");
 }
 
 h1
 {
-	position:relative;
-	left:150px;
 	color:orange;
+}
+
+div {
+    width: 400px;
+    padding: 10px;
+    margin: auto;
+		/*position:relative;
+		left:10px;*/
+}
+
+.secondary
+{
+	width: 200px;
+	padding: 10px;
+	margin: auto;
 }
 
 h3
@@ -34,8 +47,7 @@ h3
 .mark1
 {
 	position:relative;
-	left:800px;
-	top:-75px;
+	left:400px;
 }
 
 .img1
@@ -61,10 +73,17 @@ p
 
 <body>
 <img class="img1" src="logo.jpeg" width="100" height="100" position="left top"/>
-<h1>踢馆大队の学术搜索平台</h1> <b><a class="mark1" href="mylib.html" target="_self">我的图书</a>　　<a class="mark1" href="index.html" target="_self">退出登录</a></b>
-<h3><a href="/css/" target="_self">海量资源</a>  <a href="/css/" target="_self">纸本图书</a>  <a href="/css/" target="_self">电子图书</a>  <a href="/css/" target="_self">纸本期刊</a>  <a href="/css/" target="_self">电子期刊</a>  <a href="/css/" target="_self">音像制品</a>  <a href="/css/" target="_self">古籍</a></h3>
+<h1 style="text-align:center">踢馆大队の学术搜索平台</h1>
+<br><br>
+<div class="secondary">
+<b><a class="mark1" style="font-size:larger" href="mylib.html" target="_self">我的图书</a>　　<a style="font-size:larger" class="mark1" href="index.html" target="_self">退出登录</a></b>
+</div>
 
-<form action="index.php" method="post"> <input type="radio" name="searchtype" value="bookname" /><span class="white">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span class="white">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span class="white">按作者</span>
+<div>
+<h3><span style="text-align:center; font-size:x-large"><a href="/css/" target="_blank">海量资源</a>  <a href="/css/" target="_blank">纸本图书</a>  <a href="/css/" target="_blank">电子图书</a>  <a href="/css/" target="_blank">纸本期刊</a>  <a href="/css/" target="_blank">电子期刊</a>  <a href="/css/" target="_blank">音像制品</a>  <a href="/css/" target="_blank">古籍</a></span></h3>
+
+<form action="" method="post"> <input type="radio" name="searchtype" value="bookname" /><span style="text-align:center; font-size:x-large" class="white">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large" class="white">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large" class="white">按作者</span>
 <input type="text" name="bookname"> <input type="submit" value="搜索">
+</div>
 </form>
 </body>
