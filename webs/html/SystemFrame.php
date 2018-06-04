@@ -23,7 +23,7 @@ class SystemFrame{
 
 	protected $rootDirPath;
 	protected $configFilePath;
-	protected $logFilePath;
+	protected static $logFilePath;
 	protected $sqlConn;
 
 
@@ -37,9 +37,15 @@ class SystemFrame{
         $this->__docdata = new DocData();
 	}
 
-	public function getLogFilePath()
+    /**
+     * @return mixed
+     * @throws Exception
+     */
+	public static function getLogFilePath()
     {
-        return $this->logFilePath;
+        if(!isset(self::$logFilePath))
+            self::initLogFile();
+        return self::$logFilePath;
     }
 
     /**
@@ -51,14 +57,23 @@ class SystemFrame{
         if(empty(self::$__instance)) {
             self::$__instance = new SystemFrame();
             self::$__instance->setTime();
-            self::$__instance->initLogFile();
+            //self::$__instance->initLogFile();
         }
         return self::$__instance;
     }
 
-    public function docData()
+    public function _docData()
     {
         return $this->__docdata;
+    }
+
+    /**
+     * @return mixed
+     * @throws Exception
+     */
+    public static function docData()
+    {
+        return self::instance()->_docData();
     }
 
 
@@ -70,7 +85,9 @@ class SystemFrame{
      */
 	public static function log_info($info)
 	{
-		error_log( $info . PHP_EOL,3, self::instance()->getLogFilePath());
+        //debug
+
+	    error_log( $info . PHP_EOL,3, self::getLogFilePath());
 	}
 
 	protected function setTime()
@@ -82,11 +99,11 @@ class SystemFrame{
     /**
      * @throws \Exception
      */
-	protected function initLogFile()
+	protected static function initLogFile()
 	{
-		$this->logFilePath = $this->rootDirPath . '/log/info' . date("Y-m-d-H:i:s") . '.log';
-		if(!file_exists($this->logFilePath)) {
-			$fileHandler = fopen($this->logFilePath, "w");
+		self::$logFilePath = dirname(dirname(__DIR__)) . '/log/info' . date("Y-m-d-H:i:s") . '.log';
+		if(!file_exists(self::$logFilePath)) {
+			$fileHandler = fopen(self::$logFilePath, "w");
 			if($fileHandler === false)
 				throw new Exception("CreateLogFileFailed", errorCode\CreateLogFileError);
 
@@ -108,7 +125,9 @@ class SystemFrame{
 			if( $conn->connect_error) {
 				throw new \Exception($conn->connect_error, errorCode\ConnectDBError);
 			}
-			
+			if(!$conn->set_charset("utf8")) {
+			    throw new \Exception("Fail to set mysqli charset to utf8" . $conn->error, errorCode\SetMysqlCharSetError);
+            }
 			$createDBSql = "CREATE DATABASE IF NOT EXISTS " . systemConfig\config['tg_database'] . " default character set utf8 COLLATE utf8_general_ci";
 			if($conn->query($createDBSql) === false)
 				throw new \Exception("Fail to create Database " . $conn->error, errorCode\CreateDBError);

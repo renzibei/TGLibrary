@@ -26,9 +26,17 @@ class DocData
         $result = $conn->query($insertSql);
         if($result === false)
             throw new \Exception("Fail to insert DocId into Table " . $conn->error,  errorCode\InsertIntoTableError);
+        $getDocIdSql = "SELECT LAST_INSERT_ID()";
+        $result = $conn->query($getDocIdSql);
+        if($result === false)
+            throw new \Exception("Fail to get Doc Id from Table " . $conn->error, errorCode\QueryTableError);
+        $row = $result->fetch_row();
+        $document->setDocID($row[0]);
         $document->updateData();
 
 
     }
+
+
 
 }

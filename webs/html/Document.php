@@ -82,21 +82,22 @@ namespace tg {
          */
         public function updateData()
         {
+            if(isset($this->title))
+                $this->updateTitle();
             if(isset($this->authors))
-                foreach ($this->authors as &$author)
-                    $this->addAuthor($author);
+                $this->updateAuthor();
             if(isset($this->subjects))
-                foreach ($this->subjects as &$subject)
-                    $this->addSubject($subject);
+                $this->updateSubject();
+            if(isset($this->docType))
+                $this->updateDocType();
             if(isset($this->urls))
-                foreach ($this->urls as &$url)
-                    $this->addUrl($url);
+                $this->updateUrl();
             if(isset($this->publisher))
-                $this->setPublisher($this->publisher);
+                $this->updatePublisher();
             if(isset($this->source))
-                $this->setSource($this->source);
+                $this->updateSource();
             if(isset($this->description))
-                $this->setDescription($this->description);
+                $this->updateDescription();
 
 
         }
@@ -146,11 +147,11 @@ namespace tg {
         public function updateTitle()
         {
             if ($this->isInDatabase()) {
-                $insertIntoTableSql = "INSERT INTO " . systemConfig\config['docTable'] . "( title )" . " VALUES " . "( $this->title )";
+                $insertIntoTableSql = "UPDATE " . systemConfig\config['docTable'] . " SET title = '" .   $this->title . "' WHERE docId = $this->docID";
                 $conn = SystemFrame::instance()->getConnection();
                 $result = $conn->query($insertIntoTableSql);
                 if ($result === false)
-                    throw new \Exception("Fail to insert title into Table " . systemConfig\config['docTable'] . $conn->error,
+                    throw new \Exception("Fail to update title in Table " . systemConfig\config['docTable'] . $conn->error,
                         errorCode\InsertIntoTableError);
             }
         }
@@ -180,7 +181,7 @@ namespace tg {
         public function updatePublisher()
         {
             if ($this->isInDatabase()) {
-                $insertIntoTableSql = "INSERT INTO " . systemConfig\config['docTable'] . "( publisher )" . " VALUES " . "( $this->publisher )";
+                $insertIntoTableSql = "UPDATE " . systemConfig\config['docTable'] . " SET publisher = '" .  $this->publisher . "' WHERE docId = $this->docID";
                 $conn = SystemFrame::instance()->getConnection();
                 $result = $conn->query($insertIntoTableSql);
                 if ($result === false)
@@ -213,7 +214,7 @@ namespace tg {
         public function updateSource()
         {
             if ($this->isInDatabase()) {
-                $insertIntoTableSql = "INSERT INTO " . systemConfig\config['docTable'] . "( source )" . " VALUES " . "( $this->source )";
+                $insertIntoTableSql = "UPDATE " . systemConfig\config['docTable'] . " SET source = " . " '$this->source' " . " WHERE docId = $this->docID";
                 $conn = SystemFrame::instance()->getConnection();
                 $result = $conn->query($insertIntoTableSql);
                 if ($result === false)
@@ -247,7 +248,7 @@ namespace tg {
         public function updateDescription()
         {
             if ($this->isInDatabase()) {
-                $insertIntoTableSql = "INSERT INTO " . systemConfig\config['docTable'] . "( description )" . " VALUES " . "( $this->description )";
+                $insertIntoTableSql = "UPDATE " . systemConfig\config['docTable'] . " SET description = " .  " '$this->description' " . " WHERE docId = $this->docID ";
                 $conn = SystemFrame::instance()->getConnection();
                 $result = $conn->query($insertIntoTableSql);
                 if ($result === false)
@@ -315,8 +316,8 @@ namespace tg {
             if ($this->isInDatabase() && isset($this->language)) {
                 if($this->existLanguage($this->language) === false)
                     $this->createLanguage($this->language);
-                $insertIntoTableSql = "INSERT INTO " . systemConfig\config['docTable'] . "( language )" . " VALUES " . "( " . " SELECT languageId FROM "
-                    . systemConfig\config['languageTable'] . " WHERE lanName = $this->language )";
+                $insertIntoTableSql = "UPDATE " . systemConfig\config['docTable'] . " SET language = " .  "( " . " SELECT languageId FROM "
+                    . systemConfig\config['languageTable'] . " WHERE lanName = $this->language )" . " WHERE docId = $this->docID";
                 $conn = SystemFrame::instance()->getConnection();
                 $result = $conn->query($insertIntoTableSql);
                 if ($result === false)
@@ -350,8 +351,8 @@ namespace tg {
         public function updateDocType()
         {
             if ($this->isInDatabase()) {
-                $insertIntoTableSql = "INSERT INTO " . systemConfig\config['docTable'] . "( typeId )" . " VALUES " . "( " . " SELECT typeId FROM "
-                    . systemConfig\config['docType'] . " WHERE typeName = $this->docType )";
+                $insertIntoTableSql = "UPDATE " . systemConfig\config['docTable'] . " SET typeId = " .  "( " . " SELECT typeId FROM "
+                    . systemConfig\config['docType'] . " WHERE typeName = '$this->docType' )" . " WHERE docId = $this->docID";
                 $conn = SystemFrame::instance()->getConnection();
                 $result = $conn->query($insertIntoTableSql);
                 if ($result === false)
@@ -380,7 +381,7 @@ namespace tg {
         {
             //global systemConfig\config;
             $conn = SystemFrame::instance()->getConnection();
-            $querySql = "SELECT * FROM " . systemConfig\config['authorTable'] ." WHERE lanName = $author";
+            $querySql = "SELECT * FROM " . systemConfig\config['authorTable'] ." WHERE name = '". "$author" . "'";
             $result = $conn->query($querySql);
             if($result === false)
                 throw new \Exception("Fail to Query author " . $conn->error, errorCode\QueryTableError);
@@ -395,7 +396,7 @@ namespace tg {
         {
             //global systemConfig\config;
             $conn = SystemFrame::instance()->getConnection();
-            $insertSql = "INSERT INTO " . systemConfig\config['authorTable'] . " ( name ) " ." VALUES ( $author )  ";
+            $insertSql = "INSERT INTO " . systemConfig\config['authorTable'] . " ( name ) " ." VALUES ( '$author' )  ";
             $result = $conn->query($insertSql);
             if($result === false)
                 throw new \Exception("Fail to insert new author " . $conn->error, errorCode\InsertIntoTableError);
@@ -409,7 +410,7 @@ namespace tg {
         protected function existWriting($author)
         {
             $conn = SystemFrame::instance()->getConnection();
-            $querySql = "SELECT * FROM " . systemConfig\config['writingTable'] ." WHERE lanName = $author AND docId = $this->docID";
+            $querySql = "SELECT * FROM " . systemConfig\config['writingTable'] ." WHERE  authorId = (SELECT authorId FROM authorTable WHERE name  = '$author' ) AND docId = $this->docID";
             $result = $conn->query($querySql);
             if($result === false)
                 throw new \Exception("Fail to Query author " . $conn->error, errorCode\QueryTableError);
@@ -419,12 +420,13 @@ namespace tg {
         /**
          * @param $author
          * @throws \Exception
+         * There is a bug here. The author.
          */
         protected function addWriting($author)
         {
             $conn = SystemFrame::instance()->getConnection();
-            $insertIntoTableSql = "INSERT INTO " . systemConfig\config['docTable'] . "( authorId , docId )" . " VALUES " . "( ( " . " SELECT authorId FROM "
-                . systemConfig\config['docType'] . " WHERE typeName = $this->docType ) , $this->docID )";
+            $insertIntoTableSql = "INSERT INTO " . systemConfig\config['writingTable'] . "( authorId , docId )" . " VALUES " . "( ( " . " SELECT authorId FROM "
+                . systemConfig\config['authorTable'] . " WHERE name = '$author' ) , $this->docID )";
             $result = $conn->query($insertIntoTableSql);
             if($result === false)
                 throw new \Exception("Fail to insert new writing author " . $conn->error, errorCode\InsertIntoTableError);
@@ -464,7 +466,7 @@ namespace tg {
         protected function existUrl($url)
         {
             $conn = SystemFrame::instance()->getConnection();
-            $querySql = "SELECT * FROM " . systemConfig\config['urlTable'] ." WHERE  docId = $this->docID AND url = $url ";
+            $querySql = "SELECT * FROM " . systemConfig\config['urlTable'] ." WHERE  docId = $this->docID AND url = '$url' ";
             $result = $conn->query($querySql);
             if($result === false)
                 throw new \Exception("Fail to Query url " . $conn->error, errorCode\QueryTableError);
@@ -479,7 +481,7 @@ namespace tg {
             if ($this->isInDatabase()) {
                 foreach ($this->urls as &$url) {
                     if($this->existUrl($url) === false) {
-                        $insertIntoTableSql = "INSERT INTO " . systemConfig\config['urlTable'] . "( docId , url )" . " VALUES " . "( $this->docID,  $url )";
+                        $insertIntoTableSql = "INSERT INTO " . systemConfig\config['urlTable'] . "( docId , url )" . " VALUES " . "( $this->docID,  '$url' )";
                         $conn = SystemFrame::instance()->getConnection();
                         $result = $conn->query($insertIntoTableSql);
                         if ($result === false)
@@ -512,7 +514,7 @@ namespace tg {
         {
             //global systemConfig\config;
             $conn = SystemFrame::instance()->getConnection();
-            $querySql = "SELECT * FROM " . systemConfig\config['subjectTable'] ." WHERE subjectName = $subject";
+            $querySql = "SELECT * FROM " . systemConfig\config['subjectTable'] ." WHERE subjectName = '$subject'";
             $result = $conn->query($querySql);
             if($result === false)
                 throw new \Exception("Fail to Query subject " . $conn->error, errorCode\QueryTableError);
@@ -527,7 +529,7 @@ namespace tg {
         {
             //global systemConfig\config;
             $conn = SystemFrame::instance()->getConnection();
-            $insertSql = "INSERT INTO " . systemConfig\config['subjectTable'] . " ( subjectName ) " ." VALUES ( $subject )  ";
+            $insertSql = "INSERT INTO " . systemConfig\config['subjectTable'] . " ( subjectName ) " ." VALUES ( '$subject' )  ";
             $result = $conn->query($insertSql);
             if($result === false)
                 throw new \Exception("Fail to create new subject " . $conn->error. errorCode\InsertIntoTableError);
@@ -538,11 +540,23 @@ namespace tg {
          */
         public function updateSubject()
         {
+
             if ($this->isInDatabase()) {
+                $conn = SystemFrame::instance()->getConnection();
                 foreach($this->subjects as $subject) {
-                    $insertIntoTableSql = "INSERT INTO " . systemConfig\config['subjectRecord'] . "( subjectId, docId )" . " VALUES " . "( ( " . " SELECT subjectId FROM "
-                        . systemConfig\config['subjectTable'] . " WHERE subjectName = $subject ), $this->docID )";
-                    $conn = SystemFrame::instance()->getConnection();
+                    if($this->existSubject($subject) === false)
+                        $this->createSubject($subject);
+                    $querySubjectIdSql = "SELECT subjectId FROM " .
+                                        \tg\systemConfig\config['subjectTable'] . " WHERE subjectName = '" . "$subject' ";
+                    $result = $conn->query($querySubjectIdSql);
+                    if($result === false)
+                        throw new \Exception("Fail to query recordId " . $conn->error);
+                    $subjectId = $result->fetch_assoc()['subjectId'];
+                    $insertIntoTableSql = "INSERT INTO " . systemConfig\config['subjectRecord'] . "( subjectId, docId )"
+                        . "SELECT * FROM ( SELECT '" . $subjectId . "' as a, '". $this->docID . "' as b ) AS tmp WHERE NOT EXISTS ( SELECT subjectId FROM "
+                        . \tg\systemConfig\config['subjectRecord']
+                        .  " WHERE (subjectId = $subjectId AND docId = $this->docID)  ) " ;
+
                     $result = $conn->query($insertIntoTableSql);
                     if ($result === false)
                         throw new \Exception("Fail to insert subjectRecord into Table " . systemConfig\config['subjectRecord'] . $conn->error,

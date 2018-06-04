@@ -9,6 +9,7 @@ namespace tg\errorCode {
     const CreateDBTableError = 1006;
     const InsertIntoTableError = 1007;
     const DeleteFromTableError = 1008;
+    const SetMysqlCharSetError = 1009;
     //echo __NAMESPACE__ . " <br />" ;
     //const con = 1;
     }

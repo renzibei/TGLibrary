@@ -10,6 +10,22 @@
 <body>
 <?php
 
+    /**
+     * @param $type
+     * @param $message
+     * @param $file
+     * @param $line
+     * @throws Exception
+     */
+    function errorHandle($type, $message, $file, $line)
+    {
+        \tg\SystemFrame::log_info("type" . $type . "message" . $message . "file" . $file . "line" . $line);
+    }
+
+
+    /**
+     * @throws Exception
+     */
     function testSomething()
     {
         require_once 'html/SystemFrame.php';
@@ -17,15 +33,17 @@
         try {
             \tg\SystemFrame::log_info("begin to init");
             \tg\SystemFrame::instance()->initServer();
-            \tg\SystemFrame::log_info("finish");
             $doc = new \tg\Document("haha", array("秘密"), 'Book', "Chinese",
                 array("Computer"), "中国教育", array("www.baidu.com"), "他改变了中国", "嘻嘻");
-            \tg\SystemFrame::instance()->docData()->addDocument($doc);
+            \tg\SystemFrame::docData()->addDocument($doc);
+            \tg\SystemFrame::log_info("finish");
         } catch (Exception $e) {
             \tg\SystemFrame::log_info($e->getMessage() . " Line" . $e->getLine());
             throw $e;
         }
     }
+
+    set_error_handler('errorHandle');
 	echo "begin <br />";
 
     testSomething();
