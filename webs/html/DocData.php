@@ -19,7 +19,7 @@ class DocData
      * @param Document $document
      * @throws \Exception
      */
-    function addDocument(Document &$document)
+    public function addDocument(Document &$document)
     {
         $insertSql = "INSERT INTO " . systemConfig\config['docTable'] . " ( title ) VALUES " . "( '" . $document->getTitle() . "' ) ";
         $conn = SystemFrame::instance()->getConnection();
@@ -36,6 +36,29 @@ class DocData
 
 
     }
+
+    /**
+     * @param $docId
+     * @return bool
+     * @throws \Exception
+     */
+    public static function getDocument($docId)
+    {
+        $querySql = "SELECT * FROM " . \tg\systemConfig\config['docTable'] . " WHERE docId = $docId";
+        $conn = SystemFrame::instance()->getConnection();
+        $result = $conn->query($querySql);
+        if(!$result === false)
+            throw new \Exception("Fail to query doc " . $conn->error, errorCode\QueryTableError);
+        if($result->num_rows < 0)
+            return false;
+        else {
+            $row = $result->fetch_assoc();
+            //$document = new Document($docId, $row['title'], $row[]);
+
+        }
+
+    }
+
 
 
 

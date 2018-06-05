@@ -18,8 +18,8 @@ require_once 'DocData.php';
 class SystemFrame{
 
     private static $__instance;
-    protected $__docdata;
-
+    protected $__docData;
+    protected static  $__userData;
 
 	protected $rootDirPath;
 	protected $configFilePath;
@@ -34,7 +34,7 @@ class SystemFrame{
         echo "construct <br />";
 	    $this->rootDirPath = dirname(dirname(dirname(__FILE__)));
 		$this->configFilePath = $this->rootDirPath . '/dbusers/dbadmin.php';
-        $this->__docdata = new DocData();
+        $this->__docData = new DocData();
 	}
 
     /**
@@ -64,7 +64,15 @@ class SystemFrame{
 
     public function _docData()
     {
-        return $this->__docdata;
+        return $this->__docData;
+    }
+
+    public static function userData()
+    {
+        if(empty(self::$__userData)) {
+            self::$__userData = new UserData();
+        }
+        return self::$__userData;
     }
 
     /**
@@ -274,7 +282,7 @@ class SystemFrame{
 
             $createAdminTableSql = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['adminTable'] . "(
                                         adminId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-                                        username VARCHAR(256),
+                                        username VARCHAR(256) UNIQUE,
                                         password VARCHAR(256),
                                         name VARCHAR(256)
                                     )";
@@ -283,9 +291,9 @@ class SystemFrame{
 
             $createUserTableSql = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['userTable'] . "(
                                         userId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-                                        username VARCHAR(256),
+                                        username VARCHAR(256) UNIQUE,
                                         password VARCHAR(256),
-                                        uid VARCHAR(20),
+                                        uid VARCHAR(20) UNIQUE, 
                                         name VARCHAR(256)
                                     )";
             if($conn->query($createUserTableSql) === false)

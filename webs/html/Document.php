@@ -28,6 +28,7 @@ namespace tg {
 
         /**
          * Document constructor.
+         * @param $docId
          * @param $title
          * @param array $authors
          * @param $publisher
@@ -39,7 +40,7 @@ namespace tg {
          * @param $docType
          * @throws \Exception
          */
-        public function __construct($title, array $authors ,$docType = 'Book', $language = 'Chinese', array $subjects = null, $publisher = '', array $urls = null, $source = '', $description = '')
+        public function __construct($docId, $title, array $authors ,$docType = 'Book', $language = 'Chinese', array $subjects = null, $publisher = '', array $urls = null, $source = '', $description = '')
         {
             /*
             $this->docID = $docID;
@@ -51,6 +52,8 @@ namespace tg {
             $this->docType = $docType;
             */
             //$this->setDocID($docID);
+            if(!empty($docId))
+                $this->docID = $docId;
             $this->setTitle($title);
             $this->setDocType($docType);
             $this->setLanguage($language);

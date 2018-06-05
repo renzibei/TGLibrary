@@ -22,6 +22,28 @@
         \tg\SystemFrame::log_info("type" . $type . "message" . $message . "file" . $file . "line" . $line);
     }
 
+/**
+ * @throws Exception
+ */
+    function testUser()
+    {
+        require_once 'html/UserData.php';
+        $user = new \tg\User('nevermore1', '123456', 'shuaige', '201701063');
+        \tg\SystemFrame::userData()->addAccount($user);
+        $oldUser = \tg\SystemFrame::userData()->userList();
+        var_dump($oldUser);
+
+    }
+
+/**
+ * @throws Exception
+ */
+    function testDoc()
+    {
+        $doc = new \tg\Document('',"haha", array("秘密"), 'Book', "Chinese",
+            array("Computer"), "中国教育", array("www.baidu.com"), "他改变了中国", "嘻嘻");
+        \tg\SystemFrame::docData()->addDocument($doc);
+    }
 
     /**
      * @throws Exception
@@ -33,9 +55,9 @@
         try {
             \tg\SystemFrame::log_info("begin to init");
             \tg\SystemFrame::instance()->initServer();
-            $doc = new \tg\Document("haha", array("秘密"), 'Book', "Chinese",
-                array("Computer"), "中国教育", array("www.baidu.com"), "他改变了中国", "嘻嘻");
-            \tg\SystemFrame::docData()->addDocument($doc);
+            for($i = 1; $i < 2; $i++) {
+                testUser();
+            }
             \tg\SystemFrame::log_info("finish");
         } catch (Exception $e) {
             \tg\SystemFrame::log_info($e->getMessage() . " Line" . $e->getLine());

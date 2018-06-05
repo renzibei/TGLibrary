@@ -169,7 +169,7 @@
 
 ***
 
-### Person (Abstract Class)
+### Account (Abstract Class)
 
 #### Member Function
 
@@ -194,7 +194,7 @@
 
 ***
 
-### User (extends Person)
+### User (extends Account)
 
 #### Member Function
 
@@ -217,7 +217,7 @@
 
 ***
 
-### Admin (extends Person)
+### Admin (extends Account)
 
 #### Member Functions
 
@@ -236,7 +236,7 @@
 
 ***
 
-### PersonData (interface)
+### AccountData (Abstract Class)
 
 #### Member Functions
 
@@ -247,9 +247,9 @@
 | userList                                                     | array of Person |
 | queryFromName(name)                                          | array of Person |
 | queryFromUsername(username)                                  | Person&         |
-| queryFromUid(uid)                                            | Person&         |
-| addPerson(&\$Person)                                         | void            |
-| deleteUser(\$uuid, \$deleteType) //type 为2时uuid为为uid，为1时uuid为usename,默认为1 | void            |
+| queryFromId(Id)                                              | Person&         |
+| addAccount(&\$Account)                                       | void            |
+| deleteUser(\$uuid, \$deleteType) //type 为1时uuid为usename,为2时uuid为为uid，,默认为1 | void            |
 
 
 
@@ -261,7 +261,7 @@
 
 ***
 
-### UserData （implements PersonData)
+### UserData （extends AccountData)
 
 
 
@@ -273,8 +273,8 @@
 | queryFromName(name)                                          | array of User |
 | queryFromUsername(username)                                  | User&         |
 | queryFromUid(uid)                                            | User&         |
-| addUser(&\$User)                                             | void          |
-| deleteUser(\$uuid, \$deleteType) //type 为1时uuid为为uid，为2时uuid为usename | void          |
+| addAccount(&\$Account)                                       | void          |
+| deleteUser(\$uuid, \$deleteType) //type 为1时uuid为usename,为2时uuid为为uid，,默认为1 | void          |
 |                                                              |               |
 |                                                              |               |
 
@@ -282,7 +282,7 @@
 
 ***
 
-### AdminData (implements PersonData)
+### AdminData (extands AccountData)
 
 #### Member Functions
 
@@ -291,8 +291,8 @@
 | adminsList                                                   | array of Admin |
 | queryFromName(name)                                          | array of Admin |
 | queryFromUsername(username)                                  | Admin&         |
-| queryFromUid(uid)                                            | User&          |
-| addUser(&\$User)                                             | void           |
+| queryFromUid(uid)                                            | Admin&         |
+| addAccount(&\$Account)                                       | void           |
 | deleteUser(\$uuid, \$deleteType) //type 为1时uuid为username, 默认为1 | void           |
 |                                                              |                |
 |                                                              |                |
