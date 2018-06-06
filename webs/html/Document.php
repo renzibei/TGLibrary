@@ -12,48 +12,40 @@ namespace tg {
     require_once 'SystemFrame.php';
     require_once dirname(dirname(dirname(__FILE__))) . '/dbusers/dbadmin.php';
     require_once 'errorTable.php';
+    require_once dirname(dirname(dirname(__FILE__))) . '/dbusers/docInfo.php';
 
     class Document
     {
-        private $docID;
-        private $title;
-        private $authors;
-        private $publisher;
-        private $source;
-        private $urls;
-        private $subjects;
-        private $description;
-        private $language;
-        private $docType;
+        protected $docID;
+        protected $title;
+        protected $authors;
+        protected $publisher;
+        protected $source;
+        protected $urls;
+        protected $subjects;
+        protected $description;
+        protected $language;
+        protected $docType;
 
-        /**
-         * Document constructor.
-         * @param $docId
-         * @param $title
-         * @param array $authors
-         * @param $publisher
-         * @param $source
-         * @param $description
-         * @param $language
-         * @param array $subjects
-         * @param array $urls
-         * @param $docType
-         * @throws \Exception
-         */
-        public function __construct($docId, $title, array $authors ,$docType = 'Book', $language = 'Chinese', array $subjects = null, $publisher = '', array $urls = null, $source = '', $description = '')
+
+        /*
+        public function __construct($title, array $authors ,$docType = 'Book', $language = 'Chinese', array $subjects = null, $publisher = '', array $urls = null, $source = '', $description = '', $docId = NULL)
         {
-            /*
-            $this->docID = $docID;
+
+            $this->docID = $docId;
             $this->title = $title;
             $this->publisher = $publisher;
             $this->source = $source;
             $this->description = $description;
             $this->language = $language;
             $this->docType = $docType;
-            */
-            //$this->setDocID($docID);
-            if(!empty($docId))
-                $this->docID = $docId;
+            $this->authors = $authors;
+            $this->subjects = $subjects;
+            $this->urls = $urls;
+
+            $this->updateData();
+
+            /*
             $this->setTitle($title);
             $this->setDocType($docType);
             $this->setLanguage($language);
@@ -73,11 +65,13 @@ namespace tg {
                         $this->setDescription($description);
                 }
             }
+            */
 
 
 
 
-        }
+
+       // }
 
 
         /**
@@ -85,6 +79,36 @@ namespace tg {
          */
         public function updateData()
         {
+
+            if($this->isInDatabase()) {
+                $conn = SystemFrame::instance()->getConnection();
+                $updateSql = "UPDATE " . systemConfig\config['docTable'] . " SET ";
+                if(isset($this->title))
+                    $updateSql .= " title = '$this->title' ";
+                if(isset($this->docType))
+                    $updateSql .= (", docId = " . \tg\docTypeArray[$this->docType]);
+                if(isset($this->publisher))
+                    $updateSql .= ", publisher = '$this->publisher' ";
+                if(isset($this->source))
+                    $updateSql .= ", source = '$this->source' ";
+                if(isset($this->description))
+                    $updateSql .= ", description = '$this->description' ";
+                if(isset($this->language))
+                    $updateSql .= ", languageId =  ( SELECT languageId FROM "
+                        . systemConfig\config['languageTable'] . " WHERE lanName = $this->language )";
+                $result = $conn->query($updateSql);
+                if($result === false)
+                    throw new \Exception("Fail to update Book Data " . $conn->error, errorCode\UpdateTableError);
+
+                if(isset($this->authors))
+                    $this->updateAuthor();
+                if(isset($this->subjects))
+                    $this->updateSubject();
+                if(isset($this->urls))
+                    $this->updateUrl();
+
+            }
+            /*
             if(isset($this->title))
                 $this->updateTitle();
             if(isset($this->authors))
@@ -101,8 +125,9 @@ namespace tg {
                 $this->updateSource();
             if(isset($this->description))
                 $this->updateDescription();
-
-
+            if(isset($this->language))
+                $this->updateLanguage();
+            */
         }
 
 
@@ -113,6 +138,18 @@ namespace tg {
         public function getDocID()
         {
             return $this->docID;
+        }
+
+        /**
+         * @param $authors
+         * @param int $mode
+         * @throws \Exception
+         */
+        public function setAuthors($authors, $mode = 1): void
+        {
+            $this->authors = $authors;
+            if($mode === 1)
+                $this->updateAuthor();
         }
 
         /**
@@ -134,6 +171,31 @@ namespace tg {
             }
             */
 
+        }
+
+        /**
+         * @param $urls
+         * @param int $mode
+         * @throws \Exception
+         */
+        public function setUrls($urls, $mode = 1): void
+        {
+            $this->urls = $urls;
+            if($mode === 1)
+                $this->updateUrl();
+        }
+
+
+        /**
+         * @param $subjects
+         * @param int $mode
+         * @throws \Exception
+         */
+        public function setSubjects($subjects, $mode = 1): void
+        {
+            $this->subjects = $subjects;
+            if($mode === 1)
+                $this->updateSubject();
         }
 
         /**
@@ -288,7 +350,7 @@ namespace tg {
         {
             //global systemConfig\config;
             $conn = SystemFrame::instance()->getConnection();
-            $querySql = "SELECT * FROM " . systemConfig\config['languageTable'] ." WHERE lanName = $language";
+            $querySql = "SELECT * FROM " . systemConfig\config['languageTable'] ." WHERE lanName = '$language' ";
             $result = $conn->query($querySql);
             if($result === false)
                 throw new \Exception("Fail to Query language " . $conn->error, errorCode\QueryTableError);
@@ -305,7 +367,7 @@ namespace tg {
         {
             //global systemConfig\config;
             $conn = SystemFrame::instance()->getConnection();
-            $insertSql = "INSERT INTO " . systemConfig\config['languageTable'] . " ( lanName ) " ." VALUES ( $language )  ";
+            $insertSql = "INSERT INTO " . systemConfig\config['languageTable'] . " ( lanName ) " ." VALUES ( '$language' )  ";
             $result = $conn->query($insertSql);
             if($result === false)
                 throw new \Exception("Fail to insert new language " . $conn->error. errorCode\InsertIntoTableError);
@@ -319,8 +381,8 @@ namespace tg {
             if ($this->isInDatabase() && isset($this->language)) {
                 if($this->existLanguage($this->language) === false)
                     $this->createLanguage($this->language);
-                $insertIntoTableSql = "UPDATE " . systemConfig\config['docTable'] . " SET language = " .  "( " . " SELECT languageId FROM "
-                    . systemConfig\config['languageTable'] . " WHERE lanName = $this->language )" . " WHERE docId = $this->docID";
+                $insertIntoTableSql = "UPDATE " . systemConfig\config['docTable'] . " SET languageId = " .  "( " . " SELECT languageId FROM "
+                    . systemConfig\config['languageTable'] . " WHERE lanName = '$this->language' )" . " WHERE docId = $this->docID";
                 $conn = SystemFrame::instance()->getConnection();
                 $result = $conn->query($insertIntoTableSql);
                 if ($result === false)
@@ -441,7 +503,7 @@ namespace tg {
         public function updateAuthor()
         {
 
-            if($this->isInDatabase()) {
+            if(!empty($this->authors) && $this->isInDatabase()) {
                 foreach ($this->authors as &$author) {
                     if ($this->existAuthor($author) === false)
                         $this->createAuthor($author);
@@ -481,7 +543,7 @@ namespace tg {
          */
         public function updateUrl()
         {
-            if ($this->isInDatabase()) {
+            if (!empty($this->urls) && $this->isInDatabase()) {
                 foreach ($this->urls as &$url) {
                     if($this->existUrl($url) === false) {
                         $insertIntoTableSql = "INSERT INTO " . systemConfig\config['urlTable'] . "( docId , url )" . " VALUES " . "( $this->docID,  '$url' )";
@@ -544,7 +606,7 @@ namespace tg {
         public function updateSubject()
         {
 
-            if ($this->isInDatabase()) {
+            if ($this->isInDatabase() && !empty($this->subjects)) {
                 $conn = SystemFrame::instance()->getConnection();
                 foreach($this->subjects as $subject) {
                     if($this->existSubject($subject) === false)

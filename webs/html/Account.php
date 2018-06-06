@@ -39,7 +39,7 @@ abstract class Account
         return $this->username;
     }
 
-    abstract public function updateUsername();
+    //abstract public function updateUsername();
 
     /**
      * @param mixed $username
@@ -47,6 +47,7 @@ abstract class Account
     public function setUsername($username): void
     {
         $this->username = $username;
+        $this->updateData();
     }
 
     /**
@@ -57,7 +58,7 @@ abstract class Account
         return $this->password;
     }
 
-    abstract public function updatePassword();
+   // abstract public function updatePassword();
 
     /**
      * @param mixed $password
@@ -65,6 +66,7 @@ abstract class Account
     public function setPassword($password): void
     {
         $this->password = $password;
+        $this->updateData();
     }
 
     /**
@@ -75,7 +77,7 @@ abstract class Account
         return $this->userID;
     }
 
-    abstract public function updateUserID();
+    //abstract public function updateUserID();
 
     /**
      * @param mixed $userID
@@ -83,6 +85,7 @@ abstract class Account
     public function setUserID($userID): void
     {
         $this->userID = $userID;
+        $this->updateData();
     }
 
     /**
@@ -93,7 +96,7 @@ abstract class Account
         return $this->name;
     }
 
-    abstract public function updateName();
+   // abstract public function updateName();
 
     /**
      * @param mixed $name
@@ -101,6 +104,7 @@ abstract class Account
     public function setName($name): void
     {
         $this->name = $name;
+        $this->updateData();
     }
 
     /**

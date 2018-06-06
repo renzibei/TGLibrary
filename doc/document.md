@@ -56,7 +56,7 @@
 | getBookNum    | int             |
 | getBooks      | array of book   |
 | subjects      | array of string |
-| getISBN       | string          |
+| getISBN       | array of string |
 | format        | string          |
 | description   | string          |
 | language      | string          |
@@ -114,7 +114,7 @@
 | subjects      | array of string |
 | getISSN       | string          |
 | getdoi        | string          |
-| getISBN       | string          |
+| getISBN       | array of string |
 | docType       | string          |
 
 
@@ -133,18 +133,18 @@
 
 #### Member Functions
 
-| Function Name           | Return Type     |
-| ----------------------- | --------------- |
-| getBookId               | int             |
-| getBook                 | Book&           |
-| getIsbn                 | array of string |
-| getCallNumber  //索书号 | string          |
-| getVersion              | int             |
-| getPublicYear           | string          |
-| isOnShelf               | bool            |
-| getPlace                | string          |
-| language                | string          |
-| docType                 | string          |
+| Function Name           | Return Type |
+| ----------------------- | ----------- |
+| getBookId               | int         |
+| getBook                 | Book&       |
+| getIsbn                 | string      |
+| getCallNumber  //索书号 | string      |
+| getVersion              | int         |
+| getPublicYear           | string      |
+| isOnShelf               | bool        |
+| getPlace                | string      |
+| language                | string      |
+| docType                 | string      |
 
 
 

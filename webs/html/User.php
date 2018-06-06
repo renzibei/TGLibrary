@@ -108,9 +108,14 @@ class User extends Account
         return $this->uid;
     }
 
-    public function setUid()
+    /**
+     * @param $uid
+     * @throws \Exception
+     */
+    public function setUid($uid)
     {
-
+        $this->uid = $uid;
+        $this->updateData();
     }
 
 

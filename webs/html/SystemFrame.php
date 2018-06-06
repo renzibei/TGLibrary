@@ -12,14 +12,16 @@ require_once dirname(dirname(dirname(__FILE__))) . '/dbusers/dbadmin.php';
 require_once 'DocData.php';
 
 
+
 /**
  * Class SystemFrame
  */
 class SystemFrame{
 
     private static $__instance;
-    protected $__docData;
+    protected static $__docData;
     protected static  $__userData;
+    protected static $__adminData;
 
 	protected $rootDirPath;
 	protected $configFilePath;
@@ -34,7 +36,7 @@ class SystemFrame{
         echo "construct <br />";
 	    $this->rootDirPath = dirname(dirname(dirname(__FILE__)));
 		$this->configFilePath = $this->rootDirPath . '/dbusers/dbadmin.php';
-        $this->__docData = new DocData();
+        //$this->__docData = new DocData();
 	}
 
     /**
@@ -62,18 +64,24 @@ class SystemFrame{
         return self::$__instance;
     }
 
-    public function _docData()
-    {
-        return $this->__docData;
-    }
+
 
     public static function userData()
     {
-        if(empty(self::$__userData)) {
+        if(!isset(self::$__userData)) {
             self::$__userData = new UserData();
         }
         return self::$__userData;
     }
+
+    public static function adminData()
+    {
+        if(!isset(self::$__adminData)) {
+            self::$__adminData = new AdminData();
+        }
+        return self::$__adminData;
+    }
+
 
     /**
      * @return mixed
@@ -81,7 +89,9 @@ class SystemFrame{
      */
     public static function docData()
     {
-        return self::instance()->_docData();
+        if(!isset(self::$__docData))
+            self::$__docData = new DocData();
+        return self::$__docData;
     }
 
 
@@ -109,7 +119,8 @@ class SystemFrame{
      */
 	protected static function initLogFile()
 	{
-		self::$logFilePath = dirname(dirname(__DIR__)) . '/log/info' . date("Y-m-d-H:i:s") . '.log';
+        date_default_timezone_set("Asia/Shanghai");
+	    self::$logFilePath = dirname(dirname(__DIR__)) . '/log/info' . date("Y-m-d-H:i:s") . '.log';
 		if(!file_exists(self::$logFilePath)) {
 			$fileHandler = fopen(self::$logFilePath, "w");
 			if($fileHandler === false)
@@ -201,9 +212,9 @@ class SystemFrame{
      */
     protected function initTables(mysqli $conn)
     {
-        global $docTypeList;
+        //global $docTypeList;
         // $config;
-        global $identifierTypeList;
+       // global $identifierTypeList;
         require_once dirname(dirname(dirname(__FILE__))) . '/dbusers/docInfo.php';
 
         $sqlQuery = "DELETE FROM " . systemConfig\config['docType'];
@@ -215,13 +226,13 @@ class SystemFrame{
         if($conn->query($sqlQuery) === false )
             throw new Exception("Fail to delete data in" . systemConfig\config['identifierType'] . $conn->error, errorCode\DeleteFromTableError);
 
-        for($i = 1; $i <= count($docTypeList); $i++ ) {
-            $sqlQuery = "INSERT INTO " . systemConfig\config['docType'] . " ( " . 'typeId' . "," . " typeName " . ")  " . "VALUES " . "($i , '$docTypeList[$i]' )";
+        for($i = 1; $i <= count(\tg\docTypeList); $i++ ) {
+            $sqlQuery = "INSERT INTO " . systemConfig\config['docType'] . " ( " . 'typeId' . "," . " typeName " . ")  " . "VALUES " . "($i , '" . \tg\docTypeList[$i] . "' )";
             if($conn->query($sqlQuery) === false)
                 throw new Exception("Fail to insert Initial Data into Table" . $conn->error, errorCode\InsertIntoTableError);
         }
-        for($i = 1; $i <= count($identifierTypeList); $i++) {
-            $sqlQuery = "INSERT INTO " . systemConfig\config['identifierType'] . " ( typeId, typeName ) VALUES " . "($i, '$identifierTypeList[$i]' )";
+        for($i = 1; $i <= count(\tg\identifierTypeList); $i++) {
+            $sqlQuery = "INSERT INTO " . systemConfig\config['identifierType'] . " ( typeId, typeName ) VALUES " . "($i, '" . \tg\identifierTypeList[$i] . "' )";
             if($conn->query($sqlQuery) === false)
                 throw new Exception("fail to insert Inital Data into Table" . $conn->error, errorCode\InsertIntoTableError);
         }
@@ -243,11 +254,12 @@ class SystemFrame{
             // $config;
             $createDocTableSql = 'CREATE TABLE IF NOT EXISTS ' . systemConfig\config['docTable'] ." (
                                     docId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-                                    PublicYear YEAR,
+                                    PublicationYear YEAR,
                                     title VARCHAR(1024) NOT NULL ,
                                     publisher VARCHAR(1024),
                                     volume INT,
                                     version INT,
+                                    languageId INT,
                                     format VARCHAR(4096),
                                     source VARCHAR(4096),
                                     description TEXT,
@@ -264,7 +276,7 @@ class SystemFrame{
                                     callNumber VARCHAR(256),
                                     docId INT,
                                     version INT,
-                                    publicYear YEAR,
+                                    publicationYear YEAR,
                                     isOnShelf BOOL,
                                     placeId INT,
                                     languageId INT

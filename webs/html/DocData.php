@@ -39,6 +39,68 @@ class DocData
 
     /**
      * @param $docId
+     * @return array
+     * @throws \Exception
+     */
+    protected function &getAuthorsFromDocId($docId)
+    {
+        $conn = SystemFrame::instance()->getConnection();
+        $queryAuthorSql = "SELECT name FROM " . systemConfig\config['authorTable'] .
+                            " WHERE authorId IN ( SELECT authorId FROM " . systemConfig\config['writingTable'] . " WHERE docId = $docId) ";
+        $result = $conn->query($queryAuthorSql);
+        if($result === false)
+            throw new \Exception("Fail to query author " . $conn->error , errorCode\QueryTableError);
+        $authors = array();
+        while( $row = $result->fetch_assoc() ) {
+            $authors[] = $row['name'];
+        }
+        return $authors;
+
+    }
+
+    /**
+     * @param $docId
+     * @return array
+     * @throws \Exception
+     */
+    protected function &getUrlsFromDocId($docId)
+    {
+        $conn = SystemFrame::instance()->getConnection();
+        $queryUrlSql = "SELECT url FROM " . systemConfig\config['urlTable'] . " WHERE docId = $docId ";
+        $result = $conn->query($queryUrlSql);
+        if($result === false)
+            throw new \Exception("Fail to query url " . $conn->error, errorCode\QueryTableError);
+        $urls = array();
+        while($row = $result->fetch_assoc()) {
+            $urls[] = $row['url'];
+        }
+        return $urls;
+    }
+
+
+
+    /**
+     * @param $row
+     * @throws \Exception
+     */
+    protected function getDocumentFromRow($row)
+    {
+        $docType = $row['typeId'];
+        switch ($docType) {
+            case docTypeArray['Book']:
+                $doc = new Book($row['title'], '', '', $row['publicationYear'], '', $row['publisher'], '', $row['source'], $row['description'],
+                    '', $row['format'], $row['docId']);
+
+        }
+        $doc->setAuthors($this->getAuthorsFromDocId($row['docId']), 2);
+        $doc->setUrls($this->getUrlsFromDocId($row['docId']), 2);
+
+
+    }
+
+
+    /**
+     * @param $docId
      * @return bool
      * @throws \Exception
      */
@@ -56,6 +118,7 @@ class DocData
             //$document = new Document($docId, $row['title'], $row[]);
 
         }
+
 
     }
 
