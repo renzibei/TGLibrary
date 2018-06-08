@@ -489,6 +489,7 @@ class SystemFrame{
 
             } catch (Exception $e) {
                 self::log_info($e->getMessage());
+		var_dump($e);
                 throw $e;
             }
 
