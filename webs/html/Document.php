@@ -145,7 +145,7 @@ namespace tg {
          * @param int $mode
          * @throws \Exception
          */
-        public function setAuthors($authors, $mode = 1): void
+        public function setAuthors($authors, $mode = 1)
         {
             $this->authors = $authors;
             if($mode === 1)
@@ -156,7 +156,7 @@ namespace tg {
          * @param int $docID
          * @throws \Exception
          */
-        public function setDocID($docID): void
+        public function setDocID($docID)
         {
             //global systemConfig\config;
             SystemFrame::log_info("begin to set DocId");
@@ -171,7 +171,7 @@ namespace tg {
          * @param int $mode
          * @throws \Exception
          */
-        public function setUrls($urls, $mode = 1): void
+        public function setUrls($urls, $mode = 1)
         {
             $this->urls = $urls;
             if($mode === 1)
@@ -184,7 +184,7 @@ namespace tg {
          * @param int $mode
          * @throws \Exception
          */
-        public function setSubjects($subjects, $mode = 1): void
+        public function setSubjects($subjects, $mode = 1)
         {
             $this->subjects = $subjects;
             if($mode === 1)
@@ -218,7 +218,7 @@ namespace tg {
          * @param string $title
          * @throws \Exception
          */
-        public function setTitle($title): void
+        public function setTitle($title)
         {
             //global systemConfig\config;
             $this->title = $title;
@@ -251,7 +251,7 @@ namespace tg {
          * @param string $publisher
          * @throws \Exception
          */
-        public function setPublisher($publisher): void
+        public function setPublisher($publisher)
         {
             $this->publisher = $publisher;
             //global systemConfig\config;
@@ -285,7 +285,7 @@ namespace tg {
          * @param string $source
          * @throws \Exception
          */
-        public function setSource($source): void
+        public function setSource($source)
         {
             $this->source = $source;
             //global systemConfig\config;
@@ -319,7 +319,7 @@ namespace tg {
          * @param string $description
          * @throws \Exception
          */
-        public function setDescription($description): void
+        public function setDescription($description)
         {
             $this->description = $description;
             //global systemConfig\config;
@@ -388,7 +388,7 @@ namespace tg {
          * @param mixed $language
          * @throws \Exception
          */
-        public function setLanguage($language): void
+        public function setLanguage($language)
         {
             $this->language = $language;
             //global systemConfig\config;
@@ -423,7 +423,7 @@ namespace tg {
          * @param string $docType
          * @throws \Exception
          */
-        public function setDocType($docType): void
+        public function setDocType($docType)
         {
             $this->docType = $docType;
             //global systemConfig\config;
@@ -510,7 +510,7 @@ namespace tg {
          * @param $author
          * @throws \Exception
          */
-        public function addAuthor($author): void
+        public function addAuthor($author)
         {
             $this->authors[] = $author;
             $this->updateAuthor();
@@ -555,7 +555,7 @@ namespace tg {
          * @param $url
          * @throws \Exception
          */
-        public function addUrl($url): void
+        public function addUrl($url)
         {
             $this->urls[] = $url;
             //global systemConfig\config;
@@ -583,7 +583,7 @@ namespace tg {
          * @param $subject
          * @throws \Exception
          */
-        protected function createSubject($subject): void
+        protected function createSubject($subject)
         {
             //global systemConfig\config;
             $conn = SystemFrame::instance()->getConnection();
@@ -628,7 +628,7 @@ namespace tg {
          * @param $subject
          * @throws \Exception
          */
-        public function addSubject($subject): void
+        public function addSubject($subject)
         {
             //global systemConfig\config;
 
