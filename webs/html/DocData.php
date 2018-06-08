@@ -27,13 +27,24 @@ class DocData
         $result = $conn->query($insertSql);
         if($result === false)
             throw new \Exception("Fail to insert DocId into Table " . $conn->error,  errorCode\InsertIntoTableError);
-        $getDocIdSql = "SELECT LAST_INSERT_ID()";
+        SystemFrame::log_info("finish insert title");
+	$getDocIdSql = "SELECT LAST_INSERT_ID()";
         $result = $conn->query($getDocIdSql);
+	SystemFrame::log_info("finish query id");
         if($result === false)
             throw new \Exception("Fail to get Doc Id from Table " . $conn->error, errorCode\QueryTableError);
         $row = $result->fetch_row();
-        $document->setDocID($row[0]);
-        $document->updateData();
+        SystemFrame::log_info("Prepare to fetch id");
+	ob_start();
+	var_dump($row);
+	$tempInfo = ob_get_clean();
+	SystemFrame::log_info("Row Info " . $tempInfo);
+	SystemFrame::log_info("row 0 is " . $row[0]);
+	$document->setDocID($row[0]);
+        echo "What happened";
+	SystemFrame::log_info("Still launch?");
+	SystemFrame::log_info("Prepare to updateData");
+	$document->updateData();
 
 
     }

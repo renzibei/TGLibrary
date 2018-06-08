@@ -159,18 +159,11 @@ namespace tg {
         public function setDocID($docID): void
         {
             //global systemConfig\config;
-            $this->docID = $docID;
-            /*
-            if($this->isInDatabase() === true) {
-                $insertIntoTableSql = "INSERT INTO " . systemConfig\config['docTable'] . "( docId )" . " VALUES " . "( $docID )";
-                $conn = SystemFrame::instance()->getConnection();
-                $result = $conn->query($insertIntoTableSql);
-                if($result === false)
-                    throw new \Exception("Fail to insert docId into Table " . systemConfig\config['docTable'] . $conn->error,
-                                            errorCode\InsertIntoTableError);
-            }
-            */
-
+            SystemFrame::log_info("begin to set DocId");
+		$this->docID = $docID;
+		SystemFrame::log_info("finish set DocId");
+		echo "What will happen?";
+		echo "Still not happen";
         }
 
         /**

@@ -81,15 +81,19 @@
  */
     function testBook()
     {
-        require_once 'html/Book.php';
+        \tg\SystemFrame::log_info("begin to test Book");
+	require_once 'html/Book.php';
         require_once 'html/DocData.php';
         require_once 'html/retrieveSet.php';
-        $book = new \tg\Book('他改变了中国', array('长着'), 'Chinese', 1998,
+        \tg\SystemFrame::log_info("finish load inclued");
+	$book = new \tg\Book('他改变了中国', array('长着'), 'Chinese', 1998,
                 array("哲学", "膜蛤"), "人民出版社", array('www.baidu.com'), 'www.baidu.com', "不要总想搞个大新闻", '2332332', '精装');
-        \tg\SystemFrame::docData()->addDocument($book);
+        \tg\SystemFrame::log_info("new a book");
+	\tg\SystemFrame::docData()->addDocument($book);
+	\tg\SystemFrame::log_info("add book");
         $book2 = \tg\SystemFrame::docData()->getDocument(1);
         $books = \tg\SystemFrame::docData()->queryDoc(array(new \tg\retrieveTitle('他改变了中国'), new \tg\retrieveAuthor('长着')));
-
+	\tg\SystemFrame::log_info("query books");
         var_dump($books);
 
     }
@@ -115,7 +119,8 @@
         try {
             \tg\SystemFrame::log_info("begin to init");
             \tg\SystemFrame::instance()->initServer();
-            for($i = 1; $i < 2; $i++) {
+            \tg\SystemFrame::log_info("finish init");
+	     	for($i = 1; $i < 2; $i++) {
                 testBook();
             }
             \tg\SystemFrame::log_info("finish");
