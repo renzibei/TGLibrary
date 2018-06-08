@@ -48,6 +48,34 @@
 
     }
 
+    class testClass {
+        public $aa;
+
+        public function __construct($a)
+        {
+            $this->aa = $a;
+        }
+
+
+        function print()
+        {
+            echo get_called_class(). $this->aa . "<br />";
+        }
+    }
+
+    class testNew extends testClass {
+
+    }
+
+
+    function testNewClass()
+    {
+        $str = "testClass";
+        $a = new $str(2);
+        //$a->aa = 1;
+        $a->print();
+    }
+
 /**
  * @throws Exception
  */
@@ -55,9 +83,14 @@
     {
         require_once 'html/Book.php';
         require_once 'html/DocData.php';
+        require_once 'html/retrieveSet.php';
         $book = new \tg\Book('他改变了中国', array('长着'), 'Chinese', 1998,
                 array("哲学", "膜蛤"), "人民出版社", array('www.baidu.com'), 'www.baidu.com', "不要总想搞个大新闻", '2332332', '精装');
         \tg\SystemFrame::docData()->addDocument($book);
+        $book2 = \tg\SystemFrame::docData()->getDocument(1);
+        $books = \tg\SystemFrame::docData()->queryDoc(array(new \tg\retrieveTitle('他改变了中国'), new \tg\retrieveAuthor('长着')));
+
+        var_dump($books);
 
     }
 

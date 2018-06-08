@@ -124,8 +124,8 @@ class Book extends Document
                 $conn = SystemFrame::instance()->getConnection();
                 foreach ($this->ISBNs as $ISBN) {
                     $insertIsbnSql = "INSERT INTO " . \tg\systemConfig\config['identifierTable'] . " ( docId, identifierNum, identifierType ) 
-                                    SELECT * FROM ( SELECT $this->docID AS a, $ISBN AS b," .  identifierTypeArray["ISBN"] . " AS c ) AS tmp 
-                                     WHERE NOT EXISTS (SELECT identifierId FROM " . systemConfig\config['identifierTable'] . " WHERE docId = $this->docID AND identifierNum = $ISBN AND identifierType = " . identifierTypeArray["ISBN"]. ")";
+                                    SELECT * FROM ( SELECT $this->docID AS a, '$ISBN' AS b," .  identifierTypeArray["ISBN"] . " AS c ) AS tmp 
+                                     WHERE NOT EXISTS (SELECT identifierId FROM " . systemConfig\config['identifierTable'] . " WHERE docId = $this->docID AND identifierNum = '$ISBN' AND identifierType = " . identifierTypeArray["ISBN"]. ")";
                     $result = $conn->query($insertIsbnSql);
                     if($result === false)
                         throw new \Exception("Fail to update ISBN " . $conn->error, errorCode\InsertIntoTableError);

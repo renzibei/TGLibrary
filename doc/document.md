@@ -198,16 +198,17 @@
 
 #### Member Function
 
-| Function Name            | Return Type |
-| ------------------------ | ----------- |
-| getUsername              | string      |
-| getPassword              | string      |
-| getUid //编号            | string      |
-| getName                  | string      |
-| setPasswd(newPasswd)     | void        |
-| setUsername(newUsername) | void        |
-| setUid(newUid)           | void        |
-| setName(newName)         | void        |
+| Function Name            | Return Type           |
+| ------------------------ | --------------------- |
+| getUsername              | string                |
+| getPassword              | string                |
+| getUid //编号            | string                |
+| getName                  | string                |
+| setPasswd(newPasswd)     | void                  |
+| setUsername(newUsername) | void                  |
+| setUid(newUid)           | void                  |
+| setName(newName)         | void                  |
+| borrowList               | array of BorrowRecord |
 
 
 
@@ -296,3 +297,24 @@
 | deleteUser(\$uuid, \$deleteType) //type 为1时uuid为username, 默认为1 | void           |
 |                                                              |                |
 |                                                              |                |
+
+
+
+
+
+***
+
+### BorrorRecord
+
+#### Member Properties
+
+| Property Name | Type      |
+| ------------- | --------- |
+| user          | &User     |
+| realBook      | &realBook |
+| document      | &document |
+| beginDate     | string    |
+| dueDate       | string    |
+| returnDate    | string    |
+| isReturned    | bool      |
+

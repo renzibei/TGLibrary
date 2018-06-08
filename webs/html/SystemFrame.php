@@ -254,7 +254,7 @@ class SystemFrame{
             // $config;
             $createDocTableSql = 'CREATE TABLE IF NOT EXISTS ' . systemConfig\config['docTable'] ." (
                                     docId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-                                    PublicationYear YEAR,
+                                    publicationYear YEAR,
                                     title VARCHAR(1024) NOT NULL ,
                                     publisher VARCHAR(1024),
                                     volume INT,
