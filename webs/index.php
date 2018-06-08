@@ -94,7 +94,7 @@
         $book2 = \tg\SystemFrame::docData()->getDocument(1);
         $books = \tg\SystemFrame::docData()->queryDoc(array(new \tg\retrieveTitle('他改变了中国'), new \tg\retrieveAuthor('长着')));
 	\tg\SystemFrame::log_info("query books");
-        var_dump($books);
+      //  var_dump($books);
 
     }
 

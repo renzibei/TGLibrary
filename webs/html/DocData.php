@@ -34,16 +34,7 @@ class DocData
         if($result === false)
             throw new \Exception("Fail to get Doc Id from Table " . $conn->error, errorCode\QueryTableError);
         $row = $result->fetch_row();
-        SystemFrame::log_info("Prepare to fetch id");
-	ob_start();
-	var_dump($row);
-	$tempInfo = ob_get_clean();
-	SystemFrame::log_info("Row Info " . $tempInfo);
-	SystemFrame::log_info("row 0 is " . $row[0]);
 	$document->setDocID($row[0]);
-        echo "What happened";
-	SystemFrame::log_info("Still launch?");
-	SystemFrame::log_info("Prepare to updateData");
 	$document->updateData();
 
 

@@ -159,11 +159,9 @@ namespace tg {
         public function setDocID($docID): void
         {
             //global systemConfig\config;
-            SystemFrame::log_info("begin to set DocId");
+           // SystemFrame::log_info("begin to set DocId");
 		$this->docID = $docID;
-		SystemFrame::log_info("finish set DocId");
-		echo "What will happen?";
-		echo "Still not happen";
+		//SystemFrame::log_info("finish set DocId");
         }
 
         /**
