@@ -54,3 +54,5 @@ dbadmin
 $log
 *.log
 .idea/*
+.idea
+*.iml
