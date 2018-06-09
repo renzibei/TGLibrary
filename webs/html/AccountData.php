@@ -62,6 +62,47 @@ abstract class AccountData
     }
 
     /**
+     * @param null $username
+     * @param null $name
+     * @param null $userId
+     * @param null $uid
+     * @return array
+     * @throws \Exception
+     */
+    public function &multiQuery($username = NULL, $name = NULL, $userId = NULL ,$uid = NULL)
+    {
+        $querySql = "SELECT * FROM $this->accountTable WHERE TRUE ";
+        if(!empty($username)) {
+            $querySql .= " AND username = '$username' ";
+        }
+        if(!empty($name)) {
+            $querySql .= " AND name LIKE '%$name%' ";
+        }
+        if(!empty($userId)) {
+            if($this->accountTable === systemConfig\config['userTable'])
+                $querySql .= " AND userId = $userId ";
+            else if($this->accountTable === systemConfig\config['adminTable'])
+                $querySql .= " AND adminId = $userId";
+        }
+        if(!empty($uid)) {
+            if($this->accountTable === systemConfig\config['userTable'])
+                $querySql .= " AND uid = $uid";
+        }
+        $conn= SystemFrame::instance()->getConnection();
+        $result = $conn->query($querySql);
+        if($result === false)
+            throw new \Exception("Fail to query user from $this->accountTable " . $conn->error, errorCode\QueryTableError);
+        $returnAccounts = array();
+        while($row = $result->fetch_assoc()) {
+            $account = &$this->getAccountFromRow($row);
+            $returnAccounts[] = $account;
+        }
+        return $returnAccounts;
+
+    }
+
+
+    /**
      * @param $username
      * @return bool/Account
      * @throws \Exception
@@ -89,7 +130,11 @@ abstract class AccountData
     public function queryFromId($Id)
     {
         $conn = SystemFrame::instance()->getConnection();
-        $query = "SELECT * FROM $this->accountTable WHERE userId = $Id";
+        $query = "SELECT * FROM $this->accountTable " ;
+        if($this->accountTable === systemConfig\config['adminTable'])
+            $query .= " WHERE adminId = $Id";
+        else if($this->accountTable === systemConfig\config['userTable'])
+            $query .= " WHERE userId = $Id";
         $result = $conn->query($query);
         if($result->num_rows === 0)
             return false;

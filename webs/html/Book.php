@@ -117,7 +117,6 @@ class Book extends Document
      */
     public function addRealBook(RealBook &$realBook)
     {
-        $this->realBooks[] = $realBook;
         $insertBookSql = "INSERT INTO " . systemConfig\config['bookTable'] . " ( docId ) VALUES ($this->docID)";
         $conn = SystemFrame::instance()->getConnection();
         $result = $conn->query($insertBookSql);

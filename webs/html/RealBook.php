@@ -18,6 +18,7 @@ class RealBook extends Book
     protected $_version;
     protected $_isOnShelf;
     protected $_place;
+    //protected $_isbn;
 
     /**
      * RealBook constructor.
@@ -29,7 +30,7 @@ class RealBook extends Book
      * @param null $bookId
      * @throws \Exception
      */
-    public function __construct(Book &$book, $callNum, $version = 1, $isOnShelf = true, $place = NULL, $bookId = NULL)
+    public function __construct(Book &$book, $callNum, $version = 1, $isOnShelf = true, $place = NULL,  $bookId = NULL)
     {
         $this->_book = $book;
         $this->_callNum = $callNum;

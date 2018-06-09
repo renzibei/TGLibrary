@@ -12,6 +12,7 @@ namespace tg\errorCode {
     const SetMysqlCharSetError = 1009;
     const UpdateTableError = 1010;
     const FunctionParameterError = 1011;
+    const InCorrectIdentifierType = 1012;
 
     const DuplicateUsernameOrUid = 1062;
     //echo __NAMESPACE__ . " <br />" ;

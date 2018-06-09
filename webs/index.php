@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type"  content="text/html"  charset="UTF-8">
 
 
-<title>菜鸟教程(runoob.com)</title>
+<title>TGLibrary</title>
 </head>
 <body>
 <?php
@@ -99,13 +99,32 @@
             $book1 = $books[0];
             //var_dump($book1);
             $realBook1 = new \tg\RealBook($book1, 'k87.7', 1, true, '法学图书馆');
+            $realBook2 = new \tg\RealBook($book1, 'k909e.2', 2, true, '老馆');
             $book1->addRealBook($realBook1);
+            $book1->addRealBook($realBook2);
             $realBooks = $book1->getBooks();
             var_dump($realBooks);
         }
 	    \tg\SystemFrame::log_info("query books");
        // var_dump($books);
 
+    }
+
+
+    /**
+     * @throws Exception
+     */
+    function testJournal()
+    {
+        require_once 'html/Journal.php';
+        require_once 'html/DocData.php';
+
+        $journal1 = new \tg\Journal('Nature', array('吴冠中', "王"), 'English', 1999, "科学",
+                '科学出版社', array("www.sina.com", "www.nature.com"), "Nature Database", "少年你渴望力量吗",
+                "ae86", '1*1小开本');
+        \tg\SystemFrame::docData()->addDocument($journal1);
+        $journals = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveAuthor('王'))->And()), (new \tg\retrieveISSN("ae986"))->And());
+        var_dump($journals);
     }
 
 /**
@@ -131,7 +150,7 @@
             \tg\SystemFrame::instance()->initServer();
             \tg\SystemFrame::log_info("finish init");
 	     	for($i = 1; $i < 2; $i++) {
-                testBook();
+                testJournal();
             }
             \tg\SystemFrame::log_info("finish");
         } catch (Exception $e) {

@@ -11,6 +11,8 @@ namespace tg;
 require_once 'Document.php';
 require_once dirname(dirname(__DIR__)) . '/dbusers/dbadmin.php';
 require_once 'retrieveSet.php';
+require_once 'Journal.php';
+require_once 'User.php';
 
 
 
@@ -87,6 +89,24 @@ class DocData
 
     }
 
+    public function addBorrowRequest(BorrowRecord &$borrowRecord)
+    {
+        $insertBorrowRequestSql = "INSERT INTO " . systemConfig\config['borrowRequest'] . " ( userId ) VALUES ( " . $borrowRecord->getUser()->getUserId() . " )";
+        $conn = SystemFrame::instance()->getConnection();
+        $result = $conn->query($insertBorrowRequestSql);
+        if($result === false) {
+            throw new \Exception("Failt to insert borrowRecord " . $conn->error, errorCode\InsertIntoTableError);
+        }
+        $getRecordIdSql = "SELECT LAST_INSERT_ID()";
+        $result = $conn->query($getRecordIdSql);
+        if($result === false)
+            throw new \Exception("Fail to get request Id from Table " . $conn->error, errorCode\QueryTableError);
+        $row = $result->fetch_row();
+        $borrowRecord->setRequestId($row[0]);
+        $borrowRecord->updateData();
+
+    }
+
     /**
      * @param $docId
      * @return array
@@ -107,6 +127,8 @@ class DocData
         return $authors;
 
     }
+
+
 
     /**
      * @param $docId
@@ -170,16 +192,17 @@ class DocData
 
     /**
      * @param $docId
+     * @param string $identifierType
      * @return array
      * @throws \Exception
      */
-    protected function &getISBNsFromDocId($docId)
+    protected function &getIdentifierFromDocId($docId, $identifierType = "ISBN")
     {
         $conn = SystemFrame::instance()->getConnection();
-        $queryISBNSql = "SELECT identifierNum FROM " . systemConfig\config['identifierTable'] . " WHERE docId = $docId AND identifierType = " .  identifierTypeArray['ISBN'];
+        $queryISBNSql = "SELECT identifierNum FROM " . systemConfig\config['identifierTable'] . " WHERE docId = $docId AND identifierType = " .  identifierTypeArray[$identifierType];
         $result = $conn->query($queryISBNSql);
         if($result === false)
-            throw new \Exception("Fail to query isbn " . $conn->error, errorCode\QueryTableError);
+            throw new \Exception("Fail to query identifier " . $conn->error, errorCode\QueryTableError);
         $ISBNs = array();
         while($row = $result->fetch_assoc()) {
             $ISBNs[] = $row['identifierNum'];
@@ -198,9 +221,15 @@ class DocData
         $docId = $row['docId'];
         switch ($docType) {
             case docTypeArray['Book']:
-                $doc = new Book($row['title'], $this->getAuthorsFromDocId($docId), $this->getLanguageFromDocId($docId), $row['publicationYear'], $this->getSubjectsFromDocId($docId), $row['publisher'], $this->getUrlsFromDocId($docId), $row['source'], $row['description'],
-                    $this->getISBNsFromDocId($docId), $row['format'], $docId );
-
+                $doc = new Book($row['title'], $this->getAuthorsFromDocId($docId), $this->getLanguageFromDocId($docId),
+                    $row['publicationYear'], $this->getSubjectsFromDocId($docId), $row['publisher'], $this->getUrlsFromDocId($docId),
+                    $row['source'], $row['description'], $this->getIdentifierFromDocId($docId, "ISBN"), $row['format'], $docId );
+                break;
+            case docTypeArray['Journal']:
+                $doc = new Journal($row['title'], $this->getAuthorsFromDocId($docId), $this->getLanguageFromDocId($docId),
+                    $row['publicationYear'], $this->getSubjectsFromDocId($docId), $row['publisher'], $this->getUrlsFromDocId($docId),
+                    $row['source'], $row['description'], $this->getIdentifierFromDocId($docId, "ISSN"), $row['format'], $docId );
+                break;
         }
 
         return $doc;
