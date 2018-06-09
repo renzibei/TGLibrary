@@ -6,74 +6,12 @@
 <title>TGDD.com</title>
 <link rel="stylesheet" type="text/css" href="../css/background.css">
 <link rel="stylesheet" type="text/css" href="../css/divbase.css">
+<link rel="stylesheet" type="text/css" href="../css/alink.css">
+<link rel="stylesheet" type="text/css" href="../css/loggedinbtn.css">
+<link rel="stylesheet" type="text/css" href="../css/flippage.css">
 <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+
 <script src="../bootstrap/js/bootstrap.min.js"></script>
-<style>
-
-a:link {color:black; text-decoration:none;}
-a:visited {color:black; text-decoration:none;}
-a:hover {color:black; text-decoration: underline;}
-a:active {color:black; text-decoration: underline;}
-/*
-body
-{
-	background-image:url("timg.jpeg");
-}
-
-h1
-{
-	color:orange;
-}
-
-h3 {color:white;}
-
-div {
-    width: 400px;
-    padding: 10px;
-    margin: auto;
-}
-
-.secondary
-{
-	width: 200px;
-	padding: 10px;
-	margin: auto;
-}
-
-.indent
-{
-	position: relative;
-	left:50px;
-}
-
-.white {color:white;}
-
-.img1
-{
-	border-style:groove;
-	border-color:green;
-	border-width:10px;
-	position: absolute;
-	left:0px;
-  top:0px;
-	z-index: -1;
-}
-
-.mark1
-{
-	position:relative;
-	left:400px;
-}
-
-p
-{
-	font-family:"Times New Roman";
-	color:white;
-	fbont-size:20px;
-	white-space:nowrap;
-}*/
-
-</style>
 </head>
 
 <body>
@@ -83,12 +21,14 @@ p
 	</div>
 
 	<div class="divbase panel panel-info">
-		<div class="btn-group" display:"table">
-  		<button type="button" class="btn btn-info">我的图书</button>　　　
-  		<button type="button" class="btn btn-primary">退出登录</button>
-		</div>
-
-
+				<div class="btn-group" display:"table">
+					<a href="mylib.html" class="loggedin1">
+						<button type="button" class="btn btn-info">我的图书</button>　　　
+					</a>
+					<a href="index.html" class="loggedin2">
+						<button type="button" class="btn btn-primary">退出登录</button>
+					</a>
+				<div>
 
 <h3><span style="font-size:x-large"><a href="/css/" target="_self">海量资源</a>  <a href="/css/" target="_self">纸本图书</a>  <a href="/css/" target="_self">电子图书</a>  <a href="/css/" target="_self">纸本期刊</a>  <a href="/css/" target="_self">电子期刊</a>  <a href="/css/" target="_self">音像制品</a>  <a href="/css/" target="_self">古籍</a></span></h3>
 
@@ -100,7 +40,7 @@ p
 <span class = "white indent"> <?php echo "我们为您找到了" . $numofResults . "条结果。"?></span>
 
 
-	<br><br><br><br><br><br><br><br>
+	<div class="flippage">
 	<ul class="pagination">
     <li><a href="#">&laquo;</a></li>
     <li class="active"><a href="#">1</a></li>
@@ -110,6 +50,7 @@ p
     <li><a href="#">5</a></li>
     <li><a href="#">&raquo;</a></li>
 	</ul>
+	</div>
 
 	</div>
 </body>

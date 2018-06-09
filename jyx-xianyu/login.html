@@ -7,62 +7,8 @@
 <link rel="stylesheet" type="text/css" href="../css/background.css">
 <link rel="stylesheet" type="text/css" href="../css/logindiv.css">
 <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+
 <script src="../bootstrap/js/bootstrap.min.js"></script>
-
-
-<style>
-/*
-h1
-{
-	text-align: center;
-	color:orange;
-}
-
-div {
-    width: 400px;
-    padding: 10px;
-    margin: auto;
-		position:relative;
-		left:40px;
-}
-
-h3 {color:white;}
-
-.small{
-	width: 50px;
-	padding: 10px;
-	margin: auto;
-	position:relative;
-	left:-10px;
-}
-
-.white {color:white;}
-.enlarge {font-size:150%;}
-
-.img1
-{
-	border-style:groove;
-	border-color:green;
-	border-width:10px;
-	position: absolute;
-	left:0px;
-  top:0px;
-	z-index: -1;
-}
-
-p
-{
-	color:white;
-	font-size:20px;
-	white-space:nowrap;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-}
-
-.error {color: #FF0000;}
-*/
-</style>
 </head>
 
 <body>
@@ -118,37 +64,25 @@ function test_input($data)
 	<div class="panel-heading">
 		<h3 class="panel-title">登录</h3>
 	</div>
+
 	<div class="panel-body">
 		<form role="form">
 			<div class="form-group">
 				<br><br>
-				<label for="name">学号/工号</label>
-				<input type="text" class="form-control" id="id"
-					   placeholder="请输入学生ID/教工ID">
+				<label for="name">学号/工号/用户名</label>
+				<input type="text" class="form-control" id="id" placeholder="请输入学生ID/教工ID/用户名">
 			</div>
 			<div class="form-group">
 				<label for="password">密码</label>
-				<input type="text" class="form-control" id="password"
-					   placeholder="请输入密码">
+				<input type="text" class="form-control" id="password" placeholder="请输入密码">
 			</div>
 			<br><br>
-			<button type="button" class="btn btn-primary btn-lg center-block">登录</button>
+      <a href="index (logged in).html">
+			  <button type="button" class="btn btn-primary btn-lg center-block">登录</button>
+      </a>
 	</div>
 </div>
 
-<!--
-<h1>登录界面</h1>
-<span class="white center enlarge">
-<div>
-<form method="post" action="index (logged in).html">
-<br><br>学生ID/教工ID:　　<input type="text" name="ID">
-<br><br>密码:　　　　　　<input type="password" name="password">
-</div>
-<div class="small">
-<br><br><input type="submit" name = "submit" value="登录">
-</div>
-</form>
-</span>-->
 </body>
 
 </html>

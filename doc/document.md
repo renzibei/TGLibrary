@@ -161,7 +161,7 @@
 | addDocument(Document&)    | void              |
 | addRealBook(Document&)    | void              |
 | deleteDocument(Document&) | void              |
-| getDocment(docID)         | Document&         |
+| getDocument(docID)        | Document&         |
 | getRealBook(bookID)       | RealBook&         |
 |                           |                   |
 |                           |                   |
