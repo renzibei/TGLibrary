@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type"; content="text/html"; charset="utf-8">
+<title>TGDD.com</title>
+<style>
+a:link {color:white; text-decoration:none;}      /* 未访问链接*/
+a:visited {color:white; text-decoration:none;}  /* 已访问链接 */
+a:hover {color:white; text-decoration: underline;}  /* 鼠标移动到链接上 */
+a:active {color:white; text-decoration: underline;}  /* 鼠标点击时 */
+
+body
+{
+	background-image:url("timg.jpeg");
+}
+
+h1
+{
+	color:orange;
+}
+
+div {
+    width: 400px;
+    padding: 10px;
+    margin: auto;
+		/*position:relative;
+		left:10px;*/
+}
+
+.secondary
+{
+	width: 200px;
+	padding: 10px;
+	margin: auto;
+}
+
+h3
+{
+	color:white;
+}
+
+.white
+{
+	color:white;
+}
+
+.mark1
+{
+	position:relative;
+	left:400px;
+}
+
+.img1
+{
+	border-style:groove;
+	border-color:green;
+	border-width:10px;
+	position: absolute;
+	left:0px;
+  top:0px;
+	z-index: -1;
+}
+
+p
+{
+	font-family:"Times New Roman";
+	color:white;
+	font-size:20px;
+	white-space:nowrap;
+}
+</style>
+</head>
+
+<body>
+<img class="img1" src="logo.jpeg" width="100" height="100" position="left top"/>
+<h1 style="text-align:center">踢馆大队の学术搜索平台</h1>
+<br><br>
+<div class="secondary">
+<b><a class="mark1" style="font-size:larger" href="mylib.html" target="_self">我的图书</a>　　<a style="font-size:larger" class="mark1" href="index.html" target="_self">退出登录</a></b>
+</div>
+
+<div>
+<h3><span style="text-align:center; font-size:x-large"><a href="/css/" target="_blank">海量资源</a>  <a href="/css/" target="_blank">纸本图书</a>  <a href="/css/" target="_blank">电子图书</a>  <a href="/css/" target="_blank">纸本期刊</a>  <a href="/css/" target="_blank">电子期刊</a>  <a href="/css/" target="_blank">音像制品</a>  <a href="/css/" target="_blank">古籍</a></span></h3>
+
+<form action="" method="post"> <input type="radio" name="searchtype" value="bookname" /><span style="text-align:center; font-size:x-large" class="white">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large" class="white">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large" class="white">按作者</span>
+<input type="text" name="bookname"> <input type="submit" value="搜索">
+</div>
+</form>
+</body>
