@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+<body>
+
+<p id="p1">Hello World!</p>
+<script>
+document.getElementById("p1").innerHTML="新文本!";
+</script>
+<p>以上段落通过脚本修改文本。</p>
+
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+<body>
+
+<h1 id="header">旧标题</h1>
+<script>
+var element=document.getElementById("header");
+element.innerHTML="新标题";
+</script>
+<p>"旧标题" 被 "新标题" 取代。</p>
+
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+<body>
+
+<img id="image" src="smiley.gif" width="160" height="120">
+<script>
+document.getElementById("image").src="landscape.jpg";
+</script>
+<p>原图片为 smiley.gif,脚本将图片修改为 landscape.jpg</p>
+
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+<body>
+
+<p id="p1">Hello World!</p>
+<p id="p2">Hello World!</p>
+<script>
+document.getElementById("p2").style.color="blue";
+document.getElementById("p2").style.fontFamily="Arial";
+document.getElementById("p2").style.fontSize="larger";
+</script>
+<p>以上段落通过脚本修改。</p>
+
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+<body>
+
+<h1 id="id1">我的标题 1</h1>
+<button type="button" onclick="document.getElementById('id1').style.color='red'">
+点我!</button>
+
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+<body>
+
+<h1 onclick="this.innerHTML='Ooops!'">点击文本!</h1>
+
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function changetext(id)
+{
+    id.innerHTML="Ooops!";
+}
+</script>
+</head>
+<body>
+<h1 onclick="changetext(this)">点击文本!</h1>
+</body>
+</html> 
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+<head>
+<script>
+function myFunction(){
+	var x=document.getElementById("fname");
+	x.value=x.value.toUpperCase();
+}
+</script>
+</head>
+<body>
+
+输入你的名字: <input type="text" id="fname" onchange="myFunction()">
+<p>当你离开输入框后，函数将被触发，将小写字母转为大写字母。</p>
+
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+<body>
+
+<div onmouseover="mOver(this)" onmouseout="mOut(this)" style="background-color:#D94A38;width:120px;height:20px;padding:40px;">Mouse Over Me</div>
+<script>
+function mOver(obj){
+	obj.innerHTML="Thank You"
+}
+function mOut(obj){
+	obj.innerHTML="Mouse Over Me"
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+<head>
+<script>
+function lighton(){
+	document.getElementById('myimage').src="bulbon.gif";
+}
+function lightoff(){
+	document.getElementById('myimage').src="bulboff.gif";
+}
+</script>
+</head>
+
+<body>
+<img id="myimage" onmousedown="lighton()" onmouseup="lightoff()" src="bulboff.gif" width="100" height="180" />
+<p>点击不释放鼠标灯将一直亮着!</p>
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+<body>
+
+<p>该实例使用 addEventListener() 方法在按钮中添加点击事件。 </p>
+<button id="myBtn">点我</button>
+<script>
+document.getElementById("myBtn").addEventListener("click", function(){
+    alert("Hello World!");
+});
+</script>
+
+</body>
+</html>
+
+
+
+jQuery语法
+
+    美元符号定义 jQuery
+    选择符（selector）"查询"和"查找" HTML 元素
+    jQuery 的 action() 执行对元素的操作
+
+实例:
+
+    $(this).hide() - 隐藏当前元素
+
+    $("p").hide() - 隐藏所有 <p> 元素
+
+    $("p.test").hide() - 隐藏所有 class="test" 的 <p> 元素
+
+    $("#test").hide() - 隐藏所有 id="test" 的元素
+
+
+<script>
+$(function(){
+ 
+   // 开始写 jQuery 代码...
+ 
+});
+</script>
+//这样做可以确保网站加载完毕再执行函数。
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js">
+</script>
+<script> 
+$(document).ready(function(){
+  $("#flip").click(function(){
+    $("#panel").slideToggle("slow");
+  });
+});
+</script>
+ 
+<style type="text/css"> 
+#panel,#flip
+{
+	padding:5px;
+	text-align:center;
+	background-color:#e5eecc;
+	border:solid 1px #c3c3c3;
+}
+#panel
+{
+	padding:50px;
+	display:none;
+}
+</style>
+</head>
+<body>
+ 
+<div id="flip">点我，显示或隐藏面板。</div>
+<div id="panel">Hello world!</div>
+
+</body>
+</html>

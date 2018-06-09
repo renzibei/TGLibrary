@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html" charset="utf-8">
+<link rel="stylesheet" type="text/css" href="../css/background.css">
+<link rel="stylesheet" type="text/css" href="../css/divbase.css">
+<link rel="stylesheet" type="text/css" href="../css/loggedinbtn.css">
+<link rel="stylesheet" type="text/css" href="../css/aside.css">
+<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+
+<script src="../bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+        $(function(){
+            $("#send").click(function(){
+                var cont = $("input").serialize();
+                $.ajax({
+                    url:'search.php',
+                    type:'post',
+                    dataType:'json',
+                    data:cont,
+                    success:function(data){
+                        var str = "DocId：" + data.docid + "<br>书名：" + data.title +
+                            + "<br>作者：" + data.author + "<br>出版社：" + data.publisher
+                        + "<br>语言：" + data.language;
+                        $("#result").html(str);
+                    }
+                });
+            });
+        });
+	</script>
+</head>
+
+<body>
+	<div class="page-header">
+			<h1 style="color:white">图书详情
+			</h1>
+	</div>
+	<div class="divbase panel panel-info">
+		<div class="btn-group">
+			<a href="mylib.html" class="loggedin1">
+				<button type="button" class="btn btn-info">我的图书</button>　　　
+			</a>
+			<a href="index.html" class="loggedin2">
+				<button type="button" class="btn btn-primary">退出登录</button>
+			</a>
+		</div>
+
+		<h1>书名</h1>
+
+		<img src="../images/book.jpeg" width="240" height="300"/>
+
+		<div class="aside">
+			<br>
+			<h2 class="white" style="font-size:x-large">基本信息</h2>
+			<p id="details" style="font-size:x-large"> 书名：<br>出版社：<br>页数：<br>ISBN：<br>
+			剩余库存：　　本可借阅<br>
+			<a href="reserveSuccess.html">
+				<button type="button" class="btn btn-success">我要预约</button>
+			</a>
+		</div>
+
+		<br><br>
+		<span style="position:relative; top:-260px">
+			<h3 class="white" style="font-size:x-large">内容简介</h3>
+			<?php
+  		echo $summary;
+			?>
+
+			<br><br>
+			<h3 class="white" style="font-size:x-large">目录</h3>
+			<?php
+  		echo $contents;
+			?>
+			<br><br><br><br>
+			<a href="searchResults.html">
+				<button type="button" class="btn btn-primary btn-lg center-block">返回</button>
+			</a>
+		</span>
+	</div>
+	<br><br><br><br>
+
+
+</body>
+</html>

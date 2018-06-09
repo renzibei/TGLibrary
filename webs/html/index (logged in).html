@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type"; content="text/html"; charset="utf-8">
+<title>TGDD.com</title>
+<link rel="stylesheet" type="text/css" href="../css/background.css">
+<link rel="stylesheet" type="text/css" href="../css/indexdiv.css">
+<link rel="stylesheet" type="text/css" href="../css/alink.css">
+<link rel="stylesheet" type="text/css" href="../css/loggedinbtn.css">
+
+<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+
+<script src="../bootstrap/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<div class="page-header">
+	    <h1 style="color:white">踢馆大队の学术搜索平台
+	    </h1>
+	</div>
+
+	<div class="indexdiv panel panel-info">
+			<div class="btn-group">
+				<a href="mylib.html" class="loggedin1">
+					<button type="button" class="btn btn-info">我的图书</button>　　　
+				</a>
+				<a href="index.html" class="loggedin2">
+					<button type="button" class="btn btn-primary">退出登录</button>
+				</a>
+			<div>
+	</div>
+	<h3><span style="font-size:x-large"><a href="/css/" target="_self">海量资源</a>  <a href="/css/" target="_self">纸本图书</a>  <a href="/css/" target="_self">电子图书</a>  <a href="/css/" target="_self">纸本期刊</a>  <a href="/css/" target="_self">电子期刊</a>  <a href="/css/" target="_self">音像制品</a>  <a href="/css/" target="_self">古籍</a></span></h3>
+
+<form action="search.php" method="post"><input type="radio" name="searchtype" value="bookname" /><span style="text-align:center; font-size:x-large" class="white">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large" class="white">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large" class="white">按作者</span>
+	<div class="form-group">
+		<label for="bookname"></label>
+		<input type="text" class="form-control col-lg" id="bookname"
+				 placeholder="请输入搜索关键字">
+	<br><br><br><br><br>
+	<a href="searchResults.html">
+		<button type="button" class="btn btn-info btn-lg center-block">搜索</button>
+	</a>
+	</div>
+</form>
+</body>
