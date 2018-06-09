@@ -28,14 +28,14 @@ class DocData
         if($result === false)
             throw new \Exception("Fail to insert DocId into Table " . $conn->error,  errorCode\InsertIntoTableError);
         SystemFrame::log_info("finish insert title");
-	$getDocIdSql = "SELECT LAST_INSERT_ID()";
+        $getDocIdSql = "SELECT LAST_INSERT_ID()";
         $result = $conn->query($getDocIdSql);
-	SystemFrame::log_info("finish query id");
+        SystemFrame::log_info("finish query id");
         if($result === false)
             throw new \Exception("Fail to get Doc Id from Table " . $conn->error, errorCode\QueryTableError);
         $row = $result->fetch_row();
-	$document->setDocID($row[0]);
-	$document->updateData();
+        $document->setDocID($row[0]);
+        $document->updateData();
 
 
     }
@@ -76,11 +76,12 @@ class DocData
         foreach ($retrieveList as $condition) {
             $querySql .= $condition;
         }
+        //echo $querySql ." <br />";
         $conn = SystemFrame::instance()->getConnection();
         $result = $conn->query($querySql);
         $docList = array();
         while($row = $result->fetch_assoc()) {
-            $docList[] = $this->getDocumentFromRow($row);
+            $docList[] = &$this->getDocumentFromRow($row);
         }
         return $docList;
 

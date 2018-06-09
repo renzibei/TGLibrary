@@ -34,7 +34,7 @@ abstract class retrieveStrategy
 
     public function &Not()
     {
-        $retrieveStrategy = " NOT " . $this->sonRetrieveStr();
+        $retrieveStrategy = " AND NOT " . $this->sonRetrieveStr();
         return $retrieveStrategy;
     }
 

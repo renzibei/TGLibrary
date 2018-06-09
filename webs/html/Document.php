@@ -658,7 +658,7 @@ namespace tg {
             //global systemConfig\config;
             $conn = SystemFrame::instance()->getConnection();
             if(isset($this->docID)) {
-                $queryDocSql = "SELECT * FROM " . systemConfig\config['docTable'] . " WHERE docId = $this->docID";
+                $queryDocSql = "SELECT docId FROM " . systemConfig\config['docTable'] . " WHERE docId = $this->docID";
                 $result = $conn->query($queryDocSql);
                 if($result === false)
                     throw new \Exception("Fail to query from table " . systemConfig\config['docTable'] . $conn->error, errorCode\QueryTableError);

@@ -144,7 +144,6 @@
 | isOnShelf               | bool        |
 | getPlace                | string      |
 | language                | string      |
-| docType                 | string      |
 
 
 
@@ -304,7 +303,7 @@
 
 ***
 
-### BorrorRecord
+### BorrowRecord
 
 #### Member Properties
 

@@ -16,6 +16,7 @@ class Book extends Document
     protected $ISBNs;
     protected $format;
     protected $publicationYear;
+    protected $realBooks;
 
 
     /**
@@ -70,7 +71,68 @@ class Book extends Document
         }
         $this->format = $format;
         $this->docID = $docId;
+        $this->setRealBooks();
         $this->updateData();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    protected function setRealBooks()
+    {
+        if(isset($this->docID) && $this->isInDatabase()) {
+            $queryBookSql = " SELECT * FROM " . systemConfig\config['bookTable'] . " WHERE docId = $this->docID ";
+            $conn = SystemFrame::instance()->getConnection();
+            $result = $conn->query($queryBookSql);
+            if ($result === false)
+                throw new \Exception("Fail to query real books " . $conn->error, errorCode\QueryTableError);
+            $books = array();
+            while ($row = $result->fetch_assoc()) {
+                if(!isset($row['placeId']))
+                    $bookPlaceStr = NULL;
+                else {
+                    $getPlaceSql = " SELECT placeName FROM " . systemConfig\config['placeTable'] . " WHERE placeId = " . $row['placeId'];
+                    $placeResult = $conn->query($getPlaceSql);
+                    if ($placeResult === false)
+                        throw new \Exception("Fail to query Place " . $conn->error, errorCode\QueryTableError);
+                    if ($placeResult->num_rows === 1) {
+                        $bookPlaceRow = $placeResult->fetch_assoc();
+                        $bookPlaceStr = $bookPlaceRow['placeName'];
+                    } else $bookPlaceStr = NULL;
+                }
+                $books[] = new RealBook($this, $row['callNumber'], $row['version'], $row['isOnShelf'], $bookPlaceStr, $row['bookId']);
+            }
+            $this->realBooks = $books;
+        }
+    }
+
+    public function getBooks()
+    {
+        return $this->realBooks;
+    }
+
+    /**
+     * @param RealBook $realBook
+     * @throws \Exception
+     */
+    public function addRealBook(RealBook &$realBook)
+    {
+        $this->realBooks[] = $realBook;
+        $insertBookSql = "INSERT INTO " . systemConfig\config['bookTable'] . " ( docId ) VALUES ($this->docID)";
+        $conn = SystemFrame::instance()->getConnection();
+        $result = $conn->query($insertBookSql);
+        if($result === false)
+            throw new \Exception("Fail to insert Real Book " . $conn->error, errorCode\InsertIntoTableError);
+        $getBookIdSql = "SELECT LAST_INSERT_ID()";
+        $result = $conn->query($getBookIdSql);
+        SystemFrame::log_info("finish query bookId");
+        if($result === false)
+            throw new \Exception("Fail to get Book Id from Table " . $conn->error, errorCode\QueryTableError);
+        $row = $result->fetch_row();
+        $realBook->setBookId($row[0]);
+        $realBook->updateData();
+        $this->realBooks[] = $realBook;
+
     }
 
     public function updateData()

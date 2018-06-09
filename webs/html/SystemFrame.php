@@ -446,7 +446,7 @@ class SystemFrame{
 
 
             $createPlaceTableSql = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['placeTable'] . "(
-                                            placeId INT PRIMARY KEY,
+                                            placeId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                                             placeName VARCHAR(4096)
                                         )";
             if($conn->query($createPlaceTableSql) === false)
@@ -489,7 +489,7 @@ class SystemFrame{
 
             } catch (Exception $e) {
                 self::log_info($e->getMessage());
-		var_dump($e);
+		        //var_dump($e);
                 throw $e;
             }
 
