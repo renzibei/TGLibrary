@@ -3,86 +3,41 @@
 <head>
 <meta http-equiv="content-type"; content="text/html"; charset="utf-8">
 <title>TGDD.com</title>
-<style>
-a:link {color:white; text-decoration:none;}      /* 未访问链接*/
-a:visited {color:white; text-decoration:none;}  /* 已访问链接 */
-a:hover {color:white; text-decoration: underline;}  /* 鼠标移动到链接上 */
-a:active {color:white; text-decoration: underline;}  /* 鼠标点击时 */
+<link rel="stylesheet" type="text/css" href="../css/background.css">
+<link rel="stylesheet" type="text/css" href="../css/indexdiv.css">
+<link rel="stylesheet" type="text/css" href="../css/alink.css">
+<link rel="stylesheet" type="text/css" href="../css/loginbtn.css">
 
-body
-{
-	background-image:url("timg.jpeg");
-}
+<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
 
-h1
-{
-	color:orange;
-}
-
-div {
-    width: 400px;
-    padding: 10px;
-    margin: auto;
-		/*position:relative;
-		left:10px;*/
-}
-
-.small{
-	width: 50px;
-	padding: 10px;
-	margin: auto;
-	position:relative;
-	left:-10px;
-}
-
-h3
-{
-	color:white;
-}
-
-.white
-{
-	color:white;
-}
-
-.img1
-{
-	border-style:groove;
-	border-color:green;
-	border-width:10px;
-	position: absolute;
-	left:0px;
-  top:0px;
-	z-index: -1;
-}
-
-p
-{
-	font-family:"Times New Roman";
-	color:white;
-	font-size:20px;
-	white-space:nowrap;
-}
-</style>
+<script src="../bootstrap/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-<img class="img1" src="logo.jpeg" width="100" height="100" position="left top"/>
-<h1 style="text-align:center">踢馆大队の学术搜索平台</h1>
-<br><br>
-<div>
-<h3><span style="text-align:center; font-size:x-large"><a href="/css/" target="_blank">海量资源</a>  <a href="/css/" target="_blank">纸本图书</a>  <a href="/css/" target="_blank">电子图书</a>  <a href="/css/" target="_blank">纸本期刊</a>  <a href="/css/" target="_blank">电子期刊</a>  <a href="/css/" target="_blank">音像制品</a>  <a href="/css/" target="_blank">古籍</a></span></h3>
+	<div class="page-header">
+	    <h1 style="color:white">踢馆大队の学术搜索平台
+	    </h1>
+	</div>
 
-<form action="" method="post"> <input type="radio" name="searchtype" value="bookname" /><span style="text-align:center; font-size:x-large" class="white">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large" class="white">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large" class="white">按作者</span>
-</form>
-<form action="index.php" method="post"><input type="text" name="bookname"> <input type="submit" value="搜索">
-</form>
-</div>
-<br><br><br><br>
-<form action="login.html" method="post">
+	<div class="indexdiv panel panel-info">
 
-<div class="small">
-<input type="submit" value="登录">
-</span>
-</div>
+		<div class="loginbtn">
+			<a href="login.html">
+				<button type="button" class="btn btn-primary">用户登录</button>
+			</a>
+		</div>
+		<h3><span style="font-size:x-large"><a href="/css/" target="_self">海量资源</a>  <a href="/css/" target="_self">纸本图书</a>  <a href="/css/" target="_self">电子图书</a>  <a href="/css/" target="_self">纸本期刊</a>  <a href="/css/" target="_self">电子期刊</a>  <a href="/css/" target="_self">音像制品</a>  <a href="/css/" target="_self">古籍</a></span></h3>
+
+		<form action="index.php" method="post"><input type="radio" name="searchtype" value="bookname" /><span style="text-align:center; font-size:x-large" class="white">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large" class="white">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large" class="white">按作者</span>
+			<div class="form-group">
+				<label for="bookname"></label>
+				<input type="text" class="form-control col-lg" id="bookname" placeholder="请输入搜索关键字">
+				<br><br><br><br><br>
+				<a href="searchResults.html">
+					<button type="button" action="searchResults.html" class="btn btn-info btn-lg center-block">搜索</button>
+				</a>
+			</div>
+		</form>
+
+	</div>
 </body>
