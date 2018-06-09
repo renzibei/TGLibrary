@@ -53,3 +53,4 @@ dbadmin
 
 $log
 *.log
+.idea/*
