@@ -19,6 +19,9 @@ public:
     explicit Addnewreader(QWidget *parent = 0);
     ~Addnewreader();
 
+public:
+    void SendData(QJsonObject qjsonpass);
+
 private slots:
     void on_pushButton_2_clicked();
 
@@ -32,6 +35,7 @@ private:
     QByteArray bytearray;
     QJsonObject addreaderjson;
     QHostAddress hostaddress;
+    QJsonObject getpassjson;
 };
 
 #endif // ADDNEWREADER_H

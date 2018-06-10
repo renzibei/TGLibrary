@@ -12,9 +12,9 @@ WelcomePage::WelcomePage(QWidget *parent) :
     ui->setupUi(this);
     this->resize(QSize(800,600));
     this->setAttribute(Qt::WA_DeleteOnClose);
-    QMovie *welcomemovie = new QMovie(":/Image/sakura_pink1.gif");
-    ui->label->setMovie(welcomemovie);
-    welcomemovie->start();
+   // QMovie *welcomemovie = new QMovie(":/Image/sakura_pink1.gif");
+   // ui->label->setMovie(welcomemovie);
+   // welcomemovie->start();
 
     loginsocket = new QTcpSocket();
     QObject::connect(loginsocket, &QTcpSocket::readyRead, this, &WelcomePage::socket_Read_Data);
@@ -36,7 +36,7 @@ void WelcomePage::on_En_Bt_clicked()
         hostaddress.setAddress(QString("35.194.106.246"));
         loginsocket->connectToHost(hostaddress,8333);
 
-        if(!loginsocket->waitForConnected(10000))
+        if(!loginsocket->waitForConnected(30000))
         {
         QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
         return;
@@ -53,6 +53,7 @@ void WelcomePage::on_En_Bt_clicked()
         loginsocket->write( std::to_string(bytearray.size()).c_str() );
         loginsocket->write(bytearray);
     }
+}
 
 
 void WelcomePage::socket_Read_Data()
@@ -85,13 +86,15 @@ void WelcomePage::socket_Read_Data()
 
 
 
-}
+
 
 void WelcomePage::on_Ex_Bt_clicked()
 {
     this->close();
 }
 
-void WelcomePage::reshow(){
+void WelcomePage::reshow()
+{
     this->show();
 }
+

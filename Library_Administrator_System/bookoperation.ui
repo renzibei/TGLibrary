@@ -16,7 +16,7 @@
   <widget class="QTableWidget" name="bookinformation">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>20</x>
      <y>0</y>
      <width>801</width>
      <height>681</height>
@@ -78,7 +78,7 @@
    </row>
    <column/>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="add_Books">
    <property name="geometry">
     <rect>
      <x>210</x>

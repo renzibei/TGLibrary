@@ -12,6 +12,8 @@ ReaderManagement::ReaderManagement(QWidget *parent) :
     this->setAttribute(Qt::WA_DeleteOnClose);
     connect(ui->Readerm_Return_bt, SIGNAL(clicked()), this, SLOT(close()));
 
+    ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+
     readersocket = new QTcpSocket();
     QObject::connect(readersocket, &QTcpSocket::readyRead, this, &ReaderManagement::socket_Read_Data);
 }
@@ -29,17 +31,6 @@ void ReaderManagement::on_pushButton_2_clicked()
     addnewreader->show();
 }
 
-void ReaderManagement::on_pushButton_3_clicked()
-{
-
-
-    if(ui->Input_Edit->text()=="")
-    QMessageBox::warning(this, tr("似乎出错了……"), tr("只用输一个参数还不满足人家的需求~"));
-     /*等待大神添加数据库判断操作
-    else if()
-    QMessageBox::warning(this, tr("似乎出错了……"), tr("数据库中不存在这名读者！"));
-    */
-}
 
 void ReaderManagement::on_pushButton_4_clicked()
 {
@@ -56,15 +47,29 @@ void ReaderManagement::on_pushButton_4_clicked()
         QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
         return;
         }
-
-        readerjson.insert("jsontype", "9");
+        if(ui->comboBox->currentText()=="读者姓名"||ui->comboBox->currentText()=="读者用户名"||ui->comboBox->currentText()=="读者工作证号")
+        {
+           readerjson.insert("jsontype", "9");
 
         if(ui->comboBox->currentText()=="读者姓名")
-            readerjson.insert("name",ui->Input_Edit->text(););
-        if(ui->comboBox->currentText()=="读者卡号")
+            readerjson.insert("name",ui->Input_Edit->text());
+        if(ui->comboBox->currentText()=="读者用户名")
             readerjson.insert("username",ui->Input_Edit->text());
-        if(ui->comboBox->currentText()=="工作证号")
-            readerjson.insert("userID",ui->Input_Edit->text());
+        if(ui->comboBox->currentText()=="读者工作证号")
+            readerjson.insert("uid",ui->Input_Edit->text());
+
+            readerjson.insert("usertype","0");
+        }
+        else
+        {
+            readerjson.insert("jsontype", "9");
+            if(ui->comboBox->currentText()=="管理员姓名")
+                readerjson.insert("name",ui->Input_Edit->text());
+            if(ui->comboBox->currentText()=="管理员用户名")
+                readerjson.insert("username",ui->Input_Edit->text());
+
+            readerjson.insert("usertype","1");
+        }
 
 
         QJsonDocument sendjson;
@@ -73,4 +78,72 @@ void ReaderManagement::on_pushButton_4_clicked()
         readersocket->write( std::to_string(bytearray.size()).c_str() );
         readersocket->write(bytearray);
 }
+}
+
+void ReaderManagement::on_Modifieduser_clicked()
+{
+    Addnewreader *addnewreader = new Addnewreader(this);
+
+    addnewreader->SendData(transferobject);
+
+    addnewreader->move((QApplication::desktop()->width() - addnewreader->width()) / 2,
+                     (QApplication::desktop()->height() - addnewreader->height()) / 2);
+    addnewreader->show();
+
+}
+
+void ReaderManagement::socket_Read_Data()
+{
+    QByteArray getbuffer;
+    getbuffer = readersocket->readAll();
+
+    QJsonDocument getdocument = QJsonDocument::fromJson(getbuffer);
+    QJsonObject rootobj = getdocument.object();
+    transferobject = rootobj;
+
+    QJsonValue jsontypevalue = rootobj.value("confirmtype");
+    int index = jsontypevalue.toInt();
+
+    if(index == 1)
+    {
+        QMessageBox::warning(this, tr("错误"), tr("终端出现错误，请检查网络设置!"));
+        return;
+    }
+    QJsonValue usernamevalue = rootobj.value("username");
+    QJsonValue namevalue = rootobj.value("name");
+    QJsonValue IDvalue = rootobj.value("userID");
+    QJsonValue usertypevalue = rootobj.value("usertype");
+    QJsonValue uidvalue = rootobj.value("uid");
+    ui->tableWidget->setItem(0,0,new QTableWidgetItem(usernamevalue.toString()));
+    ui->tableWidget->setItem(0,1,new QTableWidgetItem(namevalue.toString()));
+    ui->tableWidget->setItem(0,2,new QTableWidgetItem(IDvalue.toInt()));
+    ui->tableWidget->setItem(0,3,new QTableWidgetItem(uidvalue.toInt()));
+}
+
+void ReaderManagement::on_delete_hito_clicked()
+{
+    //创建json
+    int rownumber = ui->tableWidget->currentRow();
+    QJsonObject deletebookvalue;
+    deletebookvalue.insert("jsontype","15");
+    deletebookvalue.insert("userID", ui->tableWidget->item(rownumber,2)->text());
+
+
+    //  连接服务器
+    //QHostAddress hostaddress;
+     hostaddress.setAddress(QString("35.194.106.246"));
+     readersocket->connectToHost(hostaddress,8333);
+
+     if(!readersocket->waitForConnected(10000))
+     {
+     QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
+     return;
+     }
+
+    // 上传服务器
+     QJsonDocument sendjson;
+     sendjson.setObject(deletebookvalue);
+     bytearray = sendjson.toJson(QJsonDocument::Compact);
+     readersocket->write( std::to_string(bytearray.size()).c_str() );
+     readersocket->write(bytearray);
 }

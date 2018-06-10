@@ -32,7 +32,7 @@
     </font>
    </property>
    <property name="text">
-    <string>审核/查看记录</string>
+    <string>待审核记录</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -65,12 +65,7 @@
    </column>
    <column>
     <property name="text">
-     <string>读者卡号</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>操作种类</string>
+     <string>读者用户名</string>
     </property>
    </column>
    <column>
@@ -78,8 +73,18 @@
      <string>书目</string>
     </property>
    </column>
+   <column>
+    <property name="text">
+     <string>借阅日期</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>操作编号</string>
+    </property>
+   </column>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="AcceptRequest">
    <property name="geometry">
     <rect>
      <x>190</x>
@@ -97,7 +102,7 @@
     <string>确认</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="KotowariRecord">
    <property name="geometry">
     <rect>
      <x>450</x>
@@ -113,24 +118,6 @@
    </property>
    <property name="text">
     <string>拒绝</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_3">
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>540</y>
-     <width>121</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>18</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>后一页</string>
    </property>
   </widget>
   <widget class="QPushButton" name="Confirm_Return_bt">
@@ -161,20 +148,10 @@
     </rect>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox">
+  <widget class="QPushButton" name="update_record">
    <property name="geometry">
     <rect>
-     <x>430</x>
-     <y>100</y>
-     <width>111</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_4">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
+     <x>510</x>
      <y>90</y>
      <width>121</width>
      <height>41</height>
@@ -186,25 +163,7 @@
     </font>
    </property>
    <property name="text">
-    <string>查询</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_5">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>540</y>
-     <width>121</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>18</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>前一页</string>
+    <string>刷新</string>
    </property>
   </widget>
  </widget>
