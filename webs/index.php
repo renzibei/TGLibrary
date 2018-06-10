@@ -28,10 +28,10 @@
     function testAdmin()
     {
         require_once 'html/AdminData.php';
-        $admin = new \tg\Admin('nevermore1', '123456','最帅的人');
+        $admin = new \tg\Admin('nevermore', '123456789','最帅的人');
         \tg\SystemFrame::adminData()->addAccount($admin);
-        $adminList = \tg\SystemFrame::adminData()->userList();
-        var_dump($adminList);
+        //$adminList = \tg\SystemFrame::adminData()->userList();
+        //var_dump($adminList);
     }
 
 
