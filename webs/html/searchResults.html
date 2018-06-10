@@ -48,18 +48,21 @@
 		</p>
 
 		<script>
-            result= {
-                "numofResults":"3",
-                "books": [
-                    { "docid":"666666", "title": "线性代数", "info":[ "跪" ] },
-                    { "docid":"555555", "title": "微积分", "info":[ "凉凉", "学霸请客" ] },
-                    { "docid":"444444", "title": "Oops", "info":[ "瞿神万能", "杨神大巨" ] }
-                ]
-            };
+			var result = "search.php";
+            // result= {
+            //     "numofResults":"3",
+            //     "books": [
+            //         { "docid":"666666", "title": "线性代数", "info":[ "跪" ] },
+            //         { "docid":"555555", "title": "微积分", "info":[ "凉凉", "学霸请客" ] },
+            //         { "docid":"444444", "title": "Oops", "info":[ "瞿神万能", "杨神大巨" ] }
+            //     ]
+            // };
 
             document.getElementById("numofResults").innerHTML=result.numofResults;
             for(var i = 0; i < result.numofResults; i++){
-                document.getElementById(i).innerHTML=result.books[i].title + result.books[i].docid;
+                document.getElementById(i).innerHTML=result.documents[i].docID + " "
+					+ result.documents[i].title + " " + result.documents[i].authors + " "
+					+ result.documents[i].publisher + " " + result.documents[i].source;
 			}
 
 		</script>

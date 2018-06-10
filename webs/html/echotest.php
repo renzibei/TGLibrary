@@ -6,5 +6,5 @@ $result = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveTitle("中
 //$temp = $result[0]->jsonSerialize();
 //var_dump($temp);
 //var_dump($result[0]->jsonSerialize());
-var_dump(json_encode($result));
+echo json_encode($result);
 var_dump(json_last_error_msg());

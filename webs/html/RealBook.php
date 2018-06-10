@@ -22,7 +22,7 @@ class RealBook extends Book
     /**
      * @param $book
      */
-    public function setBook($book): void
+    public function setBook($book)
     {
         $this->_book = $book;
     }
