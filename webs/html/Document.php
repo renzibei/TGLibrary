@@ -14,7 +14,7 @@ namespace tg {
     require_once 'errorTable.php';
     require_once dirname(dirname(dirname(__FILE__))) . '/dbusers/docInfo.php';
 
-    class Document
+    class Document implements \JsonSerializable
     {
         protected $docID;
         protected $title;
@@ -26,6 +26,12 @@ namespace tg {
         protected $description;
         protected $language;
         protected $docType;
+
+        public function jsonSerialize()
+        {
+            $vars = get_object_vars($this);
+            return $vars;
+        }
 
 
         /*

@@ -18,6 +18,14 @@ class RealBook extends Book
     protected $_version;
     protected $_isOnShelf;
     protected $_place;
+
+    /**
+     * @param $book
+     */
+    public function setBook($book): void
+    {
+        $this->_book = $book;
+    }
     //protected $_isbn;
 
     /**

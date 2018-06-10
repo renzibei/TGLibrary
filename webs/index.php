@@ -152,7 +152,7 @@
             \tg\SystemFrame::instance()->initServer();
             \tg\SystemFrame::log_info("finish init");
 	     	for($i = 1; $i < 2; $i++) {
-                testJournal();
+                testBook();
             }
             \tg\SystemFrame::log_info("finish");
         } catch (Exception $e) {

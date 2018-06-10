@@ -38,16 +38,19 @@ $in = "Ho\r\n";
 $in .= "first blood\r\n";
 $out = '';
 
-if(!socket_write($socket, $in, strlen($in))) {
-    echo "socket_write() failed: reason: " . socket_strerror($socket) . "\n";
-}else {
-    echo "发送到服务器信息成功！\n";
-    echo "发送的内容为:<font color='red'>$in</font> <br>";
-}
+for($i = 1; $i < 4; ++$i) {
 
-while($out = socket_read($socket, 8192)) {
-    echo "接收服务器回传信息成功！\n";
-    echo "接受的内容为:",$out;
+    if (!socket_write($socket, $in, strlen($in))) {
+        echo "socket_write() failed: reason: " . socket_strerror($socket) . "\n";
+    } else {
+        echo "发送到服务器信息成功！\n";
+        echo "发送的内容为:<font color='red'>$in</font> <br>";
+    }
+
+    while ($out = socket_read($socket, 8192)) {
+        echo "接收服务器回传信息成功！\n";
+        echo "接受的内容为:", $out;
+    }
 }
 
 
