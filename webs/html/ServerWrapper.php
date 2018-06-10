@@ -7,7 +7,8 @@
  */
 
 namespace tg;
-
+require_once 'SystemFrame.php';
+require_once 'AdminData.php';
 
 /**
  * Class ServerWrapper
