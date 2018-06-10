@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
 
 <script src="../bootstrap/js/bootstrap.min.js"></script>
+	<script src="../bootstrap/js/jquery-3.3.1.min.js"></script>
 </head>
 
 <body>
@@ -21,14 +22,14 @@
 	</div>
 
 	<div class="divbase panel panel-info">
-				<div class="btn-group" display:"table">
+				<div class="btn-group">
 					<a href="mylib.html" class="loggedin1">
 						<button type="button" class="btn btn-info">我的图书</button>　　　
 					</a>
 					<a href="index.html" class="loggedin2">
 						<button type="button" class="btn btn-primary">退出登录</button>
 					</a>
-				<div>
+				</div>
 
 <h3><span style="font-size:x-large"><a href="/css/" target="_self">海量资源</a>  <a href="/css/" target="_self">纸本图书</a>  <a href="/css/" target="_self">电子图书</a>  <a href="/css/" target="_self">纸本期刊</a>  <a href="/css/" target="_self">电子期刊</a>  <a href="/css/" target="_self">音像制品</a>  <a href="/css/" target="_self">古籍</a></span></h3>
 
@@ -37,7 +38,33 @@
 
 </form>
 
-<span class = "white indent"> <?php echo "我们为您找到了" . $numofResults . "条结果。"?></span>
+		<p style="font-size:large">我们为您找到了 <span id="numofResults"></span> 条结果。<br>
+			<br><br><br><br>
+		<a id="0" href="detailsofBook.html"></a><br><br>
+		<a id="1" href="detailsofBook.html"></a><br><br>
+		<a id="2" href="detailsofBook.html"></a><br><br>
+		<a id="3" href="detailsofBook.html"></a><br><br>
+		<a id="4" href="detailsofBook.html"></a><br><br>
+		</p>
+
+		<script>
+            result= {
+                "numofResults":"3",
+                "books": [
+                    { "docid":"666666", "title": "线性代数", "info":[ "跪" ] },
+                    { "docid":"555555", "title": "微积分", "info":[ "凉凉", "学霸请客" ] },
+                    { "docid":"444444", "title": "Oops", "info":[ "瞿神万能", "杨神大巨" ] }
+                ]
+            };
+
+            document.getElementById("numofResults").innerHTML=result.numofResults;
+            for(var i = 0; i < result.numofResults; i++){
+                document.getElementById(i).innerHTML=result.books[i].title + result.books[i].docid;
+			}
+
+		</script>
+
+
 
 
 	<div class="flippage">

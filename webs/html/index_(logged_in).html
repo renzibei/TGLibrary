@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type"; content="text/html"; charset="utf-8">
+<meta http-equiv="content-type" content="text/html" charset="utf-8">
 <title>TGDD.com</title>
 <link rel="stylesheet" type="text/css" href="../css/background.css">
 <link rel="stylesheet" type="text/css" href="../css/indexdiv.css">
 <link rel="stylesheet" type="text/css" href="../css/alink.css">
 <link rel="stylesheet" type="text/css" href="../css/loggedinbtn.css">
-
 <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+	<script src="../bootstrap/js/jquery-3.3.1.min.js"></script>
 
 <script src="../bootstrap/js/bootstrap.min.js"></script>
+
 </head>
 
 <body>
@@ -33,12 +34,12 @@
 
 <form action="search.php" method="post"><input type="radio" name="searchtype" value="bookname" /><span style="text-align:center; font-size:x-large" class="white">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large" class="white">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large" class="white">按作者</span>
 	<div class="form-group">
-		<label for="bookname"></label>
-		<input type="text" class="form-control col-lg" id="bookname"
+		<label for="keywords"></label>
+		<input type="text" class="form-control col-lg" id="keywords"
 				 placeholder="请输入搜索关键字">
 	<br><br><br><br><br>
-	<a href="searchResults.html">
-		<button type="button" class="btn btn-info btn-lg center-block">搜索</button>
+	<a onclick="javascript:window.location.href='search.php'">
+		<button type="button" id="searchbutton" class="btn btn-info btn-lg center-block">搜索</button>
 	</a>
 	</div>
 </form>

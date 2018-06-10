@@ -1,0 +1,33 @@
+<script>
+$(function(){
+     var my_data=new Array();
+     var my_data1=new Array();
+     my_data[0]=0;
+     my_data[1]=1;
+     my_data[2]=2;
+      
+     my_data1[0]=10;
+     my_data1[1]=11;
+     my_data1[2]=12;
+     
+     $.ajax({
+         url: "ajax_php.php",  
+         type: "POST",
+         data:{trans_data:my_data,trans_data1:my_data1},
+         dataType: "json",
+         error: function(){  
+             alert('Error loading XML document');  
+         },  
+         success: function(data){//如果调用php成功            
+             var back="";
+             for(var i=0;i<(data.length);i++){
+                 for(var j=0;j<data[0].length;j++){
+                     back+=" "+i+" 行 "+j+" 列 :"+data[i][j]+" ";
+                 }
+                 back+="\n";
+             }
+             alert(back);
+         }
+     });
+ });
+</script>

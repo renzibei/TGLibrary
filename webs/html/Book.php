@@ -9,6 +9,7 @@
 namespace tg;
 
 require_once 'Document.php';
+require_once 'RealBook.php';
 
 class Book extends Document
 {
@@ -105,6 +106,19 @@ class Book extends Document
             $this->realBooks = $books;
         }
     }
+
+    public function jsonSerialize()
+    {
+        $vars = get_object_vars($this);
+        if(!empty($vars['realBooks']))
+            foreach ($vars['realBooks'] as $realBook) {
+                if (!empty($realBook)) {
+                    $realBook->setBook(NULL);
+                }
+            }
+        return $vars;
+    }
+
 
     public function getBookNum()
     {

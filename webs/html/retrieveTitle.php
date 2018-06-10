@@ -14,7 +14,7 @@ class retrieveTitle extends retrieveStrategy
 {
     protected function &sonRetrieveStr()
     {
-        $returnStr = " title = '$this->keywords' ";
+        $returnStr = " title LIKE '%$this->keywords%' ";
         return $returnStr;
     }
 
