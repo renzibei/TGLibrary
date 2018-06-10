@@ -95,13 +95,15 @@
         $book2 = \tg\SystemFrame::docData()->getDocument(1);
         $books = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveTitle('他改变了中国'))->And(), (new \tg\retrieveAuthor('长者'))->And(),
                                                         (new \tg\retrieveISBN('2332333'))->Or(), (new \tg\retrieveSubject('膜蛤'))->Not()));
-        if(count($books) > 0) {
-            $book1 = $books[0];
+        $books2 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveTitle('他改变了中国'))->And()));
+        if(count($books2) > 0) {
+            $book1 = $books2[0];
             //var_dump($book1);
             $realBook1 = new \tg\RealBook($book1, 'k87.7', 1, true, '法学图书馆');
             $book1->addRealBook($realBook1);
             $realBooks = $book1->getBooks();
-            var_dump($realBooks);
+            var_dump($book1);
+            //var_dump($realBooks);
         }
 	    \tg\SystemFrame::log_info("query books");
        // var_dump($books);

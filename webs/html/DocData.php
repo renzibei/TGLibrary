@@ -11,6 +11,7 @@ namespace tg;
 require_once 'Document.php';
 require_once dirname(dirname(__DIR__)) . '/dbusers/dbadmin.php';
 require_once 'retrieveSet.php';
+require_once 'Book.php';
 
 
 

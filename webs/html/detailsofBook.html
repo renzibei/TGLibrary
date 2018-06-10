@@ -11,8 +11,22 @@
 <script src="../bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
         $(function(){
-            $("#send").click(function(){
-                var cont = $("input").serialize();
+        	$.ajax({
+            	url: "ajax_php.php",
+            	type: "LOAD",
+
+            	error: function(){
+                	alert('Error loading XML document');
+            	},
+            	success: function(data,status){//如果调用php成功
+                	alert(unescape(data));//解码，显示汉字
+            	}
+        	});
+
+
+        $(function(){
+            var book_details;
+            book_details = new Array();
                 $.ajax({
                     url:'search.php',
                     type:'post',
@@ -25,7 +39,6 @@
                         $("#result").html(str);
                     }
                 });
-            });
         });
 	</script>
 </head>
@@ -52,8 +65,9 @@
 		<div class="aside">
 			<br>
 			<h2 class="white" style="font-size:x-large">基本信息</h2>
-			<p id="details" style="font-size:x-large"> 书名：<br>出版社：<br>页数：<br>ISBN：<br>
-			剩余库存：　　本可借阅<br>
+			<p id="details" style="font-size:large"> DocId: <span id="docid"></span><br />
+				书名：<span id="title"></span><br />作者：<span id="author"></span><br />
+				出版社：<span id="publisher"></span><br />语言：<span id="language"></span><br />
 			<a href="reserveSuccess.html">
 				<button type="button" class="btn btn-success">我要预约</button>
 			</a>
@@ -78,6 +92,22 @@
 		</span>
 	</div>
 	<br><br><br><br>
+
+	<script>
+        var book= {
+            "docid":"2333333",
+            "title":"他改变了中国",
+            "author":"嘻嘻",
+			"publisher":"2333出版社",
+			"landocument.getElementById("docid").innerHTML=book.docid;guage":"English"
+        };
+
+        document.getElementById("title").innerHTML=book.title;
+        document.getElementById("author").innerHTML=book.author;
+        document.getElementById("publisher").innerHTML=book.publisher;
+        document.getElementById("language").innerHTML=book.language;
+
+	</script>
 
 
 </body>

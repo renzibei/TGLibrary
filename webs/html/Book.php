@@ -9,6 +9,7 @@
 namespace tg;
 
 require_once 'Document.php';
+require_once 'RealBook.php';
 
 class Book extends Document
 {
