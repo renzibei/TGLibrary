@@ -106,6 +106,11 @@ class Book extends Document
         }
     }
 
+    public function getBookNum()
+    {
+        return count($this->realBooks);
+    }
+
     public function getBooks()
     {
         return $this->realBooks;
@@ -153,6 +158,8 @@ class Book extends Document
                 $updateSql .= ", source = '$this->source' ";
             if(!empty($this->description))
                 $updateSql .= ", description = '$this->description' ";
+            $updateSql .= ", bookNum = " . count($this->realBooks);
+            $updateSql .= " WHERE docId = $this->docID";
             /*
             if(!empty($this->language))
                 $updateSql .= ", languageId =  ( SELECT languageId FROM "

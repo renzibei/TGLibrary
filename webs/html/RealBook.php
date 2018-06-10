@@ -49,6 +49,14 @@ class RealBook extends Book
         $this->_bookId = $bookId;
     }
 
+    /**
+     * @return null
+     */
+    public function getBookId()
+    {
+        return $this->_bookId;
+    }
+
 
 
     public function updateData()
@@ -75,6 +83,7 @@ class RealBook extends Book
                     throw new \Exception("Fail to insert place " . $conn->error, errorCode\InsertIntoTableError);
                 $updateBookSql .= ", placeId = ( SELECT placeId FROM  ". systemConfig\config['placeTable'] .  " WHERE placeName LIKE '$this->_place' )";
             }
+            $updateBookSql .= " WHERE bookId = $this->_bookId ";
 
             $result = $conn->query($updateBookSql);
             if($result === false)

@@ -68,6 +68,38 @@ class DocData
     }
 
     /**
+     * @param $bookId
+     * @return bool|RealBook
+     * @throws \Exception
+     */
+    public function &getRealBook($bookId)
+    {
+        $queryBookSql = " SELECT * FROM " . systemConfig\config['bookTable'] . " WHERE docId = $bookId ";
+        $conn = SystemFrame::instance()->getConnection();
+        $result = $conn->query($queryBookSql);
+        if ($result === false)
+            throw new \Exception("Fail to query real book " . $conn->error, errorCode\QueryTableError);
+        if($row = $result->fetch_assoc()) {
+            if(!isset($row['placeId']))
+                $bookPlaceStr = NULL;
+            else {
+                $getPlaceSql = " SELECT placeName FROM " . systemConfig\config['placeTable'] . " WHERE placeId = " . $row['placeId'];
+                $placeResult = $conn->query($getPlaceSql);
+                if ($placeResult === false)
+                    throw new \Exception("Fail to query Place " . $conn->error, errorCode\QueryTableError);
+                if ($placeResult->num_rows === 1) {
+                    $bookPlaceRow = $placeResult->fetch_assoc();
+                    $bookPlaceStr = $bookPlaceRow['placeName'];
+                } else $bookPlaceStr = NULL;
+            }
+            $book = SystemFrame::docData()->getDocument($row['docId']);
+            $realBook = new RealBook($book, $row['callNumber'], $row['version'], $row['isOnShelf'], $bookPlaceStr, $row['bookId']);
+        }
+        else return false;
+        return $realBook;
+    }
+
+    /**
      * @param array $retrieveList
      * @return array
      * @throws \Exception
@@ -89,23 +121,7 @@ class DocData
 
     }
 
-    public function addBorrowRequest(BorrowRecord &$borrowRecord)
-    {
-        $insertBorrowRequestSql = "INSERT INTO " . systemConfig\config['borrowRequest'] . " ( userId ) VALUES ( " . $borrowRecord->getUser()->getUserId() . " )";
-        $conn = SystemFrame::instance()->getConnection();
-        $result = $conn->query($insertBorrowRequestSql);
-        if($result === false) {
-            throw new \Exception("Failt to insert borrowRecord " . $conn->error, errorCode\InsertIntoTableError);
-        }
-        $getRecordIdSql = "SELECT LAST_INSERT_ID()";
-        $result = $conn->query($getRecordIdSql);
-        if($result === false)
-            throw new \Exception("Fail to get request Id from Table " . $conn->error, errorCode\QueryTableError);
-        $row = $result->fetch_row();
-        $borrowRecord->setRequestId($row[0]);
-        $borrowRecord->updateData();
 
-    }
 
     /**
      * @param $docId

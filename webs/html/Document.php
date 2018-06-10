@@ -108,26 +108,7 @@ namespace tg {
                     $this->updateUrl();
 
             }
-            /*
-            if(isset($this->title))
-                $this->updateTitle();
-            if(isset($this->authors))
-                $this->updateAuthor();
-            if(isset($this->subjects))
-                $this->updateSubject();
-            if(isset($this->docType))
-                $this->updateDocType();
-            if(isset($this->urls))
-                $this->updateUrl();
-            if(isset($this->publisher))
-                $this->updatePublisher();
-            if(isset($this->source))
-                $this->updateSource();
-            if(isset($this->description))
-                $this->updateDescription();
-            if(isset($this->language))
-                $this->updateLanguage();
-            */
+
         }
 
 
@@ -158,10 +139,8 @@ namespace tg {
          */
         public function setDocID($docID)
         {
-            //global systemConfig\config;
-           // SystemFrame::log_info("begin to set DocId");
-		$this->docID = $docID;
-		//SystemFrame::log_info("finish set DocId");
+
+		    $this->docID = $docID;
         }
 
         /**

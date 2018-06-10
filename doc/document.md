@@ -321,3 +321,18 @@
 | isAnswered    | bool      |
 | isAllowed     | bool      |
 
+
+
+
+
+***
+
+### BorrowRecordData
+
+#### Member Functions
+
+| addBorrowRequest    | void |
+| ------------------- | ---- |
+| getBorrowRecordList | void |
+|                     |      |
+

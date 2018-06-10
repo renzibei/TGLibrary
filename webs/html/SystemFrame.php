@@ -18,10 +18,11 @@ require_once 'DocData.php';
  */
 class SystemFrame{
 
-    private static $__instance;
+    protected static $__instance;
     protected static $__docData;
     protected static  $__userData;
     protected static $__adminData;
+    protected static $__borrowRecordData;
 
 	protected $rootDirPath;
 	protected $configFilePath;
@@ -82,6 +83,13 @@ class SystemFrame{
         return self::$__adminData;
     }
 
+    public static function borrowRecordData()
+    {
+        if(!isset(self::$__borrowRecordData)) {
+            self::$__borrowRecordData = new BorrowRecordData();
+        }
+        return self::$__borrowRecordData;
+    }
 
     /**
      * @return mixed
@@ -436,13 +444,13 @@ class SystemFrame{
                                         bookId INT NOT NULL,
                                         docId INT NOT NULL,
                                         requestTime TIMESTAMP NOT NULL default CURRENT_TIMESTAMP,
-                                        answerTime TIMESTAMP NOT NULL default CURRENT_TIMESTAMP,
+                                        answerTime DATETIME,
                                         allow BOOL,
                                         isAnswered BOOL,
                                         adminId INT
                                     )";
             if($conn->query($createBorrowRequestSql) === false)
-                throw new Exception("Fail to create Table " . systemConfig\config['borrowRecord'], errorCode\CreateDBTableError);
+                throw new Exception("Fail to create Table " . systemConfig\config['borrowRequest'], errorCode\CreateDBTableError);
 
 
             $createPlaceTableSql = "CREATE TABLE IF NOT EXISTS " . systemConfig\config['placeTable'] . "(
@@ -465,9 +473,13 @@ class SystemFrame{
 
     /**
      * @return mysqli
+     * @throws Exception
      */
     public function getConnection()
     {
+        if(!isset($this->sqlConn)) {
+            $this->initServer();
+        }
         return $this->sqlConn;
     }
 

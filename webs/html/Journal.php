@@ -93,6 +93,7 @@ class Journal extends Document
                 $updateSql .= ", source = '$this->source' ";
             if(!empty($this->description))
                 $updateSql .= ", description = '$this->description' ";
+            $updateSql .= " WHERE docId = $this->docID ";
             /*
             if(!empty($this->language))
                 $updateSql .= ", languageId =  ( SELECT languageId FROM "
