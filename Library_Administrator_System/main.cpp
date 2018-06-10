@@ -1,5 +1,6 @@
 #include "welcomepage.h"
 #include <QApplication>
+#include <QTcpSocket>
 
 
 int main(int argc, char *argv[])

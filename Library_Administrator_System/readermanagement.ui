@@ -175,6 +175,11 @@
      <string>读者卡号</string>
     </property>
    </item>
+   <item>
+    <property name="text">
+     <string>工作证号</string>
+    </property>
+   </item>
   </widget>
   <widget class="QLabel" name="label_3">
    <property name="geometry">
