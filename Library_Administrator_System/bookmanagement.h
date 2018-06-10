@@ -2,6 +2,10 @@
 #define BOOKMANAGEMENT_H
 
 #include <QDialog>
+#include <QTcpSocket>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QtNetwork>
 
 namespace Ui {
 class BookManagement;
@@ -21,6 +25,12 @@ private slots:
     void on_Delete_Book_clicked();
 
     void on_pushButton_clicked();
+
+    void on_detailed_information_clicked();
+
+    void on_Modify_Book_clicked();
+
+    void on_advancedsearch_clicked();
 
 private:
     Ui::BookManagement *ui;

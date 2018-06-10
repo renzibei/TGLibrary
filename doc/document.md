@@ -77,14 +77,13 @@
 | Function Name   | Return Type     |
 | --------------- | --------------- |
 | getDocId        | int             |
-| getCreationDate | string          |
+| getCreationYear | string          |
 | getTitle        | string          |
 | getAuthor       | array of string |
 | getPublisher    | string          |
 | getSource       | string          |
 | getISSN         | string          |
 | getUrls         | array of string |
-| getBookNum      | int             |
 | subjects        | array of string |
 | language        | string          |
 | description     | string          |
@@ -310,10 +309,30 @@
 | Property Name | Type      |
 | ------------- | --------- |
 | user          | &User     |
+| recordId      | int       |
 | realBook      | &realBook |
 | document      | &document |
 | beginDate     | string    |
 | dueDate       | string    |
 | returnDate    | string    |
 | isReturned    | bool      |
+| requestTime   | string    |
+| answerTime    | string    |
+| isAnswered    | bool      |
+| isAllowed     | bool      |
+
+
+
+
+
+***
+
+### BorrowRecordData
+
+#### Member Functions
+
+| addBorrowRequest    | void |
+| ------------------- | ---- |
+| getBorrowRecordList | void |
+|                     |      |
 

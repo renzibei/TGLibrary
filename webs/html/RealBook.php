@@ -18,6 +18,7 @@ class RealBook extends Book
     protected $_version;
     protected $_isOnShelf;
     protected $_place;
+    //protected $_isbn;
 
     /**
      * RealBook constructor.
@@ -29,7 +30,7 @@ class RealBook extends Book
      * @param null $bookId
      * @throws \Exception
      */
-    public function __construct(Book &$book, $callNum, $version = 1, $isOnShelf = true, $place = NULL, $bookId = NULL)
+    public function __construct(Book &$book, $callNum, $version = 1, $isOnShelf = true, $place = NULL,  $bookId = NULL)
     {
         $this->_book = $book;
         $this->_callNum = $callNum;
@@ -46,6 +47,14 @@ class RealBook extends Book
     public function setBookId($bookId)
     {
         $this->_bookId = $bookId;
+    }
+
+    /**
+     * @return null
+     */
+    public function getBookId()
+    {
+        return $this->_bookId;
     }
 
 
@@ -74,6 +83,7 @@ class RealBook extends Book
                     throw new \Exception("Fail to insert place " . $conn->error, errorCode\InsertIntoTableError);
                 $updateBookSql .= ", placeId = ( SELECT placeId FROM  ". systemConfig\config['placeTable'] .  " WHERE placeName LIKE '$this->_place' )";
             }
+            $updateBookSql .= " WHERE bookId = $this->_bookId ";
 
             $result = $conn->query($updateBookSql);
             if($result === false)

@@ -12,6 +12,8 @@ require_once 'Document.php';
 require_once dirname(dirname(__DIR__)) . '/dbusers/dbadmin.php';
 require_once 'retrieveSet.php';
 require_once 'Book.php';
+require_once 'Journal.php';
+require_once 'User.php';
 
 
 
@@ -67,6 +69,38 @@ class DocData
     }
 
     /**
+     * @param $bookId
+     * @return bool|RealBook
+     * @throws \Exception
+     */
+    public function &getRealBook($bookId)
+    {
+        $queryBookSql = " SELECT * FROM " . systemConfig\config['bookTable'] . " WHERE docId = $bookId ";
+        $conn = SystemFrame::instance()->getConnection();
+        $result = $conn->query($queryBookSql);
+        if ($result === false)
+            throw new \Exception("Fail to query real book " . $conn->error, errorCode\QueryTableError);
+        if($row = $result->fetch_assoc()) {
+            if(!isset($row['placeId']))
+                $bookPlaceStr = NULL;
+            else {
+                $getPlaceSql = " SELECT placeName FROM " . systemConfig\config['placeTable'] . " WHERE placeId = " . $row['placeId'];
+                $placeResult = $conn->query($getPlaceSql);
+                if ($placeResult === false)
+                    throw new \Exception("Fail to query Place " . $conn->error, errorCode\QueryTableError);
+                if ($placeResult->num_rows === 1) {
+                    $bookPlaceRow = $placeResult->fetch_assoc();
+                    $bookPlaceStr = $bookPlaceRow['placeName'];
+                } else $bookPlaceStr = NULL;
+            }
+            $book = SystemFrame::docData()->getDocument($row['docId']);
+            $realBook = new RealBook($book, $row['callNumber'], $row['version'], $row['isOnShelf'], $bookPlaceStr, $row['bookId']);
+        }
+        else return false;
+        return $realBook;
+    }
+
+    /**
      * @param array $retrieveList
      * @return array
      * @throws \Exception
@@ -88,6 +122,8 @@ class DocData
 
     }
 
+
+
     /**
      * @param $docId
      * @return array
@@ -108,6 +144,8 @@ class DocData
         return $authors;
 
     }
+
+
 
     /**
      * @param $docId
@@ -171,16 +209,17 @@ class DocData
 
     /**
      * @param $docId
+     * @param string $identifierType
      * @return array
      * @throws \Exception
      */
-    protected function &getISBNsFromDocId($docId)
+    protected function &getIdentifierFromDocId($docId, $identifierType = "ISBN")
     {
         $conn = SystemFrame::instance()->getConnection();
-        $queryISBNSql = "SELECT identifierNum FROM " . systemConfig\config['identifierTable'] . " WHERE docId = $docId AND identifierType = " .  identifierTypeArray['ISBN'];
+        $queryISBNSql = "SELECT identifierNum FROM " . systemConfig\config['identifierTable'] . " WHERE docId = $docId AND identifierType = " .  identifierTypeArray[$identifierType];
         $result = $conn->query($queryISBNSql);
         if($result === false)
-            throw new \Exception("Fail to query isbn " . $conn->error, errorCode\QueryTableError);
+            throw new \Exception("Fail to query identifier " . $conn->error, errorCode\QueryTableError);
         $ISBNs = array();
         while($row = $result->fetch_assoc()) {
             $ISBNs[] = $row['identifierNum'];
@@ -199,9 +238,15 @@ class DocData
         $docId = $row['docId'];
         switch ($docType) {
             case docTypeArray['Book']:
-                $doc = new Book($row['title'], $this->getAuthorsFromDocId($docId), $this->getLanguageFromDocId($docId), $row['publicationYear'], $this->getSubjectsFromDocId($docId), $row['publisher'], $this->getUrlsFromDocId($docId), $row['source'], $row['description'],
-                    $this->getISBNsFromDocId($docId), $row['format'], $docId );
-
+                $doc = new Book($row['title'], $this->getAuthorsFromDocId($docId), $this->getLanguageFromDocId($docId),
+                    $row['publicationYear'], $this->getSubjectsFromDocId($docId), $row['publisher'], $this->getUrlsFromDocId($docId),
+                    $row['source'], $row['description'], $this->getIdentifierFromDocId($docId, "ISBN"), $row['format'], $docId );
+                break;
+            case docTypeArray['Journal']:
+                $doc = new Journal($row['title'], $this->getAuthorsFromDocId($docId), $this->getLanguageFromDocId($docId),
+                    $row['publicationYear'], $this->getSubjectsFromDocId($docId), $row['publisher'], $this->getUrlsFromDocId($docId),
+                    $row['source'], $row['description'], $this->getIdentifierFromDocId($docId, "ISSN"), $row['format'], $docId );
+                break;
         }
 
         return $doc;

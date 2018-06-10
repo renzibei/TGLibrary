@@ -17,7 +17,7 @@
    <string>图书馆管理员系统</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="vectorpng.qrc">
+   <iconset>
     <normaloff>:/Image/Book_Colorless.png</normaloff>:/Image/Book_Colorless.png</iconset>
   </property>
   <property name="autoFillBackground">
@@ -66,7 +66,7 @@
     <string>图书管理</string>
    </property>
    <property name="icon">
-    <iconset resource="vectorpng.qrc">
+    <iconset>
      <normaloff>:/Image/Book_Colorless.png</normaloff>:/Image/Book_Colorless.png</iconset>
    </property>
    <property name="iconSize">
@@ -100,7 +100,7 @@
     <string>读者管理</string>
    </property>
    <property name="icon">
-    <iconset resource="vectorpng.qrc">
+    <iconset>
      <normaloff>:/Image/member.png</normaloff>:/Image/member.png</iconset>
    </property>
    <property name="iconSize">
@@ -134,7 +134,7 @@
     <string>借还记录</string>
    </property>
    <property name="icon">
-    <iconset resource="vectorpng.qrc">
+    <iconset>
      <normaloff>:/Image/record1.png</normaloff>:/Image/record1.png</iconset>
    </property>
    <property name="iconSize">
@@ -168,7 +168,7 @@
     <string>审核操作</string>
    </property>
    <property name="icon">
-    <iconset resource="vectorpng.qrc">
+    <iconset>
      <normaloff>:/Image/stamp.png</normaloff>:/Image/stamp.png</iconset>
    </property>
    <property name="iconSize">
@@ -182,8 +182,6 @@
    </property>
   </widget>
  </widget>
- <resources>
-  <include location="vectorpng.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

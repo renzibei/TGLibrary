@@ -73,7 +73,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>性别</string>
+    <string>密码</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_4">
@@ -86,53 +86,8 @@
     </rect>
    </property>
    <property name="text">
-    <string>持卡等级</string>
+    <string>工作证号</string>
    </property>
-  </widget>
-  <widget class="QComboBox" name="gender">
-   <property name="geometry">
-    <rect>
-     <x>350</x>
-     <y>50</y>
-     <width>87</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <item>
-    <property name="text">
-     <string>男</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>女</string>
-    </property>
-   </item>
-  </widget>
-  <widget class="QComboBox" name="Cardclass">
-   <property name="geometry">
-    <rect>
-     <x>350</x>
-     <y>110</y>
-     <width>87</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <item>
-    <property name="text">
-     <string>A</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>B</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>C</string>
-    </property>
-   </item>
   </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
@@ -158,6 +113,26 @@
    </property>
    <property name="text">
     <string>返回</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="password">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>50</y>
+     <width>113</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="peoplenumber">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>110</y>
+     <width>113</width>
+     <height>21</height>
+    </rect>
    </property>
   </widget>
  </widget>

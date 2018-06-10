@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>bookoperation</class>
+ <widget class="QDialog" name="bookoperation">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QTableWidget" name="bookinformation">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>801</width>
+     <height>681</height>
+    </rect>
+   </property>
+   <property name="dragEnabled">
+    <bool>true</bool>
+   </property>
+   <property name="rowCount">
+    <number>9</number>
+   </property>
+   <property name="columnCount">
+    <number>1</number>
+   </property>
+   <row>
+    <property name="text">
+     <string>书名</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>作者</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>出版社</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>书号</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>资源</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>链接</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>语言</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>主题</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>简介</string>
+    </property>
+   </row>
+   <column/>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>730</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>确认</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>730</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>返回</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

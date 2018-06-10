@@ -2,6 +2,10 @@
 #define ADDNEWREADER_H
 
 #include <QDialog>
+#include <QTcpSocket>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QtNetwork>
 
 namespace Ui {
 class Addnewreader;
@@ -20,8 +24,14 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void socket_Read_Data();
+
 private:
     Ui::Addnewreader *ui;
+    QTcpSocket *addreadersocket;
+    QByteArray bytearray;
+    QJsonObject addreaderjson;
+    QHostAddress hostaddress;
 };
 
 #endif // ADDNEWREADER_H
