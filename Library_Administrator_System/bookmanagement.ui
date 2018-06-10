@@ -20,7 +20,7 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>40</x>
      <y>90</y>
      <width>121</width>
      <height>31</height>
@@ -32,125 +32,31 @@
     </font>
    </property>
    <property name="text">
-    <string>书名</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>160</y>
-     <width>121</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>18</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>作者</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>440</x>
-     <y>90</y>
-     <width>121</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>18</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>出版社 </string>
+    <string>请输入：</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="Book_Edit">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>90</y>
-     <width>131</width>
-     <height>31</height>
+     <x>180</x>
+     <y>80</y>
+     <width>211</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <pointsize>18</pointsize>
     </font>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="Author_Edit">
-   <property name="geometry">
-    <rect>
-     <x>190</x>
-     <y>160</y>
-     <width>131</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>18</pointsize>
-    </font>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="Publisher_Edit">
-   <property name="geometry">
-    <rect>
-     <x>570</x>
-     <y>90</y>
-     <width>131</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>18</pointsize>
-    </font>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>460</x>
-     <y>160</y>
-     <width>121</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>18</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>编号</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="Index_Edit">
-   <property name="geometry">
-    <rect>
-     <x>570</x>
-     <y>160</y>
-     <width>131</width>
-     <height>31</height>
-    </rect>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
      <x>440</x>
-     <y>300</y>
+     <y>80</y>
      <width>130</width>
-     <height>50</height>
+     <height>51</height>
     </rect>
    </property>
    <property name="font">
@@ -165,8 +71,8 @@
   <widget class="QPushButton" name="AddBook_Bt">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>300</y>
+     <x>630</x>
+     <y>330</y>
      <width>130</width>
      <height>50</height>
     </rect>
@@ -183,8 +89,8 @@
   <widget class="QPushButton" name="Delete_Book">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>300</y>
+     <x>630</x>
+     <y>380</y>
      <width>130</width>
      <height>50</height>
     </rect>
@@ -202,14 +108,27 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>370</y>
-     <width>761</width>
-     <height>192</height>
+     <y>220</y>
+     <width>571</width>
+     <height>301</height>
     </rect>
+   </property>
+   <property name="rowCount">
+    <number>10</number>
    </property>
    <property name="columnCount">
     <number>6</number>
    </property>
+   <row/>
+   <row/>
+   <row/>
+   <row/>
+   <row/>
+   <row/>
+   <row/>
+   <row/>
+   <row/>
+   <row/>
    <column>
     <property name="text">
      <string>书名</string>
@@ -256,16 +175,16 @@
     </font>
    </property>
    <property name="text">
-    <string>图书管理</string>
+    <string>书籍管理</string>
    </property>
   </widget>
   <widget class="QPushButton" name="BookM_Return_bt">
    <property name="geometry">
     <rect>
      <x>630</x>
-     <y>300</y>
-     <width>131</width>
-     <height>51</height>
+     <y>540</y>
+     <width>121</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -277,11 +196,111 @@
     <string>返回</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_6">
+  <widget class="QPushButton" name="Modify_Book">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>630</x>
+     <y>430</y>
+     <width>130</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>18</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>修改书目</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="advancedsearch">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>80</y>
+     <width>130</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>18</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>高级检索</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="detailed_information">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
      <y>230</y>
+     <width>130</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>18</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>详细信息</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="BookM_Return_bt_2">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>540</y>
+     <width>121</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>18</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>后一页</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="BookM_Return_bt_3">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>540</y>
+     <width>121</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>18</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>前一页</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>540</y>
+     <width>87</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>540</y>
      <width>121</width>
      <height>31</height>
     </rect>
@@ -292,16 +311,16 @@
     </font>
    </property>
    <property name="text">
-    <string>馆藏书量</string>
+    <string>页</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_7">
+  <widget class="QPushButton" name="BookM_Return_bt_4">
    <property name="geometry">
     <rect>
-     <x>430</x>
-     <y>230</y>
+     <x>480</x>
+     <y>540</y>
      <width>121</width>
-     <height>31</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -310,27 +329,7 @@
     </font>
    </property>
    <property name="text">
-    <string>剩余书量</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="Original_Booknum_Edit">
-   <property name="geometry">
-    <rect>
-     <x>190</x>
-     <y>230</y>
-     <width>131</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="Remain_Booknum_Edit">
-   <property name="geometry">
-    <rect>
-     <x>570</x>
-     <y>230</y>
-     <width>131</width>
-     <height>31</height>
-    </rect>
+    <string>跳转</string>
    </property>
   </widget>
  </widget>

@@ -2,6 +2,10 @@
 #define CONFIRM_H
 
 #include <QDialog>
+#include <QTcpSocket>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QtNetwork>
 
 namespace Ui {
 class Confirm;

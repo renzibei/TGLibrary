@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -32,7 +33,8 @@ SOURCES += \
     record.cpp \
     confirm.cpp \
     errorinput_e.cpp \
-    addnewreader.cpp
+    addnewreader.cpp \
+    bookoperation.cpp
 
 HEADERS += \
         welcomepage.h \
@@ -42,7 +44,8 @@ HEADERS += \
     record.h \
     confirm.h \
     errorinput_e.h \
-    addnewreader.h
+    addnewreader.h \
+    bookoperation.h
 
 FORMS += \
         welcomepage.ui \
@@ -52,7 +55,8 @@ FORMS += \
     record.ui \
     confirm.ui \
     errorinput_e.ui \
-    addnewreader.ui
+    addnewreader.ui \
+    bookoperation.ui
 
 RESOURCES += \
     vectorpng.qrc
