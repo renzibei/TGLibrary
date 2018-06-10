@@ -1,6 +1,43 @@
 <!DOCTYPE HTML>
 <html>
 
+<?php
+require_once 'SystemFrame.php';
+
+
+/**
+ * @throws Exception
+ */
+function query(){
+    $searchtype = isset($_POST['searchtype'])? htmlspecialchars($_POST['searchtype']) : 'bookname';
+    $keywords = $_POST['keywords'];
+    $result =null;
+    if($searchtype =='bookname') {
+        $result = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveTitle($keywords))->And()));
+    } else if($searchtype =='authorname') {
+        $result = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveAuthor($keywords))->And()));
+    } else if($searchtype =='pressname') {
+        $result = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrievePublisher($keywords))->And()));
+    }
+    if($result == "") {
+        $url = "searchFailure.html";
+        echo "<script language='javascript' type='text/javascript'>";
+        echo "javascript:window.location.href='$url'";
+        echo "</script>";
+    }
+    else {
+        //$url = "searchResults.html";
+        echo "<script language='javascript' type='text/javascript'>";
+        echo "var result = " . json_encode($result) . ";";
+       // echo " javascript:window.location.href='$url' ";
+        echo "</script>";
+    }
+}
+
+query();
+
+?>
+
 <head>
 <meta charset="utf-8">
 <title>TGDD.com</title>
@@ -48,7 +85,7 @@
 		</p>
 
 		<script>
-			var result = "search.php";
+			//var result = "search.php";
             // result= {
             //     "numofResults":"3",
             //     "books": [
@@ -57,12 +94,21 @@
             //         { "docid":"444444", "title": "Oops", "info":[ "瞿神万能", "杨神大巨" ] }
             //     ]
             // };
+            function getJsonLength(json){
+                var jsonLength=0;
+                for (var i in json) {
+                    jsonLength++;
+                }
+                return jsonLength;
+            }
 
-            document.getElementById("numofResults").innerHTML=result.numofResults;
-            for(var i = 0; i < result.numofResults; i++){
-                document.getElementById(i).innerHTML=result.documents[i].docID + " "
-					+ result.documents[i].title + " " + result.documents[i].authors + " "
-					+ result.documents[i].publisher + " " + result.documents[i].source;
+            var numOfResults = getJsonLength(result);
+
+            document.getElementById("numofResults").innerHTML=numOfResults;
+            for(var i = 0; i < numOfResults; i++){
+                document.getElementById(i).innerHTML=result[i].docID + " "
+					+ result[i].title + " " + result[i].authors + " "
+					+ result[i].publisher + " " + result[i].source;
 			}
 
 		</script>

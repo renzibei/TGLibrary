@@ -9,14 +9,18 @@
 namespace tg;
 
 
-abstract class Account
+abstract class Account implements \JsonSerializable
 {
     protected $username;
     protected $password;
     protected $userID;
     protected $name;
 
-
+    public function jsonSerialize()
+    {
+        $vars = get_object_vars($this);
+        return $vars;
+    }
 
 
     /*

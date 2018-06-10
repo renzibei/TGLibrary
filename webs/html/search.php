@@ -25,8 +25,12 @@ function query(){
     else {
         $url = "searchResults.html";
         echo "<script language='javascript' type='text/javascript'>";
-        echo "json_encode($result)";
-        echo "javascript:window.location.href='$url'";
+        echo json_encode($result);
+        echo " javascript:window.location.href='$url' ";
         echo "</script>";
     }
 }
+
+query();
+
+?>

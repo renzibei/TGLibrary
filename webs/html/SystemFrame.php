@@ -34,7 +34,7 @@ class SystemFrame{
 
 	protected function __construct()
 	{
-        echo "construct <br />";
+        //echo "construct <br />";
 	    $this->rootDirPath = dirname(dirname(dirname(__FILE__)));
 		$this->configFilePath = $this->rootDirPath . '/dbusers/dbadmin.php';
         //$this->__docData = new DocData();

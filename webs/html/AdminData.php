@@ -25,7 +25,7 @@ class AdminData extends AccountData
 
     protected function &getAccountFromRow($row)
     {
-        $admin = new Admin($row['username'], $row['password'], $row['name'], $row['userId']);
+        $admin = new Admin($row['username'], $row['password'], $row['name'], $row['adminId']);
         return $admin;
     }
 

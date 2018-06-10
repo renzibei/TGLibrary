@@ -41,12 +41,15 @@
     function testUser()
     {
         require_once 'html/UserData.php';
+        require_once 'html/SystemFrame.php';
         $user = new \tg\User('nevermore1', '123456', 'shuaige', '201701063');
         \tg\SystemFrame::userData()->addAccount($user);
         $oldUser = \tg\SystemFrame::userData()->userList();
         var_dump($oldUser);
 
     }
+
+
 
     class testClass {
         public $aa;
@@ -152,7 +155,7 @@
             \tg\SystemFrame::instance()->initServer();
             \tg\SystemFrame::log_info("finish init");
 	     	for($i = 1; $i < 2; $i++) {
-                testBook();
+                testAdmin();
             }
             \tg\SystemFrame::log_info("finish");
         } catch (Exception $e) {
