@@ -66,6 +66,6 @@ void bookoperation::on_add_Books_clicked()
             QJsonDocument jsondoc;
             jsondoc.setObject(bookoperationjson);
             bytearray = jsondoc.toJson(QJsonDocument::Compact);
-            bookoperationsocket->write( std::to_string(bytearray.size()).c_str() );
+           // bookoperationsocket->write( std::to_string(bytearray.size()).c_str() );
             bookoperationsocket->write(bytearray);
 }

@@ -27,6 +27,38 @@ class Admin extends Account
         $this->name = $name;
     }
 
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return null
+     */
+    public function getUserID()
+    {
+        return $this->userID;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
 
     /**
      * @throws \Exception

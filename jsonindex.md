@@ -1,4 +1,6 @@
-第一个数字 jsontype第二数字 confirmtype 错误类型0 成功 1  “不存在”2 数据库连接错误      
+第一个数字 jsontype第二数字
+
+返回值包jsontype为0 confirmtype 错误类型0 成功 1  “不存在”2 数据库连接错误      
 
  登陆 1 adminname  password  完成 
 

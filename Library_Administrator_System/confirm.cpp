@@ -39,7 +39,7 @@ void Confirm::on_update_record_clicked()
     QJsonDocument jsondoc;
     jsondoc.setObject(transferobject);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
-    confirmsocket->write( std::to_string(bytearray.size()).c_str() );
+    //confirmsocket->write( std::to_string(bytearray.size()).c_str() );
     confirmsocket->write(bytearray);
 }
 
@@ -65,7 +65,7 @@ void Confirm::on_AcceptRequest_clicked()
     QJsonDocument jsondoc;
     jsondoc.setObject(transferobject);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
-    confirmsocket->write( std::to_string(bytearray.size()).c_str() );
+    //confirmsocket->write( std::to_string(bytearray.size()).c_str() );
     confirmsocket->write(bytearray);
 
 }
@@ -90,7 +90,7 @@ void Confirm::on_KotowariRecord_clicked()
     QJsonDocument jsondoc;
     jsondoc.setObject(transferobject);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
-    confirmsocket->write( std::to_string(bytearray.size()).c_str() );
+    //confirmsocket->write( std::to_string(bytearray.size()).c_str() );
     confirmsocket->write(bytearray);
 }
 
@@ -133,9 +133,9 @@ void Confirm::socket_Read_Data()
     }
     else if (rootobj.value("jsontype").toString()=="17")
     {
-        if(rootobj.value("issuccessed").toString()=="1")
+        if(rootobj.value("confirmtype").toString()=="1")
         QMessageBox::information(this, tr("提示"),tr("操作成功"));
-        else if(rootobj.value("issuccessed").toString()=="0")
+        else if(rootobj.value("confirmtype").toString()=="0")
         QMessageBox::warning(this, tr("错误"), tr("审核未生效，请检查网络"));
     }
 

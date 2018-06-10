@@ -50,7 +50,7 @@ void WelcomePage::on_En_Bt_clicked()
         QJsonDocument sendjson;
         sendjson.setObject(loginjson);
         bytearray = sendjson.toJson(QJsonDocument::Compact);
-        loginsocket->write( std::to_string(bytearray.size()).c_str() );
+       // loginsocket->write( std::to_string(bytearray.size()).c_str() );
         loginsocket->write(bytearray);
     }
 }

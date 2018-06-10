@@ -75,7 +75,7 @@ void ReaderManagement::on_pushButton_4_clicked()
         QJsonDocument sendjson;
         sendjson.setObject(readerjson);
         bytearray = sendjson.toJson(QJsonDocument::Compact);
-        readersocket->write( std::to_string(bytearray.size()).c_str() );
+        //readersocket->write( std::to_string(bytearray.size()).c_str() );
         readersocket->write(bytearray);
 }
 }
@@ -144,6 +144,6 @@ void ReaderManagement::on_delete_hito_clicked()
      QJsonDocument sendjson;
      sendjson.setObject(deletebookvalue);
      bytearray = sendjson.toJson(QJsonDocument::Compact);
-     readersocket->write( std::to_string(bytearray.size()).c_str() );
+     //readersocket->write( std::to_string(bytearray.size()).c_str() );
      readersocket->write(bytearray);
 }

@@ -66,7 +66,7 @@ if(ui->pushButton->text()=="确认")
         QJsonDocument sendjson;
         sendjson.setObject(addreaderjson);
         bytearray = sendjson.toJson(QJsonDocument::Compact);
-        addreadersocket->write( std::to_string(bytearray.size()).c_str() );
+        //addreadersocket->write( std::to_string(bytearray.size()).c_str() );
         addreadersocket->write(bytearray);
      //   addreaderjson.~QJsonObject();
 }
