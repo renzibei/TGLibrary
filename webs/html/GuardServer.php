@@ -6,11 +6,13 @@
  * Time: 03:15
  */
 
+require_once 'ServerWrapper.php';
 
 
 ignore_user_abort(); // 后台运行
 set_time_limit(0);
 
+/*
 $ip = '0';
 //$ip = '127.0.0.1';
 $port = 8333;
@@ -55,4 +57,9 @@ do{
     //echo $buf;
     socket_close($msgsock);
 }while(true);
+*/
+
+    $server = new \tg\ServerWrapper();
+    $server->initServer();
+    $server->beginListen();
 ?>
