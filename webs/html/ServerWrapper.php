@@ -102,11 +102,11 @@ class ServerWrapper
 
                 //发到客户端
                 $msg ="测试成功！\n";
-                socket_write($this->sockRe, $msg, strlen($msg));
+                //socket_write($this->sockRe, $msg, strlen($msg));
 
                 echo "测试成功了啊\n";
                 $buf = socket_read($this->sockRe,65535);
-
+                $this->dealWithPackage($buf);
 
                 $talkback = "收到的信息:$buf\n";
                 echo $talkback;
