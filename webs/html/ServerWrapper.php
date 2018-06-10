@@ -70,6 +70,10 @@ class ServerWrapper
 
     }
 
+    /**
+     * @param $buffer
+     * @throws \Exception
+     */
     protected function dealWithPackage($buffer)
     {
         $json = json_decode($buffer, TRUE);
@@ -78,8 +82,9 @@ class ServerWrapper
         else {
             $jsonType = $json['jsontype'];
             if($jsonType == 1) {
-                if(SystemFrame::adminData()->queryFromUsername($json['adminname'])->getUsername() == $json['password']) {
-                    $msg = self::getReturnPackage(0);
+                $admin = SystemFrame::adminData()->queryFromUsername($json['adminname']);
+                if(!empty($admin) && $admin->getPassword() == $json['password']) {
+                        $msg = self::getReturnPackage(0);
                 }
                 else {
                     $msg = self::getReturnPackage(1);
