@@ -10,9 +10,14 @@ BookManagement::BookManagement(QWidget *parent) :
     ui(new Ui::BookManagement)
 {
     ui->setupUi(this);
+
+    this->setAttribute(Qt::WA_DeleteOnClose);
+
     connect(ui->BookM_Return_bt, SIGNAL(clicked()), this, SLOT(close()));
 
     ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+
+    booksocket = new QTcpSocket;
 
     QObject::connect(booksocket, &QTcpSocket::readyRead, this, &BookManagement::socket_Read_Data);
 
@@ -48,25 +53,23 @@ void BookManagement::on_Delete_Book_clicked()
     QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
     return;
     }
+    if(ui->tableWidget->rowCount() == 0)
+    {
+        QMessageBox::warning(this, tr("错误"), tr("请搜索书目，之后单击书目所在行，然后删除！"));
+        return;
+    }
 
-    bookjson.insert("jsontype","3");
-    bookjson.insert("docID",ui->tableWidget->item(rownumber,3)->text());
+    QJsonObject onloadbookjson;
+
+    onloadbookjson.insert("jsontype","3");
+ //此处有问题
+    onloadbookjson.insert("docID",ui->tableWidget->item(rownumber,3)->text());
 
     QJsonDocument jsondoc;
-    jsondoc.setObject(bookjson);
+    jsondoc.setObject(onloadbookjson);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
    // booksocket->write( std::to_string(bytearray.size()).c_str() );
     booksocket->write(bytearray);
-
-
-     /*  if(ui->Author_Edit->text()==""&& ui->Book_Edit->text()==""&&ui->Index_Edit->text()=="")
-       QMessageBox::warning(this, tr("似乎出错了……"), tr("请使用书名，作者或编号来删除书目！"));
-      等待大神添加数据库判断操作
-       else if()
-       QMessageBox::warning(this, tr("似乎出错了……"), tr("未能连接至数据库，请您检查！"));
-       else if()
-       QMessageBox::warning(this, tr("似乎出错了……"), tr("数据库中不存在这本书！"));
-       */
 }
 
 
@@ -132,10 +135,18 @@ void BookManagement::socket_Read_Data()
 
     QJsonDocument getdocument = QJsonDocument::fromJson(getbuffer);
     QJsonObject rootobj = getdocument.object();
-    QJsonValue jsontypevalue = rootobj.value("documents");
+
+    QJsonValue jsonvalue = rootobj.value("jsontype");
+            \
+    int jsonvaluenumber = jsonvalue.toInt();
+
     QJsonValue confirmvalue = rootobj.value("confirmtype");
 
-    int index = jsontypevalue.toInt();
+    if(jsonvaluenumber == 3)
+    {
+    QJsonValue jsontypevalue = rootobj.value("documents");
+
+    int index = confirmvalue.toInt();
 
     if(index == 1)
     {
@@ -162,6 +173,22 @@ void BookManagement::socket_Read_Data()
         ui->tableWidget->setItem(i,2,new QTableWidgetItem(publishervalue.toString()));
         ui->tableWidget->setItem(i,3,new QTableWidgetItem(docIDvalue.toString()));
 
+    }
+    }
+    else if (jsonvaluenumber == 5)
+    {
+        int index = confirmvalue.toInt();
+
+        if(index == 1)
+        {
+            QMessageBox::warning(this, tr("错误"), tr("终端未查询到这本书！"));
+            return;
+        }
+        if(index == 0)
+        {
+            QMessageBox::information(this, tr("成功"), tr("已删除！"));
+            return;
+        }
     }
 }
 

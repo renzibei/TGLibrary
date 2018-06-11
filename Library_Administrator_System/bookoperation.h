@@ -24,9 +24,12 @@ public:
     ~bookoperation();
 
 private slots:
-    void on_pushButton_2_clicked();
 
     void on_add_Books_clicked();
+
+    void on_Back_Button_clicked();
+
+    void socket_Read_Data();
 
 private:
     Ui::bookoperation *ui;

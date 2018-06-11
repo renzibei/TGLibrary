@@ -117,7 +117,7 @@
    <property name="geometry">
     <rect>
      <x>620</x>
-     <y>140</y>
+     <y>130</y>
      <width>131</width>
      <height>51</height>
     </rect>
@@ -134,7 +134,7 @@
   <widget class="QPushButton" name="delete_hito">
    <property name="geometry">
     <rect>
-     <x>560</x>
+     <x>330</x>
      <y>550</y>
      <width>131</width>
      <height>41</height>
@@ -244,7 +244,7 @@
    <property name="geometry">
     <rect>
      <x>410</x>
-     <y>100</y>
+     <y>130</y>
      <width>131</width>
      <height>51</height>
     </rect>
@@ -261,8 +261,8 @@
   <widget class="QPushButton" name="Readerm_Return_bt">
    <property name="geometry">
     <rect>
-     <x>410</x>
-     <y>170</y>
+     <x>570</x>
+     <y>550</y>
      <width>131</width>
      <height>51</height>
     </rect>

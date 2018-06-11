@@ -26,7 +26,7 @@
     <bool>true</bool>
    </property>
    <property name="rowCount">
-    <number>9</number>
+    <number>11</number>
    </property>
    <property name="columnCount">
     <number>1</number>
@@ -48,7 +48,12 @@
    </row>
    <row>
     <property name="text">
-     <string>书号</string>
+     <string>出版时间</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>ISBN</string>
     </property>
    </row>
    <row>
@@ -76,6 +81,11 @@
      <string>简介</string>
     </property>
    </row>
+   <row>
+    <property name="text">
+     <string>docID号</string>
+    </property>
+   </row>
    <column/>
   </widget>
   <widget class="QPushButton" name="add_Books">
@@ -91,7 +101,7 @@
     <string>确认</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="Back_Button">
    <property name="geometry">
     <rect>
      <x>480</x>

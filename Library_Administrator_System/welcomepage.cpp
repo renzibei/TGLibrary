@@ -19,6 +19,7 @@ WelcomePage::WelcomePage(QWidget *parent) :
     loginsocket = new QTcpSocket();
     QObject::connect(loginsocket, &QTcpSocket::readyRead, this, &WelcomePage::socket_Read_Data);
 
+    ui->adminpassword->setEchoMode(QLineEdit::Password);
 }
 
 WelcomePage::~WelcomePage()

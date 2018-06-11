@@ -12,6 +12,7 @@ Confirm::Confirm(QWidget *parent) :
 
     ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
+    confirmsocket = new QTcpSocket;
     QObject::connect(confirmsocket, &QTcpSocket::readyRead, this, &Confirm::socket_Read_Data);
 
 }

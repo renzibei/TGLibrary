@@ -106,7 +106,7 @@ void ReaderManagement::socket_Read_Data()
 
     if(index == 1)
     {
-        QMessageBox::warning(this, tr("错误"), tr("终端出现错误，请检查网络设置!"));
+        QMessageBox::warning(this, tr("错误"), tr("没有找到相关信息！"));
         return;
     }
     QJsonValue usernamevalue = rootobj.value("username");
@@ -124,10 +124,14 @@ void ReaderManagement::on_delete_hito_clicked()
 {
     //创建json
     int rownumber = ui->tableWidget->currentRow();
+    if(ui->tableWidget->item(rownumber,2) == 0)
+    {
+        QMessageBox::warning(this, tr("错误"), tr("请搜索后，选中记录再删除！"));
+        return;
+    }
     QJsonObject deletebookvalue;
     deletebookvalue.insert("jsontype","15");
     deletebookvalue.insert("userID", ui->tableWidget->item(rownumber,2)->text());
-
 
     //  连接服务器
     //QHostAddress hostaddress;
