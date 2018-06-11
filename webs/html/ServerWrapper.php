@@ -116,11 +116,11 @@ class ServerWrapper
 
                 $talkback = "收到的信息:$buf\n";
                 echo $talkback;
-
+/*
                 if(++$count >= 5){
                     break;
                 };
-
+*/
 
             }
             //echo $buf;

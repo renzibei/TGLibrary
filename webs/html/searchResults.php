@@ -70,7 +70,7 @@ query();
 
 <h3><span style="font-size:x-large"><a href="/css/" target="_self">海量资源</a>  <a href="/css/" target="_self">纸本图书</a>  <a href="/css/" target="_self">电子图书</a>  <a href="/css/" target="_self">纸本期刊</a>  <a href="/css/" target="_self">电子期刊</a>  <a href="/css/" target="_self">音像制品</a>  <a href="/css/" target="_self">古籍</a></span></h3>
 
-<form action="search.php" method="post"> <input type="radio" name="searchtype" value="bookname" /><span style="text-align:center; font-size:x-large" class="white">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large" class="white">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large" class="white">按作者</span>
+<form action="searchResults.php" method="post"> <input type="radio" name="searchtype" value="bookname" /><span style="text-align:center; font-size:x-large" class="white">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large" class="white">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large" class="white">按作者</span>
 <input type="text" name="bookname"> <input type="submit" value="搜索">
 
 </form>
