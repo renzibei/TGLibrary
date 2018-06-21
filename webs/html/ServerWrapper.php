@@ -161,7 +161,7 @@ class ServerWrapper
                 if(isset($json['name']))
                     $retrieveConditions[] = (new retrieveName($json['name']))->And();
                 if(isset($json['username']))
-                    $retrieveConditions[] = (new retrieveName($json['username']))->And();
+                    $retrieveConditions[] = (new retrieveUsername($json['username']))->And();
                 if(isset($json['uid']))
                     $retrieveConditions[] = (new retrieveUid($json['uid']))->And();
                 if($json['usertype'] == 0)
