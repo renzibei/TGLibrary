@@ -13,7 +13,7 @@ class retrieveUid extends retrieveStrategy
 {
     protected function &sonRetrieveStr()
     {
-        $retrieveStr = " uid = $this->keywords ";
+        $retrieveStr = " uid = '$this->keywords' ";
         return $retrieveStr;
     }
 

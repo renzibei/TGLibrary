@@ -13,7 +13,7 @@ class retrieveName extends retrieveStrategy
 {
     protected function &sonRetrieveStr()
     {
-        $retrieveStr = " name = $this->keywords ";
+        $retrieveStr = " (name = '$this->keywords' ";
         return $retrieveStr;
     }
 
