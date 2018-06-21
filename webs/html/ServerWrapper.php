@@ -59,9 +59,9 @@ class ServerWrapper
      * @param $status
      * @return string
      */
-    protected static function getReturnPackage($status = 0)
+    protected static function getReturnPackage($status = 0, $jsonType = 0)
     {
-        $returnArr = ['jsontype' => 0, 'confirmtype' => $status];
+        $returnArr = ['jsontype' => $jsonType, 'confirmtype' => $status];
         return json_encode($returnArr);
     }
 
@@ -76,9 +76,9 @@ class ServerWrapper
         socket_write($this->sockRe, $msg, strlen($msg));
     }
 
-    protected function sendDocuments($returnValue, array $documents)
+    protected function sendDocuments($returnValue, array $documents, $jsonType = 0)
     {
-        $returnPackage = self::getReturnPackage($returnValue);
+        $returnPackage = self::getReturnPackage($returnValue, $jsonType);
         $returnPackage = array_merge(json_decode($returnPackage), ['recordNumber' => count($documents), 'documents' => $documents]);
         $msg = json_encode($returnPackage);
         $this->sendSimpleMessage($msg);
@@ -89,9 +89,9 @@ class ServerWrapper
         socket_write($this->sockRe, $msg, strlen($msg));
     }
 
-    protected function sendAccounts($returnValue, array $accounts)
+    protected function sendAccounts($returnValue, array $accounts, $jsonType = 0)
     {
-        $returnPackage = self::getReturnPackage($returnValue);
+        $returnPackage = self::getReturnPackage($returnValue, $jsonType);
         $returnPackage = array_merge(json_decode($returnPackage), ['accounts' => $accounts]);
         $this->sendSimpleMessage(json_encode($returnPackage));
     }
@@ -145,7 +145,7 @@ class ServerWrapper
             else if($jsonType == self::messageType['normalQueryBook']) {
                 require_once 'retrieveSimple.php';
                 $docs = SystemFrame::docData()->queryDoc(array((new retrieveSimple($json['keywords']))->And()));
-                $this->sendDocuments(0, $docs);
+                $this->sendDocuments(0, $docs, 5);
 
             }
             else if($jsonType == self::messageType['advancedQueryBook']) {

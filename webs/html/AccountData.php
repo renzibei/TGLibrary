@@ -115,6 +115,8 @@ abstract class AccountData
         //echo $querySql ." <br />";
         $conn = SystemFrame::instance()->getConnection();
         $result = $conn->query($querySql);
+        if($result === false)
+            throw new \Exception("Fail to query Account From " . $this->accountTable . $conn->error, errorCode\QueryTableError);
         $accountList = array();
         while($row = $result->fetch_assoc()) {
             $accountList[] = &$this->getAccountFromRow($row);
