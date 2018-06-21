@@ -48,7 +48,7 @@ abstract class Account implements \JsonSerializable
     /**
      * @param mixed $username
      */
-    public function setUsername($username): void
+    public function setUsername($username)
     {
         $this->username = $username;
         $this->updateData();
@@ -67,7 +67,7 @@ abstract class Account implements \JsonSerializable
     /**
      * @param mixed $password
      */
-    public function setPassword($password): void
+    public function setPassword($password)
     {
         $this->password = $password;
         $this->updateData();
@@ -86,7 +86,7 @@ abstract class Account implements \JsonSerializable
     /**
      * @param mixed $userID
      */
-    public function setUserID($userID): void
+    public function setUserID($userID)
     {
         $this->userID = $userID;
         $this->updateData();
@@ -105,7 +105,7 @@ abstract class Account implements \JsonSerializable
     /**
      * @param mixed $name
      */
-    public function setName($name): void
+    public function setName($name)
     {
         $this->name = $name;
         $this->updateData();
