@@ -144,7 +144,7 @@ class ServerWrapper
             }
             else if($jsonType == self::messageType['normalQueryBook']) {
                 require_once 'retrieveSimple.php';
-                $docs = SystemFrame::docData()->queryDoc(array(retrieveSimple($json['keywords'])));
+                $docs = SystemFrame::docData()->queryDoc(array((new retrieveSimple($json['keywords']))->And()));
                 $this->sendDocuments(0, $docs);
 
             }
