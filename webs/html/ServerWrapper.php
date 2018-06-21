@@ -152,7 +152,8 @@ class ServerWrapper
 
             }
             else if($jsonType == self::messageType['addUserRequest']) {
-                SystemFrame::userData()->addAccount(new User($json['username'], $json['password'], $json['name'], $json['userID']));
+                $newUser = new User($json['username'], $json['password'], $json['name'], $json['userID']);
+                SystemFrame::userData()->addAccount($newUser);
                 $this->sendReturnPackage(0);
             }
             else if($jsonType == self::messageType['queryUserRequest']) {
