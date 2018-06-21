@@ -101,6 +101,28 @@ abstract class AccountData
 
     }
 
+    /**
+     * @param array $retrieveList
+     * @return array
+     * @throws \Exception
+     */
+    public function &queryAccount(array $retrieveList)
+    {
+        $querySql = "SELECT * FROM " . $this->accountTable . " WHERE TRUE ";
+        foreach ($retrieveList as $condition) {
+            $querySql .= $condition;
+        }
+        //echo $querySql ." <br />";
+        $conn = SystemFrame::instance()->getConnection();
+        $result = $conn->query($querySql);
+        $accountList = array();
+        while($row = $result->fetch_assoc()) {
+            $accountList[] = &$this->getAccountFromRow($row);
+        }
+        return $accountList;
+
+    }
+
 
     /**
      * @param $username

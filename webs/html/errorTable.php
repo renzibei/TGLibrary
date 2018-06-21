@@ -14,6 +14,8 @@ namespace tg\errorCode {
     const FunctionParameterError = 1011;
     const InCorrectIdentifierType = 1012;
     const BorrowRecordNotEqualRequest = 1013;
+    const AccountWrongError = 1014;
+    const TableTypeError = 1015;
 
     const DuplicateUsernameOrUid = 1062;
     //echo __NAMESPACE__ . " <br />" ;

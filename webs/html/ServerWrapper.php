@@ -70,6 +70,32 @@ class ServerWrapper
 
     }
 
+    protected function sendReturnPackage($returnValue)
+    {
+        $msg = self::getReturnPackage($returnValue);
+        socket_write($this->sockRe, $msg, strlen($msg));
+    }
+
+    protected function sendDocuments($returnValue, array $documents)
+    {
+        $returnPackage = self::getReturnPackage($returnValue);
+        $returnPackage = array_merge(json_decode($returnPackage), ['recordNumber' => count($documents), 'documents' => $documents]);
+        $msg = json_encode($returnPackage);
+        $this->sendSimpleMessage($msg);
+    }
+
+    protected  function sendSimpleMessage($msg)
+    {
+        socket_write($this->sockRe, $msg, strlen($msg));
+    }
+
+    protected function sendAccounts($returnValue, array $accounts)
+    {
+        $returnPackage = self::getReturnPackage($returnValue);
+        $returnPackage = array_merge(json_decode($returnPackage), ['accounts' => $accounts]);
+        $this->sendSimpleMessage(json_encode($returnPackage));
+    }
+
     /**
      * @param $buffer
      * @throws \Exception
@@ -77,23 +103,91 @@ class ServerWrapper
     protected function dealWithPackage($buffer)
     {
         $json = json_decode($buffer, TRUE);
-        if(!isset($json['jsontype']))
+        if(!isset($json['jsontype'])) {
             echo "no json type";
+            throw new \Exception("No json type detected ");
+        }
         else {
             $jsonType = $json['jsontype'];
-            if($jsonType == 1) {
+            if($jsonType == self::messageType['loginRequest']) {
                 $admin = SystemFrame::adminData()->queryFromUsername($json['adminname']);
                 if(!empty($admin) && $admin->getPassword() == $json['password']) {
-                        $msg = self::getReturnPackage(0);
+                        //$msg = self::getReturnPackage(0);
                 }
                 else {
-                    $msg = self::getReturnPackage(1);
+                    throw new \Exception("No username or wrong password ", errorCode\AccountWrongError);
+                    //$msg = self::getReturnPackage(1);
                 }
-                socket_write($this->sockRe, $msg, strlen($msg));
+                $this->sendReturnPackage(0);
+                //socket_write($this->sockRe, $msg, strlen($msg));
             }
+            else if($jsonType == self::messageType['addBookRequest']) {
+                try {
+                    SystemFrame::docData()->addDocument(new Book($json['title'], $json['authors'], $json['languages'], $json["publicationYear"],
+                        $json['subjects'], $json['publisher'], $json['urls'], $json['source'], $json['description'], $json['ISBNs'], '', NULL));
+                    $this->sendReturnPackage(0);
+                } catch (\Exception $e) {
+                    //SystemFrame::log_info("Fail to add book " . $e->getMessage() . " Line " . $e->getLine());
+                    //$this->sendReturnPackage(1);
+                    throw $e;
+                }
+            }
+            else if($jsonType == self::messageType['deleteBookRequest']) {
+                SystemFrame::docData()->deleteDoc($json['docID']);
+                $this->sendReturnPackage(0);
+            }
+            else if($jsonType == self::messageType['addRealBookRequest']) {
+                $doc = SystemFrame::docData()->getDocument($json['docID']);
+                $realBook = new RealBook($doc, $json['callNum'], NULL, TRUE, $json['place']);
+                $doc->addRealBook($realBook);
+                $this->sendReturnPackage(0);
+            }
+            else if($jsonType == self::messageType['normalQueryBook']) {
+                require_once 'retrieveSimple.php';
+                $docs = SystemFrame::docData()->queryDoc(array(retrieveSimple($json['keywords'])));
+                $this->sendDocuments(0, $docs);
+
+            }
+            else if($jsonType == self::messageType['advancedQueryBook']) {
+
+            }
+            else if($jsonType == self::messageType['addUserRequest']) {
+                SystemFrame::userData()->addAccount(new User($json['username'], $json['password'], $json['name'], $json['userID']));
+                $this->sendReturnPackage(0);
+            }
+            else if($jsonType == self::messageType['queryUserRequest']) {
+                require_once 'retrieveSet.php';
+                $retrieveConditions = array();
+                if(isset($json['name']))
+                    $retrieveConditions[] = (new retrieveName($json['name']))->And();
+                if(isset($json['username']))
+                    $retrieveConditions[] = (new retrieveName($json['username']))->And();
+                if(isset($json['uid']))
+                    $retrieveConditions[] = (new retrieveUid($json['uid']))->And();
+                if($json['usertype'] == 0)
+                    $accountList = SystemFrame::userData()->queryAccount($retrieveConditions);
+                else if($json['usertype'] == 1)
+                    $accountList = SystemFrame::adminData()->queryAccount($retrieveConditions);
+                else throw new \Exception("No userType appointed ", errorCode\TableTypeError);
+                $this->sendAccounts(0, $accountList);
+            }
+            else if($jsonType == self::messageType['addAdminRequest']) {
+                SystemFrame::adminData()->addAccount(new Admin($json['username'], $json['password'], $json['name']));
+                $this->sendReturnPackage(0);
+
+            }
+            else if($jsonType == self::messageType['queryAdminRequest']) {
+                
+
+            }
+
+
         }
     }
 
+    /**
+     * @throws \Exception
+     */
     public function beginListen()
     {
 
@@ -107,15 +201,21 @@ class ServerWrapper
             } else {
 
                 //发到客户端
-                $msg ="测试成功！\n";
+                //$msg ="测试成功！\n";
                 //socket_write($this->sockRe, $msg, strlen($msg));
 
-                echo "测试成功了啊\n";
+                echo "测试成功了啊\n" ;
                 $buf = socket_read($this->sockRe,65535);
-                $this->dealWithPackage($buf);
+                try {
+                    $this->dealWithPackage($buf);
 
-                $talkback = "收到的信息:$buf\n";
-                echo $talkback;
+                    $talkback = "收到的信息:$buf\n";
+                    echo $talkback;
+                } catch (\Exception $e) {
+                    echo $e->getMessage() . " Line " . $e->getLine() .  PHP_EOL;
+                    SystemFrame::log_info($e->getMessage() . " Line " . $e->getLine() );
+                    $this->sendReturnPackage(1);
+                }
 /*
                 if(++$count >= 5){
                     break;

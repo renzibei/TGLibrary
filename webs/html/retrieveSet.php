@@ -14,5 +14,8 @@ require_once 'retrievePublicationDate.php';
 require_once 'retrieveSubject.php';
 require_once 'retrieveTitle.php';
 require_once 'retrievePublisher.php';
+require_once 'retrieveSimple.php';
+require_once 'retrieveName.php';
+require_once 'retrieveUsername.php';
 
 ?>

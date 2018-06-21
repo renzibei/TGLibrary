@@ -144,36 +144,36 @@ void BookManagement::socket_Read_Data()
 
     if(jsonvaluenumber == 3)
     {
-    QJsonValue jsontypevalue = rootobj.value("documents");
+        QJsonValue jsontypevalue = rootobj.value("documents");
 
-    int index = confirmvalue.toInt();
+        int index = confirmvalue.toInt();
 
-    if(index == 1)
-    {
-        QMessageBox::warning(this, tr("错误"), tr("终端出现错误，请检查网络设置!"));
-        return;
-    }
+        if(index == 1)
+        {
+            QMessageBox::warning(this, tr("错误"), tr("终端出现错误，请检查网络设置!"));
+            return;
+        }
 
 
-    QJsonArray bookarray = jsontypevalue.toArray();
-    ui->tableWidget->setRowCount(bookarray.size());
+        QJsonArray bookarray = jsontypevalue.toArray();
+        ui->tableWidget->setRowCount(bookarray.size());
 
-    for(int i = 0; i<bookarray.size(); i++)
-    {
-        QJsonValue booknumber = bookarray.at(i);
-        QJsonObject iteratorobject = booknumber.toObject();
+        for(int i = 0; i<bookarray.size(); i++)
+        {
+            QJsonValue booknumber = bookarray.at(i);
+            QJsonObject iteratorobject = booknumber.toObject();
 
-        QJsonValue titlevalue = iteratorobject.value("title");
-        QJsonValue authorvalue = iteratorobject.value("authors");
-        QJsonValue publishervalue = iteratorobject.value("publisher");
-        QJsonValue docIDvalue = iteratorobject.value("docID");
+            QJsonValue titlevalue = iteratorobject.value("title");
+            QJsonValue authorvalue = iteratorobject.value("authors");
+            QJsonValue publishervalue = iteratorobject.value("publisher");
+            QJsonValue docIDvalue = iteratorobject.value("docID");
 
-        ui->tableWidget->setItem(i,0,new QTableWidgetItem(titlevalue.toString()));
-        ui->tableWidget->setItem(i,1,new QTableWidgetItem(authorvalue.toString()));
-        ui->tableWidget->setItem(i,2,new QTableWidgetItem(publishervalue.toString()));
-        ui->tableWidget->setItem(i,3,new QTableWidgetItem(docIDvalue.toString()));
+            ui->tableWidget->setItem(i,0,new QTableWidgetItem(titlevalue.toString()));
+            ui->tableWidget->setItem(i,1,new QTableWidgetItem(authorvalue.toString()));
+            ui->tableWidget->setItem(i,2,new QTableWidgetItem(publishervalue.toString()));
+            ui->tableWidget->setItem(i,3,new QTableWidgetItem(docIDvalue.toString()));
 
-    }
+        }
     }
     else if (jsonvaluenumber == 5)
     {

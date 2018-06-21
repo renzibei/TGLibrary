@@ -13,7 +13,7 @@ class retrievePublisher extends retrieveStrategy
 {
     protected function &sonRetrieveStr()
     {
-        $returnStr = " publisher LIKE '%$this->keywords%'";
+        $returnStr = " publisher LIKE '%$this->keywords%' ";
         return $returnStr;
     }
 

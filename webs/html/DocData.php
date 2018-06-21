@@ -122,6 +122,19 @@ class DocData
 
     }
 
+    /**
+     * @param $docId
+     * @throws \Exception
+     */
+    public function deleteDoc($docId) {
+        $query = "DELETE FROM " . systemConfig\config['docTable'] . " WHERE docId = $docId";
+        $conn = SystemFrame::instance()->getConnection();
+        $result = $conn->query($query);
+        if($result === false)
+            throw new \Exception(" Fail to delete doc $docId , $conn->error", errorCode\DeleteFromTableError);
+
+    }
+
 
 
     /**
