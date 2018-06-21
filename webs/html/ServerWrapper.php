@@ -79,7 +79,7 @@ class ServerWrapper
     protected function sendDocuments($returnValue, array $documents, $jsonType = 0)
     {
         $returnPackage = self::getReturnPackage($returnValue, $jsonType);
-        $returnPackage = array_merge(json_decode($returnPackage), ['recordNumber' => count($documents), 'documents' => $documents]);
+        $returnPackage = array_merge(json_decode($returnPackage, TRUE), ['recordNumber' => count($documents), 'documents' => $documents]);
         $msg = json_encode($returnPackage);
         $this->sendSimpleMessage($msg);
     }
@@ -92,7 +92,7 @@ class ServerWrapper
     protected function sendAccounts($returnValue, array $accounts, $jsonType = 0)
     {
         $returnPackage = self::getReturnPackage($returnValue, $jsonType);
-        $returnPackage = array_merge(json_decode($returnPackage), ['accounts' => $accounts]);
+        $returnPackage = array_merge(json_decode($returnPackage, TRUE), ['accounts' => $accounts]);
         $this->sendSimpleMessage(json_encode($returnPackage));
     }
 
