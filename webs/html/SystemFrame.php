@@ -10,6 +10,7 @@ use \mysqli;
 require_once 'errorTable.php';
 require_once dirname(dirname(dirname(__FILE__))) . '/dbusers/dbadmin.php';
 require_once 'DocData.php';
+require_once 'UserData.php';
 
 
 
