@@ -11,6 +11,9 @@ require_once 'errorTable.php';
 require_once dirname(dirname(dirname(__FILE__))) . '/dbusers/dbadmin.php';
 require_once 'DocData.php';
 require_once 'UserData.php';
+require_once 'AdminData.php';
+require_once 'BorrowRecord.php';
+
 
 
 
@@ -505,10 +508,9 @@ class SystemFrame{
 		        //var_dump($e);
                 throw $e;
             }
-
-        }
-
     }
+
+}
 
 
 

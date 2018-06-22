@@ -103,9 +103,7 @@ class User extends Account
 
     }
 
-    /**
-     * @return null
-     */
+
     public function getUserID()
     {
         return $this->userID;
