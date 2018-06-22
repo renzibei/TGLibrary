@@ -63,7 +63,7 @@ query();
 					<a href="mylib.html" class="loggedin1">
 						<button type="button" class="btn btn-info">我的图书</button>　　　
 					</a>
-					<a href="index.html" class="loggedin2">
+					<a href="../index.html" class="loggedin2">
 						<button type="button" class="btn btn-primary">退出登录</button>
 					</a>
 				</div>
@@ -82,6 +82,12 @@ query();
 		<a id="2" href="detailsofBook.html"></a><br><br>
 		<a id="3" href="detailsofBook.html"></a><br><br>
 		<a id="4" href="detailsofBook.html"></a><br><br>
+        <a id="5" href="detailsofBook.html"></a><br><br>
+        <a id="6" href="detailsofBook.html"></a><br><br>
+        <a id="7" href="detailsofBook.html"></a><br><br>
+        <a id="8" href="detailsofBook.html"></a><br><br>
+        <a id="9" href="detailsofBook.html"></a><br><br>
+        <a id="10" href="detailsofBook.html"></a><br><br>
 		</p>
 
 		<script>
