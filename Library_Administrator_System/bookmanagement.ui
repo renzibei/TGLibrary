@@ -136,7 +136,7 @@
    </column>
    <column>
     <property name="text">
-     <string>编号</string>
+     <string>ID</string>
     </property>
    </column>
   </widget>

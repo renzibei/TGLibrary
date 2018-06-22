@@ -6,8 +6,10 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QtNetwork>
-
+#include <QString>
 #include <QMessageBox>
+
+#include "realbook.h"
 
 
 namespace Ui {
@@ -20,8 +22,12 @@ class bookoperation : public QDialog
 
 public:
     explicit bookoperation(QWidget *parent = 0);
-  //  bookoperation(QWidget *parent = 0, int i =1);
     ~bookoperation();
+
+    //用于窗口传值的重要变量
+     QJsonObject booktransferobject; //可能需要变成指针
+     int operationtype = 0;
+     void writeinformation();
 
 private slots:
 
@@ -30,6 +36,8 @@ private slots:
     void on_Back_Button_clicked();
 
     void socket_Read_Data();
+
+    void on_AddRealBooks_clicked();
 
 private:
     Ui::bookoperation *ui;

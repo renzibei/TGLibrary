@@ -7,6 +7,8 @@
 #include <QJsonDocument>
 #include <QtNetwork>
 
+#include <QVector>
+
 namespace Ui {
 class ReaderManagement;
 }
@@ -18,6 +20,9 @@ class ReaderManagement : public QDialog
 public:
     explicit ReaderManagement(QWidget *parent = 0);
     ~ReaderManagement();
+
+    QVector<QJsonObject> counterpartjson;
+    int typenumber = 0;
 
 private slots:
     void on_pushButton_2_clicked();

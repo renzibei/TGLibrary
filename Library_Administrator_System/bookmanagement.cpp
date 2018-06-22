@@ -31,9 +31,11 @@ BookManagement::~BookManagement()
 void BookManagement::on_AddBook_Bt_clicked()
 {
     this->hide();
-    bookoperation *bookoperation2 = new bookoperation(this);
-    bookoperation2->show();
-    bookoperation2->exec();
+    bookoperation *bookoperation1 = new bookoperation(this);
+    bookoperation1->operationtype = 3;
+
+    bookoperation1->show();
+    bookoperation1->exec();
     this->show();
 }
 
@@ -76,8 +78,12 @@ void BookManagement::on_Delete_Book_clicked()
 
 void BookManagement::on_detailed_information_clicked()
 {
+    int rownumber = ui->tableWidget->currentRow();
     this->hide();
     bookoperation *bookoperation1 = new bookoperation(this);
+    bookoperation1->operationtype = 0;
+    bookoperation1->booktransferobject = counterpartobject[rownumber];
+    bookoperation1->writeinformation();
     bookoperation1->show();
     bookoperation1->exec();
     this->show();
@@ -85,8 +91,12 @@ void BookManagement::on_detailed_information_clicked()
 
 void BookManagement::on_Modify_Book_clicked()
 {
+    int rownumber = ui->tableWidget->currentRow();
     this->hide();
     bookoperation *bookoperation1 = new bookoperation(this);
+    bookoperation1->operationtype = 1;
+    bookoperation1->booktransferobject = counterpartobject[rownumber];
+    bookoperation1->writeinformation();
     bookoperation1->show();
     bookoperation1->exec();
     this->show();
@@ -94,8 +104,10 @@ void BookManagement::on_Modify_Book_clicked()
 
 void BookManagement::on_advancedsearch_clicked()
 {
+    int rownumber = ui->tableWidget->currentRow();
     this->hide();
     bookoperation *bookoperation1 = new bookoperation(this);
+    bookoperation1->operationtype = 2;
     bookoperation1->show();
     bookoperation1->exec();
     this->show();
@@ -142,26 +154,34 @@ void BookManagement::socket_Read_Data()
 
     QJsonValue confirmvalue = rootobj.value("confirmtype");
 
-    if(jsonvaluenumber == 3)
+    if(jsonvaluenumber == 5 || 6)
     {
         QJsonValue jsontypevalue = rootobj.value("documents");
 
         int index = confirmvalue.toInt();
 
-        if(index == 1)
+        if(index == 2)
         {
             QMessageBox::warning(this, tr("错误"), tr("终端出现错误，请检查网络设置!"));
             return;
         }
+        if(index == 1)
+        {
+            QMessageBox::information(this, tr("错误"), tr("没有查询到相关书籍！"));
+            return;
+        }
 
+        counterpartobject.clear();
 
         QJsonArray bookarray = jsontypevalue.toArray();
+
         ui->tableWidget->setRowCount(bookarray.size());
 
         for(int i = 0; i<bookarray.size(); i++)
         {
-            QJsonValue booknumber = bookarray.at(i);
-            QJsonObject iteratorobject = booknumber.toObject();
+            //QJsonValue booknumber = bookarray.at(i);似乎完全多余并没有必要wazawaza走这一步
+            QJsonObject iteratorobject = bookarray.at(i).toObject();
+            counterpartobject.push_back(iteratorobject);
 
             QJsonValue titlevalue = iteratorobject.value("title");
             QJsonValue authorvalue = iteratorobject.value("authors");
@@ -175,22 +195,21 @@ void BookManagement::socket_Read_Data()
 
         }
     }
-    else if (jsonvaluenumber == 5)
+    else if (jsonvaluenumber == 3)
     {
         int index = confirmvalue.toInt();
 
         if(index == 1)
         {
-            QMessageBox::warning(this, tr("错误"), tr("终端未查询到这本书！"));
+            QMessageBox::warning(this, tr("错误"), tr("终端发生错误，请检查网络设置"));
             return;
         }
         if(index == 0)
         {
-            QMessageBox::information(this, tr("成功"), tr("已删除！"));
+            QMessageBox::information(this, tr("成功"), tr("删除成功！"));
             return;
         }
     }
 }
-
 
 

@@ -73,12 +73,7 @@
    </column>
    <column>
     <property name="text">
-     <string>属性</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>借阅册数</string>
+     <string>借阅册数（仅读者）</string>
     </property>
    </column>
   </widget>
@@ -264,7 +259,7 @@
      <x>570</x>
      <y>550</y>
      <width>131</width>
-     <height>51</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">

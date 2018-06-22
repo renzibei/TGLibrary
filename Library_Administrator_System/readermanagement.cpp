@@ -16,6 +16,17 @@ ReaderManagement::ReaderManagement(QWidget *parent) :
 
     readersocket = new QTcpSocket();
     QObject::connect(readersocket, &QTcpSocket::readyRead, this, &ReaderManagement::socket_Read_Data);
+
+    // QHostAddress hostaddress;
+     hostaddress.setAddress(QString("35.194.106.246"));
+     readersocket->connectToHost(hostaddress,8333);
+
+     if(!readersocket->waitForConnected(10000))
+     {
+     QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
+     return;
+     }
+
 }
 
 ReaderManagement::~ReaderManagement()
@@ -38,15 +49,6 @@ void ReaderManagement::on_pushButton_4_clicked()
     QMessageBox::warning(this, tr("错误"), tr("请输入"));
     else
     {
-       // QHostAddress hostaddress;
-        hostaddress.setAddress(QString("35.194.106.246"));
-        readersocket->connectToHost(hostaddress,8333);
-
-        if(!readersocket->waitForConnected(10000))
-        {
-        QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
-        return;
-        }
         if(ui->comboBox->currentText()=="读者姓名"||ui->comboBox->currentText()=="读者用户名"||ui->comboBox->currentText()=="读者工作证号")
         {
            readerjson.insert("jsontype", "9");
@@ -82,13 +84,22 @@ void ReaderManagement::on_pushButton_4_clicked()
 
 void ReaderManagement::on_Modifieduser_clicked()
 {
-    Addnewreader *addnewreader = new Addnewreader(this);
+    int rownumber =  ui->tableWidget->currentRow();
 
-    addnewreader->SendData(transferobject);
+
+    Addnewreader *addnewreader = new Addnewreader(this);
+    if(ui->comboBox->currentText()=="读者姓名" || ui->comboBox->currentText()=="读者用户名" || ui->comboBox->currentText()=="读者工作证号" )
+    addnewreader->operationtype = 1;
+    else
+    addnewreader->operationtype = 2;
+
+    addnewreader->SendData(counterpartjson[rownumber]);
 
     addnewreader->move((QApplication::desktop()->width() - addnewreader->width()) / 2,
                      (QApplication::desktop()->height() - addnewreader->height()) / 2);
     addnewreader->show();
+
+
 
 }
 
@@ -104,20 +115,32 @@ void ReaderManagement::socket_Read_Data()
     QJsonValue jsontypevalue = rootobj.value("confirmtype");
     int index = jsontypevalue.toInt();
 
+
     if(index == 1)
     {
         QMessageBox::warning(this, tr("错误"), tr("没有找到相关信息！"));
         return;
     }
-    QJsonValue usernamevalue = rootobj.value("username");
-    QJsonValue namevalue = rootobj.value("name");
-    QJsonValue IDvalue = rootobj.value("userID");
-    QJsonValue usertypevalue = rootobj.value("usertype");
-    QJsonValue uidvalue = rootobj.value("uid");
-    ui->tableWidget->setItem(0,0,new QTableWidgetItem(usernamevalue.toString()));
-    ui->tableWidget->setItem(0,1,new QTableWidgetItem(namevalue.toString()));
-    ui->tableWidget->setItem(0,2,new QTableWidgetItem(IDvalue.toInt()));
-    ui->tableWidget->setItem(0,3,new QTableWidgetItem(uidvalue.toInt()));
+
+    QJsonArray informationarray = rootobj.value("documents").toArray();
+    int informationnumber = informationarray.size();
+
+    for(int i = 0; i<informationnumber; i++)
+    {
+    QJsonObject iteratorobject = informationarray.at(i).toObject();
+
+    counterpartjson.push_back(iteratorobject);
+
+    QJsonValue usernamevalue = iteratorobject.value("username");
+    QJsonValue namevalue = iteratorobject.value("name");
+    QJsonValue IDvalue = iteratorobject.value("userID");
+  //  QJsonValue usertypevalue = iteratorobject.value("usertype");
+    QJsonValue uidvalue = iteratorobject.value("uid");
+    ui->tableWidget->setItem(i,0,new QTableWidgetItem(usernamevalue.toString()));
+    ui->tableWidget->setItem(i,1,new QTableWidgetItem(namevalue.toString()));
+    ui->tableWidget->setItem(i,2,new QTableWidgetItem(IDvalue.toInt()));
+    ui->tableWidget->setItem(i,3,new QTableWidgetItem(uidvalue.toInt()));
+    }
 }
 
 void ReaderManagement::on_delete_hito_clicked()
@@ -132,6 +155,10 @@ void ReaderManagement::on_delete_hito_clicked()
     QJsonObject deletebookvalue;
     deletebookvalue.insert("jsontype","15");
     deletebookvalue.insert("userID", ui->tableWidget->item(rownumber,2)->text());
+    if(ui->comboBox->currentText()=="读者姓名" || ui->comboBox->currentText()=="读者用户名" || ui->comboBox->currentText()=="读者工作证号" )
+    deletebookvalue.insert("usertype","0");
+    else
+    deletebookvalue.insert("usertype","1");
 
     //  连接服务器
     //QHostAddress hostaddress;

@@ -64,36 +64,36 @@ json协议：
 
 3、jsontype 的详细区分 右端为给你的参量
 
-登陆 1 adminname  password  （已完成）
+登陆 1 adminname  password   完成
 
-加虚拟书 2 名称与虚拟书信息条目保持一致     
+加虚拟书 2 名称与虚拟书信息条目保持一致 完成     
 
-删书 3 选中的的docId1       
+删书 3 选中的的docId1      完成 
 
-加实体书 4    callNum version place (isOnShelf)，我倾向于把这个功能做到虚拟书信息页面，有一个添加实体书的功能，所以为了添加实体书需要通过修改书目的路径进去，因此有可能同时修改虚拟书和实体书，因此可能同时先后发给你两个json包（2、4）或（13、4）。同时估计没时间做删实体书和修改实体书了。也没什么意义，对于大作业微不足道的分数边际效应递减完全应该忽略不计） 
+加实体书 4    callNum version place (isOnShelf)，我倾向于把这个功能做到虚拟书信息页面，有一个添加实体书的功能，所以为了添加实体书需要通过修改书目的路径进去，因此有可能同时修改虚拟书和实体书，因此可能同时先后发给你两个json包（2、4）或（13、4）。同时估计没时间做删实体书和修改实体书了。也没什么意义，对于大作业微不足道的分数边际效应递减完全应该忽略不计）完成 
 
-查询书目普通检索 5 keywords            （还给我 documents总共条目数）   
+查询书目普通检索 5 keywords            （还给我 documents总共条目数）   完成
 
-完成查询书目高级检索 6 名称保持一致       （还给我 documents总共条目数）  差一点完成
+查询书目高级检索 6 名称保持一致       （还给我 documents总共条目数）   完成  
 
- //跳转页数 7  页数  （已经没用了目前开来 ，直接用滚动条滚动表格就行）
+//跳转页数 7  页数  （已经没用了目前开来 ，直接用滚动条滚动表格就行）
 
 加读者 8 （name是中文名）与读者需要的信息保持一致     完成
 
-检索读者 9  （同上）完成 usertype 0  读者 1 管理者         完成
+检索读者 9  （同上）完成 usertype 0读者    1管理者         完成
 
 加管理者 10    完成
 
-检索管理者 11 （没参数）（是不是9已经包含了全部的功能？？）
+//检索管理者 11 （没参数）已经于9完成
 
-借阅记录 12  recordtype: all(0), user(1) book(2）
+借阅记录 12  recordtype: 书目名称(1) 书目ID(2）读者姓名（3） 读者ID（4） 还给我以documents为关键字的所有记录的数组。 真正输入的信息保存在information 里   注意数字都是字符串。  完成
 
-修改书 13 bookid+全部修改之后的信息改读者
+修改书 13 bookid+全部修改之后的信息 
 
-管理员 14  usertype 删除读者 
+完成改读者 管理员 14  usertype 完成
 
-管理员 15  只给 userid 和usertype查询待审核记录 16 
+删除读者 管理员 15  只给 userid 和usertype 完成 usertype 读者0 管理员1 完成
 
-只给你16 还给我 name username  title  begindate  requestID  json数组外面用   requestrecords
+查询待审核记录 16 只给你16 还给我 name username  title  begindate  requestID  json数组外面用   documents标记  完成
 
-审核操作 17 只给你 17,requestID , isagreed(同意是1， 拒绝是0），还给我  操作是否成功，这里使用confirmvalue 0成功 2失败（与约定保持一致） 
+审核操作 17 只给你 17,requestID , isagreed(同意是1， 拒绝是0），还给我  操作是否成功，这里使用confirmvalue 0成功 2失败（与约定保持一致） 完成 

@@ -70,7 +70,7 @@
    </column>
    <column>
     <property name="text">
-     <string>书目</string>
+     <string>借阅书目</string>
     </property>
    </column>
    <column>
@@ -80,7 +80,12 @@
    </column>
    <column>
     <property name="text">
-     <string>操作编号</string>
+     <string>归还日期</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>请求ID</string>
     </property>
    </column>
   </widget>
@@ -138,20 +143,10 @@
     <string>返回</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>90</y>
-     <width>251</width>
-     <height>41</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QPushButton" name="update_record">
    <property name="geometry">
     <rect>
-     <x>510</x>
+     <x>320</x>
      <y>90</y>
      <width>121</width>
      <height>41</height>

@@ -35,11 +35,11 @@
     <string>借还记录</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox">
+  <widget class="QComboBox" name="Searchway">
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>120</y>
+     <y>140</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -51,17 +51,12 @@
    </property>
    <item>
     <property name="text">
-     <string>最近10条</string>
+     <string>书目名称</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>书籍作者</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>书籍编号</string>
+     <string>书目ID</string>
     </property>
    </item>
    <item>
@@ -71,7 +66,7 @@
    </item>
    <item>
     <property name="text">
-     <string>读者卡号</string>
+     <string>读者ID</string>
     </property>
    </item>
   </widget>
@@ -79,7 +74,7 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>120</y>
+     <y>140</y>
      <width>141</width>
      <height>31</height>
     </rect>
@@ -106,59 +101,11 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>180</y>
-     <width>131</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>18</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>查询种类：</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="comboBox_2">
-   <property name="geometry">
-    <rect>
-     <x>200</x>
-     <y>180</y>
-     <width>101</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <item>
-    <property name="text">
-     <string>全部</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>借阅</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>归还</string>
-    </property>
-   </item>
-  </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>430</x>
-     <y>190</y>
+     <x>660</x>
+     <y>140</y>
      <width>111</width>
      <height>41</height>
     </rect>
@@ -175,8 +122,8 @@
   <widget class="QPushButton" name="Record_Return_bt">
    <property name="geometry">
     <rect>
-     <x>580</x>
-     <y>190</y>
+     <x>640</x>
+     <y>540</y>
      <width>111</width>
      <height>41</height>
     </rect>
@@ -193,20 +140,20 @@
   <widget class="QTableWidget" name="tableWidget">
    <property name="geometry">
     <rect>
-     <x>25</x>
-     <y>300</y>
+     <x>10</x>
+     <y>290</y>
      <width>761</width>
      <height>211</height>
     </rect>
    </property>
    <column>
     <property name="text">
-     <string>新建列</string>
+     <string>书目</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>编号</string>
+     <string>书目ID</string>
     </property>
    </column>
    <column>
@@ -216,43 +163,30 @@
    </column>
    <column>
     <property name="text">
-     <string>新建列</string>
+     <string>读者用户名？？</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>读者卡号</string>
+     <string>读者ID</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>应还日期</string>
+     <string>借阅日期</string>
     </property>
    </column>
-  </widget>
-  <widget class="QPushButton" name="pushButton_3">
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>537</y>
-     <width>141</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>18</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>详细信息</string>
-   </property>
+   <column>
+    <property name="text">
+     <string>归还日期</string>
+    </property>
+   </column>
   </widget>
   <widget class="QLineEdit" name="Input_Edit1">
    <property name="geometry">
     <rect>
-     <x>490</x>
-     <y>120</y>
+     <x>470</x>
+     <y>140</y>
      <width>151</width>
      <height>41</height>
     </rect>
@@ -266,8 +200,8 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>390</x>
-     <y>120</y>
+     <x>370</x>
+     <y>140</y>
      <width>131</width>
      <height>41</height>
     </rect>

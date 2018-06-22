@@ -22,6 +22,11 @@ public:
 public:
     void SendData(QJsonObject qjsonpass);
 
+   //用于窗口传值的重要变量
+    QJsonObject *readertransferobject = nullptr;
+    int operationtype = 0;
+
+
 private slots:
     void on_pushButton_2_clicked();
 

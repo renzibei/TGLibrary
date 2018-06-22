@@ -61,13 +61,15 @@ void Confirm::on_AcceptRequest_clicked()
     QJsonObject transferobject;
     transferobject.insert("jsontype","17");
     transferobject.insert("requestID", ui->tableWidget->item(rownumber,4)->text());
-    transferobject.insert("isagreed", "1");
+    transferobject.insert("isAllowed", true);
 
     QJsonDocument jsondoc;
     jsondoc.setObject(transferobject);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
     //confirmsocket->write( std::to_string(bytearray.size()).c_str() );
     confirmsocket->write(bytearray);
+
+    ui->tableWidget->removeRow(rownumber);
 
 }
 
@@ -86,13 +88,16 @@ void Confirm::on_KotowariRecord_clicked()
     QJsonObject transferobject;
     transferobject.insert("jsontype","17");
     transferobject.insert("requestID", ui->tableWidget->item(rownumber,4)->text());
-    transferobject.insert("isagreed", "0");
+    transferobject.insert("isAllowed", false);
 
     QJsonDocument jsondoc;
     jsondoc.setObject(transferobject);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
     //confirmsocket->write( std::to_string(bytearray.size()).c_str() );
     confirmsocket->write(bytearray);
+
+    ui->tableWidget->removeRow(rownumber);
+
 }
 
 
@@ -106,7 +111,7 @@ void Confirm::socket_Read_Data()
 
     if(rootobj.value("jsontype").toString()=="16")
     {
-    QJsonValue jsontypevalue = rootobj.value("requestrecords");
+    QJsonValue jsontypevalue = rootobj.value("documents");
 
 
 
@@ -121,14 +126,16 @@ void Confirm::socket_Read_Data()
         QJsonValue titlevalue = iteratorobject.value("title");
         QJsonValue namevalue = iteratorobject.value("name");
         QJsonValue usernamevalue = iteratorobject.value("username");
-        QJsonValue begindatevalue = iteratorobject.value("begindate");
+        QJsonValue begindatevalue = iteratorobject.value("beginDate");
         QJsonValue requestIDvalue = iteratorobject.value("requestID");
+        QJsonValue returndatevalue = iteratorobject.value("returnDate");
 
         ui->tableWidget->setItem(i,0,new QTableWidgetItem(namevalue.toString()));
         ui->tableWidget->setItem(i,1,new QTableWidgetItem(usernamevalue.toString()));
         ui->tableWidget->setItem(i,2,new QTableWidgetItem(titlevalue.toString()));
         ui->tableWidget->setItem(i,3,new QTableWidgetItem(begindatevalue.toString()));
-        ui->tableWidget->setItem(i,4,new QTableWidgetItem(requestIDvalue.toString()));
+        ui->tableWidget->setItem(i,4,new QTableWidgetItem(returndatevalue.toString()));
+        ui->tableWidget->setItem(i,5,new QTableWidgetItem(requestIDvalue.toString()));
 
     }
     }

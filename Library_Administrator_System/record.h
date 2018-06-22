@@ -3,6 +3,15 @@
 
 #include <QDialog>
 
+
+#include <QDialog>
+#include <QTcpSocket>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QtNetwork>
+
+#include <QMessageBox>
+
 namespace Ui {
 class Record;
 }
@@ -18,8 +27,17 @@ public:
 private slots:
     void on_pushButton_clicked();
 
+    void socket_Read_Data();
+
+    void on_Record_Return_bt_clicked();
+
 private:
     Ui::Record *ui;
+
+    QTcpSocket *recordsocket;
+    QByteArray bytearray;
+    QJsonObject recordjson;
+    QHostAddress hostaddress;
 };
 
 #endif // RECORD_H

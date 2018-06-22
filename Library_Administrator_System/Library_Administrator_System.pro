@@ -34,7 +34,8 @@ SOURCES += \
     confirm.cpp \
     errorinput_e.cpp \
     addnewreader.cpp \
-    bookoperation.cpp
+    bookoperation.cpp \
+    realbook.cpp
 
 HEADERS += \
         welcomepage.h \
@@ -45,7 +46,8 @@ HEADERS += \
     confirm.h \
     errorinput_e.h \
     addnewreader.h \
-    bookoperation.h
+    bookoperation.h \
+    realbook.h
 
 FORMS += \
         welcomepage.ui \
@@ -56,7 +58,8 @@ FORMS += \
     confirm.ui \
     errorinput_e.ui \
     addnewreader.ui \
-    bookoperation.ui
+    bookoperation.ui \
+    realbook.ui
 
 RESOURCES += \
     vectorpng.qrc

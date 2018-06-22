@@ -43,7 +43,29 @@ if(ui->pushButton->text()=="确认")
         QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
         return;
         }
-        if(ui->comboBox->currentText()=="读者")
+        if(operationtype == 1)
+        {
+            addreaderjson.insert("jsontype", "14");
+            addreaderjson.insert("usertype", "0");
+
+            addreaderjson.insert("name",ui->name->text());
+            addreaderjson.insert("username",ui->peoplenumber->text());
+            addreaderjson.insert("userID", ui->Cardnumber->text());
+            addreaderjson.insert("password", ui->password->text());
+
+        }
+        else if (operationtype == 2)
+        {
+            addreaderjson.insert("jsontype", "14");
+            addreaderjson.insert("usertype", "1");
+            addreaderjson.insert("name",ui->name->text());
+            addreaderjson.insert("username",ui->peoplenumber->text());
+            addreaderjson.insert("userID", ui->Cardnumber->text());
+            addreaderjson.insert("password", ui->password->text());
+
+        }
+
+        else if(ui->comboBox->currentText()=="读者")
         {
         addreaderjson.insert("jsontype", "8");
 
@@ -68,6 +90,7 @@ if(ui->pushButton->text()=="确认")
         bytearray = sendjson.toJson(QJsonDocument::Compact);
         //addreadersocket->write( std::to_string(bytearray.size()).c_str() );
         addreadersocket->write(bytearray);
+        this->close();
      //   addreaderjson.~QJsonObject();
 }
     }
@@ -86,7 +109,6 @@ else if (ui->pushButton->text()=="修改")
         QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
         return;
         }
-
 
 }
 
@@ -108,7 +130,8 @@ void Addnewreader::socket_Read_Data()
 
     if(index == 0)
     {
-        QMessageBox::information(this, tr(""), tr("添加成功"));
+        QMessageBox::information(this, tr(""), tr("操作成功"));
+        this->close();
     }
     else if(index == 1)
     {
