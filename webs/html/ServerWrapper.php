@@ -56,7 +56,8 @@ class ServerWrapper
     }
 
     /**
-     * @param $status
+     * @param int $status
+     * @param int $jsonType
      * @return string
      */
     protected static function getReturnPackage($status = 0, $jsonType = 0)
@@ -70,9 +71,13 @@ class ServerWrapper
 
     }
 
-    protected function sendReturnPackage($returnValue)
+    /**
+     * @param $returnValue
+     * @param int $jsonType
+     */
+    protected function sendReturnPackage($returnValue, $jsonType = 0)
     {
-        $msg = self::getReturnPackage($returnValue);
+        $msg = self::getReturnPackage($returnValue, $jsonType);
         socket_write($this->sockRe, $msg, strlen($msg));
     }
 
@@ -154,7 +159,7 @@ class ServerWrapper
             else if($jsonType == self::messageType['addUserRequest']) {
                 $newUser = new User($json['username'], $json['password'], $json['name'], $json['userID']);
                 SystemFrame::userData()->addAccount($newUser);
-                $this->sendReturnPackage(0);
+                $this->sendReturnPackage(0, $jsonType);
             }
             else if($jsonType == self::messageType['queryUserRequest']) {
                 require_once 'retrieveSet.php';
@@ -174,7 +179,7 @@ class ServerWrapper
             }
             else if($jsonType == self::messageType['addAdminRequest']) {
                 SystemFrame::adminData()->addAccount(new Admin($json['username'], $json['password'], $json['name']));
-                $this->sendReturnPackage(0);
+                $this->sendReturnPackage(0, $jsonType);
 
             }
             else if($jsonType == self::messageType['queryAdminRequest']) {
@@ -205,12 +210,13 @@ class ServerWrapper
                 //$msg ="测试成功！\n";
                 //socket_write($this->sockRe, $msg, strlen($msg));
 
-                echo "测试成功了啊\n" ;
+
                 $buf = socket_read($this->sockRe,65535);
                 try {
-                    $this->dealWithPackage($buf);
-
                     $talkback = "收到的信息:$buf\n";
+                    $this->dealWithPackage($buf);
+                    //echo "测试成功了啊\n" ;
+
                     echo $talkback;
                 } catch (\Exception $e) {
                     echo $e->getMessage() . " Line " . $e->getLine() .  PHP_EOL;
