@@ -10,6 +10,35 @@
 
 
 
+
+
+### SystemFrame
+
+
+
+#### Member Functions
+
+| Function Name      | Return Type      |
+| ------------------ | ---------------- |
+| instance()         | SystemFrame      |
+| userData()         | UserData         |
+| adminData()        | AdminData        |
+| borrowRecordData() | borrowRecordData |
+| docData()          | DocData          |
+| log_info($info)    | void             |
+| initServer()       | void             |
+|                    |                  |
+
+
+
+
+
+
+
+
+
+
+
 ***
 ### Document
 
