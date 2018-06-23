@@ -91,15 +91,7 @@ query();
 		</p>
 
 		<script>
-			//var result = "search.php";
-            // result= {
-            //     "numofResults":"3",
-            //     "books": [
-            //         { "docid":"666666", "title": "线性代数", "info":[ "跪" ] },
-            //         { "docid":"555555", "title": "微积分", "info":[ "凉凉", "学霸请客" ] },
-            //         { "docid":"444444", "title": "Oops", "info":[ "瞿神万能", "杨神大巨" ] }
-            //     ]
-            // };
+
             function getJsonLength(json){
                 var jsonLength=0;
                 for (var i in json) {

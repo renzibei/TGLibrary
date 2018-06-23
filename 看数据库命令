@@ -1,0 +1,4 @@
+看数据库命令 mysql -u library_admin -p
+密码 tiguandaduiqishihenshuai
+mysql> SELECT * FROM docTable;
+
