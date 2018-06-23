@@ -72,11 +72,11 @@ class RealBook extends Book
         if($this->isInDatabase()) {
             $conn = SystemFrame::instance()->getConnection();
             $updateBookSql = "UPDATE " . systemConfig\config['bookTable'] . " SET ";
-            if(!empty($this->_callNum)) {
-                $updateBookSql .= " callNumber = '$this->_callNum' ";
-            }
             if(!empty($this->_book)) {
-                $updateBookSql .= ", docId =  " . $this->_book->getDocId();
+                $updateBookSql .= " docId =  " . $this->_book->getDocId();
+            }
+            if(!empty($this->_callNum)) {
+                $updateBookSql .= ", callNumber = '$this->_callNum' ";
             }
             if(isset($this->_version)) {
                 $updateBookSql .= " , version = $this->_version ";
