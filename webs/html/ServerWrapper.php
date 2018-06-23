@@ -79,6 +79,7 @@ class ServerWrapper
     {
         $msg = self::getReturnPackage($returnValue, $jsonType);
         socket_write($this->sockRe, $msg, strlen($msg));
+        self::echoMessage($msg);
     }
 
     protected function sendDocuments($returnValue, array $documents, $jsonType = 0)
@@ -92,6 +93,12 @@ class ServerWrapper
     protected  function sendSimpleMessage($msg)
     {
         socket_write($this->sockRe, $msg, strlen($msg));
+        self::echoMessage($msg);
+    }
+
+    protected static function echoMessage($msg)
+    {
+        echo "发送的信息:" . $msg;
     }
 
     protected function sendAccounts($returnValue, array $accounts, $jsonType = 0)
@@ -214,10 +221,11 @@ class ServerWrapper
                 $buf = socket_read($this->sockRe,65535);
                 try {
                     $talkback = "收到的信息:$buf\n";
+                    echo $talkback;
                     $this->dealWithPackage($buf);
                     //echo "测试成功了啊\n" ;
 
-                    echo $talkback;
+
                 } catch (\Exception $e) {
                     echo $e->getMessage() . " Line " . $e->getLine() .  PHP_EOL;
                     SystemFrame::log_info($e->getMessage() . " Line " . $e->getLine() );
