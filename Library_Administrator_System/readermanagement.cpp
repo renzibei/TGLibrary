@@ -131,15 +131,19 @@ void ReaderManagement::socket_Read_Data()
 
     counterpartjson.push_back(iteratorobject);
 
+    //qDebug() << iteratorobject;
+
     QJsonValue usernamevalue = iteratorobject.value("username");
     QJsonValue namevalue = iteratorobject.value("name");
     QJsonValue IDvalue = iteratorobject.value("userID");
+    //qDebug() << IDvalue;
   //  QJsonValue usertypevalue = iteratorobject.value("usertype");
     QJsonValue uidvalue = iteratorobject.value("uid");
     ui->tableWidget->setItem(i,0,new QTableWidgetItem(usernamevalue.toString()));
     ui->tableWidget->setItem(i,1,new QTableWidgetItem(namevalue.toString()));
-    ui->tableWidget->setItem(i,2,new QTableWidgetItem(IDvalue.toInt()));
-    ui->tableWidget->setItem(i,3,new QTableWidgetItem(uidvalue.toInt()));
+    //qDebug() << IDvalue.toInt();
+    ui->tableWidget->setItem(i,2,new QTableWidgetItem(IDvalue.toString()));
+    ui->tableWidget->setItem(i,3,new QTableWidgetItem(uidvalue.toString()));
     }
 }
 

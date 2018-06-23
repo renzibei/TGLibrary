@@ -98,7 +98,7 @@ class ServerWrapper
 
     protected static function echoMessage($msg)
     {
-        echo "发送的信息:" . $msg;
+        echo "发送的信息:" . $msg . PHP_EOL;
     }
 
     protected function sendAccounts($returnValue, array $accounts, $jsonType = 0)
@@ -114,84 +114,86 @@ class ServerWrapper
      */
     protected function dealWithPackage($buffer)
     {
+
         $json = json_decode($buffer, TRUE);
         if(!isset($json['jsontype'])) {
-            echo "no json type";
+            echo "no json type" . PHP_EOL;
             throw new \Exception("No json type detected ");
         }
         else {
             $jsonType = $json['jsontype'];
-            if($jsonType == self::messageType['loginRequest']) {
-                $admin = SystemFrame::adminData()->queryFromUsername($json['adminname']);
-                if(!empty($admin) && $admin->getPassword() == $json['password']) {
+            try {
+                if ($jsonType == self::messageType['loginRequest']) {
+                    $admin = SystemFrame::adminData()->queryFromUsername($json['adminname']);
+                    if (!empty($admin) && $admin->getPassword() == $json['password']) {
                         //$msg = self::getReturnPackage(0);
+                    } else {
+                        throw new \Exception("No username or wrong password ", errorCode\AccountWrongError);
+                        //$msg = self::getReturnPackage(1);
+                    }
+                    $this->sendReturnPackage(0);
+                    //socket_write($this->sockRe, $msg, strlen($msg));
+                } else if ($jsonType == self::messageType['addBookRequest']) {
+                    try {
+                        SystemFrame::docData()->addDocument(new Book($json['title'], $json['authors'], $json['languages'], $json["publicationYear"],
+                            $json['subjects'], $json['publisher'], $json['urls'], $json['source'], $json['description'], $json['ISBNs'], '', NULL));
+                        $this->sendReturnPackage(0);
+                    } catch (\Exception $e) {
+                        //SystemFrame::log_info("Fail to add book " . $e->getMessage() . " Line " . $e->getLine());
+                        //$this->sendReturnPackage(1);
+                        throw $e;
+                    }
+                } else if ($jsonType == self::messageType['deleteBookRequest']) {
+                    SystemFrame::docData()->deleteDoc($json['docID']);
+                    $this->sendReturnPackage(0);
+                } else if ($jsonType == self::messageType['addRealBookRequest']) {
+                    $doc = SystemFrame::docData()->getDocument($json['docID']);
+                    $realBook = new RealBook($doc, $json['callNum'], NULL, TRUE, $json['place']);
+                    $doc->addRealBook($realBook);
+                    $this->sendReturnPackage(0);
+                } else if ($jsonType == self::messageType['normalQueryBook']) {
+                    require_once 'retrieveSimple.php';
+                    $docs = SystemFrame::docData()->queryDoc(array((new retrieveSimple($json['keywords']))->And()));
+                    $this->sendDocuments(0, $docs, 5);
+
+                } else if ($jsonType == self::messageType['advancedQueryBook']) {
+
+                } else if ($jsonType == self::messageType['addUserRequest']) {
+                    $newUser = new User($json['username'], $json['password'], $json['name'], $json['userID']);
+                    SystemFrame::userData()->addAccount($newUser);
+                    $this->sendReturnPackage(0, $jsonType);
+                } else if ($jsonType == self::messageType['queryUserRequest']) {
+                    require_once 'retrieveSet.php';
+                    $retrieveConditions = array();
+                    if (isset($json['name']))
+                        $retrieveConditions[] = (new retrieveName($json['name']))->And();
+                    if (isset($json['username']))
+                        $retrieveConditions[] = (new retrieveUsername($json['username']))->And();
+                    if (isset($json['uid']))
+                        $retrieveConditions[] = (new retrieveUid($json['uid']))->And();
+                    if ($json['usertype'] == 0)
+                        $accountList = SystemFrame::userData()->queryAccount($retrieveConditions);
+                    else if ($json['usertype'] == 1)
+                        $accountList = SystemFrame::adminData()->queryAccount($retrieveConditions);
+                    else throw new \Exception("No userType appointed ", errorCode\TableTypeError);
+                    $this->sendAccounts(0, $accountList);
+                } else if ($jsonType == self::messageType['addAdminRequest']) {
+                    SystemFrame::adminData()->addAccount(new Admin($json['username'], $json['password'], $json['name']));
+                    $this->sendReturnPackage(0, $jsonType);
+
+                } else if ($jsonType == self::messageType['queryAdminRequest']) {
+
+
+                }
+            } catch (\Exception $e) {
+                echo $e->getMessage() . " Line " . $e->getLine() .  PHP_EOL;
+                SystemFrame::log_info($e->getMessage() . " Line " . $e->getLine() );
+                if($e->getCode() == errorCode\DuplicateUsernameOrUid) {
+                    $this->sendReturnPackage(3, $jsonType);
                 }
                 else {
-                    throw new \Exception("No username or wrong password ", errorCode\AccountWrongError);
-                    //$msg = self::getReturnPackage(1);
+                    $this->sendReturnPackage(1, $jsonType);
                 }
-                $this->sendReturnPackage(0);
-                //socket_write($this->sockRe, $msg, strlen($msg));
-            }
-            else if($jsonType == self::messageType['addBookRequest']) {
-                try {
-                    SystemFrame::docData()->addDocument(new Book($json['title'], $json['authors'], $json['languages'], $json["publicationYear"],
-                        $json['subjects'], $json['publisher'], $json['urls'], $json['source'], $json['description'], $json['ISBNs'], '', NULL));
-                    $this->sendReturnPackage(0);
-                } catch (\Exception $e) {
-                    //SystemFrame::log_info("Fail to add book " . $e->getMessage() . " Line " . $e->getLine());
-                    //$this->sendReturnPackage(1);
-                    throw $e;
-                }
-            }
-            else if($jsonType == self::messageType['deleteBookRequest']) {
-                SystemFrame::docData()->deleteDoc($json['docID']);
-                $this->sendReturnPackage(0);
-            }
-            else if($jsonType == self::messageType['addRealBookRequest']) {
-                $doc = SystemFrame::docData()->getDocument($json['docID']);
-                $realBook = new RealBook($doc, $json['callNum'], NULL, TRUE, $json['place']);
-                $doc->addRealBook($realBook);
-                $this->sendReturnPackage(0);
-            }
-            else if($jsonType == self::messageType['normalQueryBook']) {
-                require_once 'retrieveSimple.php';
-                $docs = SystemFrame::docData()->queryDoc(array((new retrieveSimple($json['keywords']))->And()));
-                $this->sendDocuments(0, $docs, 5);
-
-            }
-            else if($jsonType == self::messageType['advancedQueryBook']) {
-
-            }
-            else if($jsonType == self::messageType['addUserRequest']) {
-                $newUser = new User($json['username'], $json['password'], $json['name'], $json['userID']);
-                SystemFrame::userData()->addAccount($newUser);
-                $this->sendReturnPackage(0, $jsonType);
-            }
-            else if($jsonType == self::messageType['queryUserRequest']) {
-                require_once 'retrieveSet.php';
-                $retrieveConditions = array();
-                if(isset($json['name']))
-                    $retrieveConditions[] = (new retrieveName($json['name']))->And();
-                if(isset($json['username']))
-                    $retrieveConditions[] = (new retrieveUsername($json['username']))->And();
-                if(isset($json['uid']))
-                    $retrieveConditions[] = (new retrieveUid($json['uid']))->And();
-                if($json['usertype'] == 0)
-                    $accountList = SystemFrame::userData()->queryAccount($retrieveConditions);
-                else if($json['usertype'] == 1)
-                    $accountList = SystemFrame::adminData()->queryAccount($retrieveConditions);
-                else throw new \Exception("No userType appointed ", errorCode\TableTypeError);
-                $this->sendAccounts(0, $accountList);
-            }
-            else if($jsonType == self::messageType['addAdminRequest']) {
-                SystemFrame::adminData()->addAccount(new Admin($json['username'], $json['password'], $json['name']));
-                $this->sendReturnPackage(0, $jsonType);
-
-            }
-            else if($jsonType == self::messageType['queryAdminRequest']) {
-                
-
             }
 
 
@@ -221,7 +223,7 @@ class ServerWrapper
                 $buf = socket_read($this->sockRe,65535);
                 try {
                     $talkback = "收到的信息:$buf\n";
-                    echo $talkback;
+                    echo $talkback . PHP_EOL;
                     $this->dealWithPackage($buf);
                     //echo "测试成功了啊\n" ;
 
