@@ -104,7 +104,7 @@ class ServerWrapper
     protected function sendAccounts($returnValue, array $accounts, $jsonType = 0)
     {
         $returnPackage = self::getReturnPackage($returnValue, $jsonType);
-        $returnPackage = array_merge(json_decode($returnPackage, TRUE), ['accounts' => $accounts]);
+        $returnPackage = array_merge(json_decode($returnPackage, TRUE), ['documents' => $accounts]);
         $this->sendSimpleMessage(json_encode($returnPackage));
     }
 
