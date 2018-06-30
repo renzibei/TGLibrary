@@ -86,6 +86,9 @@ class ServerWrapper
         $msg = "";
         while($leftLen > 0) {
             $tempBuffer = socket_read($this->sockRe, $leftLen);
+            if($tempBuffer === false) {
+                self::echoMessag(socket_strerror(socket_last_error()));
+            }
             $leftLen -= strlen($tempBuffer);
             $msg.= $tempBuffer;
 

@@ -105,6 +105,7 @@ else if (ui->pushButton->text()=="修改")
     else
     {
        // QHostAddress hostaddress;
+        /*
         hostaddress.setAddress(QString("35.194.106.246"));
         addreadersocket->connectToHost(hostaddress,8333);
 
@@ -113,6 +114,7 @@ else if (ui->pushButton->text()=="修改")
         QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
         return;
         }
+        */
 
 }
 
