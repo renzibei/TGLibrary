@@ -27,7 +27,6 @@
 | docData()          | DocData          |
 | log_info($info)    | void             |
 | initServer()       | void             |
-|                    |                  |
 
 
 

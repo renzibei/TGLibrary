@@ -60,7 +60,7 @@ query();
 
 	<div class="divbase panel panel-info">
 				<div class="btn-group">
-					<a href="mylib.html" class="loggedin1">
+					<a href="mylib.php" class="loggedin1">
 						<button type="button" class="btn btn-info">我的图书</button>　　　
 					</a>
 					<a href="../index.html" class="loggedin2">
@@ -68,7 +68,7 @@ query();
 					</a>
 				</div>
 
-<h3><span style="font-size:x-large"><a href="/css/" target="_self">海量资源</a>  <a href="/css/" target="_self">纸本图书</a>  <a href="/css/" target="_self">电子图书</a>  <a href="/css/" target="_self">纸本期刊</a>  <a href="/css/" target="_self">电子期刊</a>  <a href="/css/" target="_self">音像制品</a>  <a href="/css/" target="_self">古籍</a></span></h3>
+<h3><span style="font-size:x-large"><a href="/css/" target="_self">海量资源</a>  <a href="/css/" target="_self">纸本图书</a>  <a href="/css/" target="_self">期刊杂志</a>  <a href="/css/" target="_self">学术论文</a> <a href="/css/" target="_self">在馆图书</a>
 
 <form action="searchResults.php" method="post"> <input type="radio" name="searchtype" value="bookname" /><span style="text-align:center; font-size:x-large" class="white">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large" class="white">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large" class="white">按作者</span>
 <input type="text" name="bookname"> <input type="submit" value="搜索">
@@ -77,17 +77,30 @@ query();
 
 		<p style="font-size:large">我们为您找到了 <span id="numofResults"></span> 条结果。<br>
 			<br><br><br><br>
-		<a id="0" href="detailsofBook.html"></a><br><br>
-		<a id="1" href="detailsofBook.html"></a><br><br>
-		<a id="2" href="detailsofBook.html"></a><br><br>
-		<a id="3" href="detailsofBook.html"></a><br><br>
-		<a id="4" href="detailsofBook.html"></a><br><br>
-        <a id="5" href="detailsofBook.html"></a><br><br>
-        <a id="6" href="detailsofBook.html"></a><br><br>
-        <a id="7" href="detailsofBook.html"></a><br><br>
-        <a id="8" href="detailsofBook.html"></a><br><br>
-        <a id="9" href="detailsofBook.html"></a><br><br>
-        <a id="10" href="detailsofBook.html"></a><br><br>
+
+		    <a id="0" href="detailsofBook.html"></a><br><br>
+		    <a id="1" href="detailsofBook.html"></a><br><br>
+		    <a id="2" href="detailsofBook.html"></a><br><br>
+		    <a id="3" href="detailsofBook.html"></a><br><br>
+		    <a id="4" href="detailsofBook.html"></a><br><br>
+            <a id="5" href="detailsofBook.html"></a><br><br>
+            <a id="6" href="detailsofBook.html"></a><br><br>
+            <a id="7" href="detailsofBook.html"></a><br><br>
+            <a id="8" href="detailsofBook.html"></a><br><br>
+            <a id="9" href="detailsofBook.html"></a><br><br>
+            <a id="10" href="detailsofBook.html"></a><br><br>
+            <a id="11" href="detailsofBook.html"></a><br><br>
+            <a id="12" href="detailsofBook.html"></a><br><br>
+            <a id="13" href="detailsofBook.html"></a><br><br>
+            <a id="14" href="detailsofBook.html"></a><br><br>
+            <a id="15" href="detailsofBook.html"></a><br><br>
+            <a id="16" href="detailsofBook.html"></a><br><br>
+            <a id="17" href="detailsofBook.html"></a><br><br>
+            <a id="18" href="detailsofBook.html"></a><br><br>
+            <a id="19" href="detailsofBook.html"></a><br><br>
+            <a id="20" href="detailsofBook.html"></a><br><br>
+            <a id="21" href="detailsofBook.html"></a><br><br>
+
 		</p>
 
 		<script>
@@ -104,16 +117,19 @@ query();
 
             document.getElementById("numofResults").innerHTML=numOfResults;
             for(var i = 0; i < numOfResults; i++){
-                document.getElementById(i).innerHTML=result[i].docID + " "
-					+ result[i].title + " " + result[i].authors + " "
-					+ result[i].publisher + " " + result[i].source;
+                if(result[i].docID < 10) var plac1 = "0000000"; else plac1 = "000000";
+                //if(result[i].authors !== null) var plac2 = "著"; else plac2 = "";
+                if(result[i].source) var plac3 = "来源："; else plac3 = "";
+                document.getElementById(i).innerHTML= plac1 + result[i].docID + " 《"
+					+ result[i].title + "》 " + result[i].authors  + " "
+					+ result[i].publisher + " " + plac3 + result[i].source;
 			}
 
 		</script>
 
 
 
-
+<!--
 	<div class="flippage">
 	<ul class="pagination">
     <li><a href="#">&laquo;</a></li>
@@ -125,6 +141,7 @@ query();
     <li><a href="#">&raquo;</a></li>
 	</ul>
 	</div>
+-->
 
 	</div>
 </body>
