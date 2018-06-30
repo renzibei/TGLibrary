@@ -83,13 +83,14 @@ class ServerWrapper
     {
         $len = $this->readMsgLength();
         $leftLen = $len;
+        $msg = "";
         while($leftLen > 0) {
             $tempBuffer = socket_read($this->sockRe, $leftLen);
             $leftLen -= strlen($tempBuffer);
-            $msg[] = $tempBuffer;
+            $msg.= $tempBuffer;
 
         }
-        if(isset($msg))
+        if(!empty($msg))
             return $msg;
         else return false;
     }
