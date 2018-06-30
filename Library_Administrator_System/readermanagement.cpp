@@ -31,6 +31,7 @@ ReaderManagement::ReaderManagement(QWidget *parent) :
 ReaderManagement::~ReaderManagement()
 {
     delete ui;
+    readersocket->disconnectFromHost();
 }
 
 void ReaderManagement::on_pushButton_2_clicked()

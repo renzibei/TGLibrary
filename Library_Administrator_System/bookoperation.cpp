@@ -50,6 +50,8 @@ bookoperation::bookoperation(QWidget *parent) :
 
 bookoperation::~bookoperation()
 {
+
+    bookoperationsocket->disconnectFromHost();
     delete ui;
 }
 
@@ -124,10 +126,11 @@ void bookoperation::on_add_Books_clicked()
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
     // bookoperationsocket->write( std::to_string(bytearray.size()).c_str() );
     bookoperationsocket->write(bytearray);
+  //  bookoperationsocket->flush()
+}
 
 
 
-        }
 
 void bookoperation::on_Back_Button_clicked()
 {
@@ -137,17 +140,24 @@ void bookoperation::on_Back_Button_clicked()
 
 void bookoperation::socket_Read_Data()
 {
+    //jikken
+
+  //  QByteArray jikken;
+   // jikken = bookoperationsocket->r
+
+
+
     QByteArray getbuffer;
     getbuffer = bookoperationsocket->readAll();
 
     QJsonDocument getdocument = QJsonDocument::fromJson(getbuffer);
     QJsonObject rootobj = getdocument.object();
-
+    qDebug() << rootobj;
     QJsonValue jsonvalue = rootobj.value("jsontype");
 
     if(rootobj.value("jsontype").toString()== "6")
     {
-        qDebug() << rootobj;
+  //      qDebug() << rootobj;
         QJsonArray qwertybookarray = rootobj.value("documents").toArray();
 
         if(qwertybookarray.size() == 0)
@@ -157,9 +167,11 @@ void bookoperation::socket_Read_Data()
             BookManagement *asd = (BookManagement*) parent();
             asd->advancetransfer =qwertybookarray;
             this->close();
-        }
 
+        }
+        return;
     }
+
 
     int index =rootobj.value("confirmvalue").toInt();
 

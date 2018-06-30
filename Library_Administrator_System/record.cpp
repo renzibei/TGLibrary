@@ -8,10 +8,8 @@ Record::Record(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setAttribute(Qt::WA_DeleteOnClose);
-    QObject::connect(recordsocket, &QTcpSocket::readyRead, this, &Record::socket_Read_Data);
-
     recordsocket = new QTcpSocket;
-
+    QObject::connect(recordsocket, &QTcpSocket::readyRead, this, &Record::socket_Read_Data);
 
     hostaddress.setAddress(QString("35.194.106.246"));
     recordsocket->connectToHost(hostaddress,8333);
@@ -25,6 +23,7 @@ Record::Record(QWidget *parent) :
 
 Record::~Record()
 {
+    recordsocket->disconnectFromHost();
     delete ui;
 
 }
@@ -72,19 +71,20 @@ void Record::socket_Read_Data()
     QJsonValue jsontypevalue = rootobj.value("jsontype");
 
     QJsonValue confirmvalue = rootobj.value("confirmtype");
-    int index = confirmvalue.toInt();
+    QString index = confirmvalue.toString();
 
 
-    if(index == 2)
+    if(index == "2")
     {
         QMessageBox::warning(this, tr("错误"), tr("终端出现错误，请检查网络设置!"));
         return;
 
     }
 
-    if(index == 1)
+    if(rootobj.value("documents").toArray().size() == 0)
     {
         QMessageBox::information(this, tr("错误"), tr("没有查询到相关记录！"));
+        return;
     }
 
 
