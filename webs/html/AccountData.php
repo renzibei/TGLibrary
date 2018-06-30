@@ -131,7 +131,7 @@ abstract class AccountData
      * @return bool/Account
      * @throws \Exception
      */
-    public function &queryFromUsername($username)
+    public function queryFromUsername($username)
     {
         $conn = SystemFrame::instance()->getConnection();
         $query = "SELECT * FROM $this->accountTable WHERE username = '$username'";
