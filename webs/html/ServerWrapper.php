@@ -144,10 +144,10 @@ class ServerWrapper
                         throw $e;
                     }
                 } else if ($jsonType == self::messageType['deleteBookRequest']) {
-                    SystemFrame::docData()->deleteDoc($json['_bookId']);
+                    SystemFrame::docData()->deleteDoc($json['docID']);
                     $this->sendReturnPackage(0, $jsonType);
                 } else if ($jsonType == self::messageType['addRealBookRequest']) {
-                    $doc = SystemFrame::docData()->getDocument($json['docID']);
+                    $doc = SystemFrame::docData()->getDocument($json['_bookId']);
                     $realBook = new RealBook($doc, null, $json['_version'], TRUE, $json['_place']);
                     $doc->addRealBook($realBook);
                     $this->sendReturnPackage(0, $jsonType);
