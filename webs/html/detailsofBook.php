@@ -44,7 +44,7 @@
 </head>
 
 <body>
-<?php session_start(); session_id(SID);?>
+<?php session_start(); require_once "SystemFrame.php"; ?>
 	<div class="page-header">
 			<h1 style="color:white">图书详情
 			</h1>
@@ -70,9 +70,6 @@
 			<p id="details" style="font-size:large"> DocId: <span id="docid"></span><br />
 				书名：<span id="title"> 算法导论</span><br />作者：<span id="author"> 科曼（Cormen,T.H.）</span><br />
 				出版社：<span id="publisher">机械工业出版社</span><br />语言：<span id="language">中文</span><br />
-			<a href="reserveSuccess.php">
-				<button type="button" class="btn btn-success">我要借阅</button>
-			</a>
 		</div>
 
 		<br><br>
@@ -96,19 +93,34 @@
 		<thead>
 		    <tr>
 			    <th>索书号</th>
-			    <th>类型</th>
+			    <th>所在馆</th>
 			    <th>状态</th>
 			    <th>借阅</th>
 		    </tr>
 		</thead>
 		<tbody>
 		<?php
-        $RealBooks = $book.getBooks();
-            for($i = 0; $i < getJsonLength(result); $i++){
-                echo "<tr> <br>";
-                echo "<td>" . "</td>";
+        $book = $_SESSION['thisbook'];
+        $RealBooks = $book->getBooks();
+        if(gettype($RealBooks) === "array"){
+            $NUM = sizeof($RealBooks);
+            for($i = 0; $i < $NUM; $i++){
+                $ISBN = $RealBooks[$i]->getIsbn();
+                $place = $RealBooks[$i]->getPlace();
+                $onshelf = $RealBooks[$i]->isOnShelf();
+                echo "<tr><br>";
+                echo "<td>$ISBN</td><br>";
+                echo "<td>$place</td><br>";
+                if($onshelf) echo "<td>在架</td><br>";
+                else echo "<td>暂不在架</td><br>";
+                echo "<td>" .
+                "<a href=\"reserveSuccess.php\">" .
+				"<button type=\"button\" class=\"btn btn-success\">我要借阅</button>" .
+			    "</a>";
                 echo "</tr>";
             }
+        }
+
 
 
         ?>
