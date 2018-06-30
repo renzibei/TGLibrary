@@ -19,6 +19,7 @@ ReaderManagement::ReaderManagement(QWidget *parent) :
     QObject::connect(readersocket, &QTcpSocket::readyRead, this, &ReaderManagement::socket_Read_Data);
 
     // QHostAddress hostaddress;
+    /*
      hostaddress.setAddress(QString("35.194.106.246"));
      readersocket->connectToHost(hostaddress,8333);
 
@@ -26,6 +27,7 @@ ReaderManagement::ReaderManagement(QWidget *parent) :
      {
      QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
     this->close();     }
+    */
 
 }
 
@@ -78,7 +80,8 @@ void ReaderManagement::on_pushButton_4_clicked()
         sendjson.setObject(readerjson);
         bytearray = sendjson.toJson(QJsonDocument::Compact);
         //readersocket->write( std::to_string(bytearray.size()).c_str() );
-        readersocket->write(bytearray);
+        WebIO::Singleton()->sendMessage(bytearray);
+        //readersocket->write(bytearray);
 }
 }
 
@@ -180,5 +183,6 @@ void ReaderManagement::on_delete_hito_clicked()
      sendjson.setObject(deletebookvalue);
      bytearray = sendjson.toJson(QJsonDocument::Compact);
      //readersocket->write( std::to_string(bytearray.size()).c_str() );
-     readersocket->write(bytearray);
+     WebIO::Singleton()->sendMessage(bytearray);
+     //readersocket->write(bytearray);
 }

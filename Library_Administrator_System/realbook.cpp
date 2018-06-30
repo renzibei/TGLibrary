@@ -11,7 +11,7 @@ RealBook::RealBook(QWidget *parent) :
 
     QObject::connect(realbooksocket, &QTcpSocket::readyRead, this, &RealBook::socket_Read_Data);
     this->setAttribute(Qt::WA_DeleteOnClose);
-
+    /*
     hostaddress.setAddress(QString("35.194.106.246"));
     realbooksocket->connectToHost(hostaddress,8333);
 
@@ -20,6 +20,7 @@ RealBook::RealBook(QWidget *parent) :
     QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
     this->close();
     }
+    */
 
 
 }
@@ -53,7 +54,8 @@ void RealBook::on_Addrealbook_clicked()
     jsondoc.setObject(realbookjson);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
     //booksocket->write( std::to_string(bytearray.size()).c_str() );
-    realbooksocket->write(bytearray);
+    WebIO::Singleton()->sendMessage(bytearray);
+    //realbooksocket->write(bytearray);
 
 
 }

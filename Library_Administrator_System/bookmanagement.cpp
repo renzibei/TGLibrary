@@ -76,7 +76,8 @@ void BookManagement::on_Delete_Book_clicked()
     jsondoc.setObject(onloadbookjson);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
    // booksocket->write( std::to_string(bytearray.size()).c_str() );
-    booksocket->write(bytearray);
+    WebIO::Singleton()->sendMessage(bytearray);
+    //booksocket->write(bytearray);
 }
 
 
@@ -153,7 +154,8 @@ void BookManagement::on_SearchBook_clicked()
         jsondoc.setObject(bookjson);
         bytearray = jsondoc.toJson(QJsonDocument::Compact);
         //booksocket->write( std::to_string(bytearray.size()).c_str() );
-        booksocket->write(bytearray);
+        WebIO::Singleton()->sendMessage(bytearray);
+        //booksocket->write(bytearray);
 }
 }
 void BookManagement::socket_Read_Data()

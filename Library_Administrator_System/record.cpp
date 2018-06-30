@@ -14,7 +14,7 @@ Record::Record(QWidget *parent) :
 
 
 
-
+    /*
     hostaddress.setAddress(QString("35.194.106.246"));
     recordsocket->connectToHost(hostaddress,8333);
 
@@ -23,6 +23,7 @@ Record::Record(QWidget *parent) :
     QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
     this->close();
     }
+    */
 }
 
 Record::~Record()
@@ -57,8 +58,8 @@ void Record::on_pushButton_clicked()
     jsondoc.setObject(recordjson);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
     //booksocket->write( std::to_string(bytearray.size()).c_str() );
-    recordsocket->write(bytearray);
-
+    //recordsocket->write(bytearray);
+    WebIO::Singleton()->sendMessage(bytearray);
 
 }
 

@@ -15,7 +15,7 @@ Confirm::Confirm(QWidget *parent) :
 
     confirmsocket = WebIO::getSocket();//new QTcpSocket;
     QObject::connect(confirmsocket, &QTcpSocket::readyRead, this, &Confirm::socket_Read_Data);
-
+    /*
     hostaddress.setAddress(QString("35.194.106.246"));
     confirmsocket->connectToHost(hostaddress,8333);
 
@@ -24,6 +24,7 @@ Confirm::Confirm(QWidget *parent) :
     QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
     this->close();
     }
+    */
 }
 
 Confirm::~Confirm()
@@ -43,7 +44,8 @@ void Confirm::on_update_record_clicked()
     jsondoc.setObject(transferobject);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
     //confirmsocket->write( std::to_string(bytearray.size()).c_str() );
-    confirmsocket->write(bytearray);
+    //confirmsocket->write(bytearray);
+    WebIO::Singleton()->sendMessage(bytearray);
 }
 
 
@@ -51,7 +53,9 @@ void Confirm::on_update_record_clicked()
 void Confirm::on_AcceptRequest_clicked()
 {
     int rownumber = ui->tableWidget->currentRow();
+    /*
     hostaddress.setAddress(QString("35.194.106.246"));
+
     confirmsocket->connectToHost(hostaddress,8333);
 
     if(!confirmsocket->waitForConnected(10000))
@@ -59,6 +63,7 @@ void Confirm::on_AcceptRequest_clicked()
     QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
     return;
     }
+    */
 
     QJsonObject transferobject;
     transferobject.insert("jsontype","17");
@@ -69,7 +74,8 @@ void Confirm::on_AcceptRequest_clicked()
     jsondoc.setObject(transferobject);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
     //confirmsocket->write( std::to_string(bytearray.size()).c_str() );
-    confirmsocket->write(bytearray);
+    WebIO::Singleton()->sendMessage(bytearray);
+    //confirmsocket->write(bytearray);
 
     ui->tableWidget->removeRow(rownumber);
 
@@ -96,7 +102,8 @@ void Confirm::on_KotowariRecord_clicked()
     jsondoc.setObject(transferobject);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
     //confirmsocket->write( std::to_string(bytearray.size()).c_str() );
-    confirmsocket->write(bytearray);
+    WebIO::Singleton()->sendMessage(bytearray);
+    //confirmsocket->write(bytearray);
 
     ui->tableWidget->removeRow(rownumber);
 

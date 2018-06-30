@@ -29,7 +29,8 @@ bookoperation::bookoperation(QWidget *parent) :
 
     QObject::connect(bookoperationsocket, &QTcpSocket::readyRead, this, &bookoperation::socket_Read_Data);
 
-    hostaddress.setAddress(QString("35.194.106.246"));
+    //hostaddress.setAddress(QString("35.194.106.246"));
+    /*
     bookoperationsocket->connectToHost(hostaddress,8333);
 
     if(!bookoperationsocket->waitForConnected(3000))
@@ -37,6 +38,7 @@ bookoperation::bookoperation(QWidget *parent) :
     QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
     this->close();
     }
+    */
 
 }
 
@@ -124,7 +126,8 @@ void bookoperation::on_add_Books_clicked()
     jsondoc.setObject(bookoperationjson);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
     // bookoperationsocket->write( std::to_string(bytearray.size()).c_str() );
-    bookoperationsocket->write(bytearray);
+    //bookoperationsocket->write(bytearray);
+    WebIO::Singleton()->sendMessage(bytearray);
 
 
 

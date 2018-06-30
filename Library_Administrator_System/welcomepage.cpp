@@ -35,8 +35,8 @@ void WelcomePage::on_En_Bt_clicked()
     else
     {
        // QHostAddress hostaddress;
-        hostaddress.setAddress(QString("35.194.106.246"));
-        loginsocket->connectToHost(hostaddress,8333);
+        //hostaddress.setAddress(QString("35.194.106.246"));
+        //loginsocket->connectToHost(hostaddress,8333);
 
         if(!loginsocket->waitForConnected(3000))
         {
@@ -53,7 +53,8 @@ void WelcomePage::on_En_Bt_clicked()
         sendjson.setObject(loginjson);
         bytearray = sendjson.toJson(QJsonDocument::Compact);
        // loginsocket->write( std::to_string(bytearray.size()).c_str() );
-        loginsocket->write(bytearray);
+        //loginsocket->write(bytearray);
+        WebIO::Singleton()->sendMessage(bytearray);
     }
 }
 
