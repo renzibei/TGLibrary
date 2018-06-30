@@ -166,7 +166,7 @@ void BookManagement::socket_Read_Data()
 
     QJsonDocument getdocument = QJsonDocument::fromJson(getbuffer);
     QJsonObject rootobj = getdocument.object();
-
+    qDebug() << rootobj;
     QJsonValue jsonvalue = rootobj.value("jsontype");
             \
     int jsonvaluenumber = jsonvalue.toInt();
@@ -176,6 +176,7 @@ void BookManagement::socket_Read_Data()
     if(jsonvaluenumber == 5 || 6)
     {
         QJsonValue jsontypevalue = rootobj.value("documents");
+        qDebug() << jsontypevalue;
 
         int index = confirmvalue.toInt();
 

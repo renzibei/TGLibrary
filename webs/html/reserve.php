@@ -2,7 +2,7 @@
   if($numofAvailable)
   {
     $numofAvailable -= 1;
-    Header("Location: reserveSuccess.html");
+    Header("Location: reserveSuccess.php");
   }
   else {
     Header("Location: reserveFailure.html"); 

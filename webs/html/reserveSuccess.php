@@ -1,5 +1,17 @@
 <!DOCTYPE html>
 <html>
+
+<?php
+require_once 'SystemFrame.php';
+
+session_start();
+
+
+
+?>
+
+
+
 <head>
 <meta http-equiv="content-type"; content="text/html"; charset="utf-8">
 <title>TGDD.com</title>
@@ -14,13 +26,13 @@
 
 <body>
 	<div class="page-header">
-			<h1 style="color:white">预约成功！
+        <h1 style="color:yellow"><b>借阅成功！</b>
 			</h1>
 	</div>
 	<div class="divbase panel panel-success">
 
 		<br><br><br>
-		<p style="text-align:center; font-size:large">去<a href="mylib.html" target="_blank">我的图书馆</a>查看所有在借书籍<br>要不要再看看其他您可能感兴趣的书籍？</p>
+		<p style="text-align:center; font-size:large">去<a href="mylib.php" target="_blank">我的图书馆</a>查看所有在借书籍<br>要不要再看看其他您可能感兴趣的书籍？</p>
 		<br><br><br><br>
 
 		<div class="row">
@@ -82,7 +94,7 @@
     </div>
 	</div><br>
 	<br><br><br><br>
-	<a href="detailsofBook.html">
+	<a href="detailsofBook.php">
 		<button type="button" class="btn btn-primary btn-lg center-block">返回</button>
 	</a>
 </body>
