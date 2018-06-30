@@ -25,7 +25,7 @@
 	</div>
 
 	<div class="panel-body">
-		<form role="form">
+		<form action="index_(logged_in).php" method = "post">
 			<div class="form-group">
 				<br><br>
 				<label for="id">学号/工号/用户名</label>
@@ -36,9 +36,7 @@
 				<input type="password" class="form-control" name="password" id="password" placeholder="请输入密码">
 			</div>
 			<br><br>
-      <a href="index_(logged_in).php">
-			  <button type="submit" class="btn btn-primary btn-lg center-block">登录</button>
-      </a>
+            <input type="submit" class="btn btn-info btn-lg center-block" value="登录" />
 	</div>
 </div>
 

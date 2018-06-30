@@ -30,18 +30,26 @@
         \tg\SystemFrame::log_info($password);
         $user = \tg\SystemFrame::userData()->queryFromUsername($ID);
         \tg\SystemFrame::log_info("kjkkjkkjkkjkkjk");
-        if ($user === false)
-        \tg\SystemFrame::log_info("False user!");
-        \tg\SystemFrame::log_info($user);
-        $actualPwd = $user->getPassword();
-        \tg\SystemFrame::log_info($actualPwd);
+        $usertype = gettype($user);
+        \tg\SystemFrame::log_info($usertype);
+        /*
+        if ($user === false){
+            \tg\SystemFrame::log_info("False user!");
+        }
+        else{
+            \tg\SystemFrame::log_info($user);
+            $actualPwd = $user->getPassword();
+            \tg\SystemFrame::log_info($actualPwd);
+        }
+
         if ($actualPwd != $password) {
             $url = "loginFailure.html";
             echo "<script language='javascript' type='text/javascript'>";
             echo "window.location.href='$url'";
             echo "</script>";
-        }
+        }*/
     }
+    checklogin();
 ?>
 
 	<div class="page-header">
