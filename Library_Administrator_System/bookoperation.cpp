@@ -1,13 +1,15 @@
 #include "bookoperation.h"
 #include "ui_bookoperation.h"
 
+#include "bookoperation.h"
+#include "bookmanagement.h"
+
 #include <QHeaderView>
 
 bookoperation::bookoperation(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::bookoperation)
 {
-
     this->setAttribute(Qt::WA_DeleteOnClose);
 
     ui->setupUi(this);
@@ -64,7 +66,7 @@ void bookoperation::on_add_Books_clicked()
 }
     if(operationtype == 1)
     {
-    bookoperationjson.insert("jsontype","6");
+    bookoperationjson.insert("jsontype","13");
 
     }
     if(operationtype == 3)
@@ -74,11 +76,11 @@ void bookoperation::on_add_Books_clicked()
 
     if(operationtype == 2)
     {
-    bookoperationjson.insert("jsontype","13");
+    bookoperationjson.insert("jsontype","6");
     bookoperationjson.insert("docID", booktransferobject.value("docID").toString());
     }
 
-    if(operationtype == 3 || 2)
+    if(operationtype == 3 || operationtype == 1)
     {
     if(ui->bookinformation->item(0,0)==0||ui->bookinformation->item(1,0)==0||ui->bookinformation->item(2,0)==0)
     {
@@ -90,7 +92,7 @@ void bookoperation::on_add_Books_clicked()
     bookoperationjson.insert("publisher", ui->bookinformation->item(2,0)->text());
     }
 
-    if(operationtype == 1)
+    if(operationtype == 2)
     {
         if(ui->bookinformation->item(0,0)!=0)
         bookoperationjson.insert("title", ui->bookinformation->item(0,0)->text());
@@ -120,6 +122,8 @@ void bookoperation::on_add_Books_clicked()
     // bookoperationsocket->write( std::to_string(bytearray.size()).c_str() );
     bookoperationsocket->write(bytearray);
 
+
+
         }
 
 void bookoperation::on_Back_Button_clicked()
@@ -137,6 +141,21 @@ void bookoperation::socket_Read_Data()
     QJsonObject rootobj = getdocument.object();
 
     QJsonValue jsonvalue = rootobj.value("jsontype");
+
+    if(rootobj.value("jsontype").toInt()== 6)
+    {
+        QJsonArray qwertybookarray = rootobj.value("documents").toArray();
+
+        if(qwertybookarray.size() == 0)
+        QMessageBox::warning(this, tr("错误"), tr("未查到相关书籍"));
+        else
+        {
+            BookManagement *asd = (BookManagement*) parent();
+            asd->advancetransfer =qwertybookarray;
+        }
+        this->close();
+    }
+
     int index =rootobj.value("confirmvalue").toInt();
 
     if(index == 1)
@@ -154,9 +173,9 @@ void bookoperation::socket_Read_Data()
 
 }
 
-
 void bookoperation::writeinformation()
 {
+
     //可能是指针 后续再改
     ui->bookinformation->setItem(0,0,new QTableWidgetItem(booktransferobject.value("title").toString()));
     ui->bookinformation->setItem(1,0,new QTableWidgetItem(booktransferobject.value("authors").toString()));
@@ -169,15 +188,15 @@ void bookoperation::writeinformation()
     ui->bookinformation->setItem(8,0,new QTableWidgetItem(booktransferobject.value("subjects").toString()));
     ui->bookinformation->setItem(9,0,new QTableWidgetItem(booktransferobject.value("description").toString()));
 
-    QJsonArray realbookarray = booktransferobject.value("realbook").toArray();
+    QJsonArray realbookarray = booktransferobject.value("realBooks").toArray();
     int realbooknumber = realbookarray.size();
     ui->RealBookInformation->setRowCount(realbooknumber);
     for (int i = 0 ; i<realbooknumber; i++)
     {
         QJsonObject iteratorobject = realbookarray.at(i).toObject();
         ui->RealBookInformation->setItem(i,0,new QTableWidgetItem(iteratorobject.value("_bookId").toString()));
-        ui->RealBookInformation->setItem(i,1,new QTableWidgetItem(iteratorobject.value("place").toString()));
-        ui->RealBookInformation->setItem(i,2,new QTableWidgetItem(iteratorobject.value("version").toString()));
+        ui->RealBookInformation->setItem(i,1,new QTableWidgetItem(iteratorobject.value("_place").toString()));
+        ui->RealBookInformation->setItem(i,2,new QTableWidgetItem(iteratorobject.value("_version").toString()));
         if (iteratorobject.value("isOnShelf") == true)
         ui->RealBookInformation->setItem(i,3,new QTableWidgetItem("是"));
         else

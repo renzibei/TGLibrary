@@ -11,7 +11,7 @@
 
 #include <QtNetwork>
 
-#include "bookoperation.h"
+
 
 namespace Ui {
 class BookManagement;
@@ -26,6 +26,8 @@ public:
     ~BookManagement();
 
     QVector<QJsonObject> counterpartobject;
+   // QJsonArray *advancetransfer = nullptr;//一个用于接受高级检索传回来数值的变量
+    QJsonArray advancetransfer;
 
 private slots:
     void on_AddBook_Bt_clicked();
@@ -41,6 +43,8 @@ private slots:
     void socket_Read_Data();
 
     void on_SearchBook_clicked();
+
+    void getadvancedresult();
 
 private:
     Ui::BookManagement *ui;

@@ -28,6 +28,7 @@ public:
      QJsonObject booktransferobject; //可能需要变成指针
      int operationtype = 0;
      void writeinformation();
+     QJsonArray sonadvance;
 
 private slots:
 

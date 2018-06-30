@@ -78,19 +78,35 @@ void BookManagement::on_Delete_Book_clicked()
 
 void BookManagement::on_detailed_information_clicked()
 {
-    int rownumber = ui->tableWidget->currentRow();
+    if(ui->tableWidget->rowCount()==0)
+    {
+    QMessageBox::warning(this, tr("错误"), tr("请搜索到书籍后点击书籍所在行进行查询"));
+    return;
+    }
+    else
+    {
+   int rownumber = ui->tableWidget->currentRow();
     this->hide();
     bookoperation *bookoperation1 = new bookoperation(this);
     bookoperation1->operationtype = 0;
+
     bookoperation1->booktransferobject = counterpartobject[rownumber];
     bookoperation1->writeinformation();
     bookoperation1->show();
     bookoperation1->exec();
     this->show();
+    }
 }
 
 void BookManagement::on_Modify_Book_clicked()
 {
+    if(ui->tableWidget->rowCount()==0)
+    {
+    QMessageBox::warning(this, tr("错误"), tr("请搜索到书籍后点击书籍所在行进行查询"));
+    return;
+    }
+    else
+    {
     int rownumber = ui->tableWidget->currentRow();
     this->hide();
     bookoperation *bookoperation1 = new bookoperation(this);
@@ -100,6 +116,9 @@ void BookManagement::on_Modify_Book_clicked()
     bookoperation1->show();
     bookoperation1->exec();
     this->show();
+    this->getadvancedresult();
+
+    }
 }
 
 void BookManagement::on_advancedsearch_clicked()
@@ -210,6 +229,29 @@ void BookManagement::socket_Read_Data()
             return;
         }
     }
+}
+
+void BookManagement::getadvancedresult(){
+    ui->tableWidget->setRowCount(0);
+    ui->tableWidget->clearContents();
+    ui->tableWidget->setRowCount(advancetransfer.size());
+
+    for(int i = 0; i<advancetransfer.size(); i++)
+    {
+        QJsonObject iteratorobject = advancetransfer.at(i).toObject();
+
+        QJsonValue titlevalue = iteratorobject.value("title");
+        QJsonValue authorvalue = iteratorobject.value("authors");
+        QJsonValue publishervalue = iteratorobject.value("publisher");
+        QJsonValue docIDvalue = iteratorobject.value("docID");
+
+        ui->tableWidget->setItem(i,0,new QTableWidgetItem(titlevalue.toString()));
+        ui->tableWidget->setItem(i,1,new QTableWidgetItem(authorvalue.toString()));
+        ui->tableWidget->setItem(i,2,new QTableWidgetItem(publishervalue.toString()));
+        ui->tableWidget->setItem(i,3,new QTableWidgetItem(docIDvalue.toString()));
+
+    }
+
 }
 
 
