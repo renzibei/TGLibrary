@@ -23,8 +23,10 @@ public:
         return WebIO::instance;
     }
     static QTcpSocket *getSocket() {
-        if(WebIO::socket == nullptr)
+        if(WebIO::socket == nullptr) {
             WebIO::socket = new QTcpSocket;
+            WebIO::socket->connectToHost(QHostAddress("127.0.0.1"), 8333);
+        }
         return WebIO::instance->socket;
     };
     int sendMessage(const QByteArray& message);

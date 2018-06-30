@@ -8,7 +8,7 @@ WebIO::WebIO(QObject *parent) : QObject(parent)
 {
     this->socket =  WebIO::getSocket();//new QTcpSocket(this);
     //connect(socket, &QTcpSocket::readyRead, this, &TestClass::slotReadForRead);
-    socket->connectToHost(QHostAddress("127.0.0.1"), 8333);
+    //socket->connectToHost(QHostAddress("35.194.106.246"), 8333);
     //this->dataStream = new QDataStream(this->socket);
     //this->dataStream->setByteOrder(QDataStream::BigEndian);
 }
@@ -42,10 +42,22 @@ int WebIO::readIntoBuffer(QByteArray& buffer, int len)
 
 int WebIO::sendMessage(const QByteArray& message)
 {
-    QDataStream dataStream(this->socket);
+    QDataStream dataStream((WebIO::getSocket()));
     dataStream.setByteOrder(QDataStream::BigEndian);
     dataStream << message.length();
-    this->socket->write(message);
+    int leftBytes = message.length(), tempLen;
+    while(leftBytes > 0) {
+        tempLen = this->socket->write(message);
+        if(tempLen == -1) {
+            qDebug() << "errorCode " << WebIO::getSocket()->error();
+            qDebug() << this->socket->errorString();
+            if(this->socket->error() == QTcpSocket::UnknownSocketError) {
+                socket->connectToHost(QHostAddress("35.194.106.246"), 8333);
+            }
+        }
+
+        leftBytes -= tempLen;
+    }
 }
 
 QJsonDocument WebIO::readJsonDocument()
