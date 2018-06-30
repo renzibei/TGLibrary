@@ -50,7 +50,7 @@ checkReserve();
 
 	<div class="divbase panel panel-info">
 				<div class="btn-group">
-					<a href="../index.html" class="loggedin2">
+					<a href="../index.php" class="loggedin2">
 						<button type="button" class="btn btn-primary">退出登录</button>
 					</a>
 				</div>
