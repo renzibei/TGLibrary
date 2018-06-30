@@ -64,17 +64,18 @@ query();
 
 	<div class="divbase panel panel-info">
 				<div class="btn-group">
+                    <div style="font-size:large"><?php echo "　　　　　　　　　　　　　　　　　　　　　　　　　　　　　 您好，" . $_SESSION['ID'] . "！"; ?></div>
 					<a href="mylib.php" class="loggedin1">　
 						<button type="button" class="btn btn-info">我的图书</button>　　　
 					</a>
-					<a href="../index.html" class="loggedin2">　
+					<a href="../index.php" class="loggedin2">　
 						<button type="button" class="btn btn-primary">退出登录</button>
 					</a>
 				</div>
 
         <h3><span style="font-size:x-large"><a href="#" style=" font-weight:bold; color:#233333;" target="_self">海量资源</a>  <a href="#" target="_self">纸本图书</a>  <a href="#" target="_self">期刊杂志</a>  <a href="#" target="_self">学术论文</a> <a href="#" target="_self">在馆图书</a>
 
-        <form action="searchResults.php" method="post"> <input type="radio" name="searchtype" value="bookname" /><span style="text-align:center; font-size:x-large" class="white">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large" class="white">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large" class="white">按作者</span>
+        <form action="searchResults.php" method="post"> <input type="radio" name="searchtype" value="bookname" <?php echo("checked");?>/><span style="text-align:center; font-size:x-large" class="white checked">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large" class="white">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large" class="white">按作者</span>
         <input type="text" class="form-control col-lg" name="keywords"><input type="submit" value="搜索">
 
         </form>
@@ -100,7 +101,8 @@ query();
 			<br><br><br><br>
             <?php
                 $url = "detailsofBook.php";
-                for($i = 0; $i < 20; $i++){
+                $NUM = sizeof($result);
+                for($i = 0; $i < $NUM; $i++){
                     $send = json_encode($result[$i]);
                     echo "<a id=\"$i\" href=\"javascript:doPost($url, $send);\"></a>";
                     echo "<br><br>";

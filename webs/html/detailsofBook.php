@@ -53,7 +53,7 @@
 			<a href="mylib.php" class="loggedin1">
 				<button type="button" class="btn btn-info">我的图书</button>　　　
 			</a>
-			<a href="../index.html" class="loggedin2">
+			<a href="../index.php" class="loggedin2">
 				<button type="button" class="btn btn-primary">退出登录</button>
 			</a>
 		</div>
