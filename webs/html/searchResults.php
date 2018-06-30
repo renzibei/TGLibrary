@@ -64,7 +64,7 @@ query();
 
 	<div class="divbase panel panel-info">
 				<div class="btn-group">
-                    <div style="font-size:large"><?php echo "　　　　　　　　　　　　　　　　　　　　　　　　　　　　　 您好，" . $_SESSION['ID'] . "！"; ?></div>
+                    <div style="font-size:large; position:absolute; right:0; top:15px;"><?php echo "您好，" . $_SESSION['ID'] . "！"; ?></div>
 					<a href="mylib.php" class="loggedin1">　
 						<button type="button" class="btn btn-info">我的图书</button>　　　
 					</a>
