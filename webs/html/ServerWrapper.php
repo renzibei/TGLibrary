@@ -154,9 +154,23 @@ class ServerWrapper
                 } else if ($jsonType == self::messageType['normalQueryBook']) {
                     require_once 'retrieveSimple.php';
                     $docs = SystemFrame::docData()->queryDoc(array((new retrieveSimple($json['keywords']))->And()));
+
                     $this->sendDocuments(0, $docs, $jsonType);
 
                 } else if ($jsonType == self::messageType['advancedQueryBook']) {
+                    require_once 'retrieveSet.php';
+                    $queryStrategy = array();
+                    if(isset($json['title']))
+                        $queryStrategy[] = (new retrieveTitle($json['title']))->And();
+                    if(isset($json['authors']))
+                        $queryStrategy[] = (new retrieveAuthor($json['authors']))->And();
+                    if(isset($json['publisher']))
+                        $queryStrategy[] = (new retrievePublisher($json['publisher']))->And();
+                    if(isset($json['publicationYear']))
+                        $queryStrategy[] = (new retrievePublicationDate($json['publicationYear']))->And();
+                    $docs = SystemFrame::docData()->queryDoc($queryStrategy);
+                    $this->sendDocuments(0, $docs, $jsonType);
+
 
                 } else if ($jsonType == self::messageType['addUserRequest']) {
                     $newUser = new User($json['username'], $json['password'], $json['name'], $json['userID']);
