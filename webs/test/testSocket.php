@@ -43,7 +43,9 @@ do {
         
         //发到客户端
         $msg ="测试成功！\n";
-        socket_write($msgsock, $msg, strlen($msg));
+        $intx = 16;
+        $sendMsg = \tg\int_helper::uInt32($intx, true);
+        socket_write($msgsock, $sendMsg, 4);
         
         echo "测试成功了啊\n";
         $buf = socket_read($msgsock,4);
