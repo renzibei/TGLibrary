@@ -35,7 +35,7 @@
                     success:function(data){
                         var str = "DocId：" + data.docid + "<br>书名：" + data.title +
                             + "<br>作者：" + data.author + "<br>出版社：" + data.publisher
-                        + "<br>语言：" + data.language;
+                        + "<br>发行年：" + data.publicationYear + "<br>语言：" + data.language;
                         $("#result").html(str);
                     }
                 });
@@ -69,7 +69,7 @@
 				书名：<span id="title"> 算法导论</span><br />作者：<span id="author"> 科曼（Cormen,T.H.）</span><br />
 				出版社：<span id="publisher">机械工业出版社</span><br />语言：<span id="language">中文</span><br />
 			<a href="reserveSuccess.php">
-				<button type="button" class="btn btn-success">我要预约</button>
+				<button type="button" class="btn btn-success">我要借阅</button>
 			</a>
 		</div>
 
@@ -95,6 +95,25 @@
 		</span>
 	</div>
 	<br><br><br><br>
+
+
+	<table class="table table-hover">
+		<caption>在架书籍</caption>
+		<thead>
+		<tr>
+			<th>索书号</th>
+			<th>类型</th>
+			<th>状态</th>
+			<th>借阅</th>
+		</tr>
+		</thead>
+		<tbody>
+		<?php
+
+		?>
+		</tbody>
+	</table>
+
 
 	<script>
         var book= {

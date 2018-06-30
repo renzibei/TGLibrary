@@ -56,31 +56,31 @@ checkReserve();
 
 
 
-		<p style="font-size:large">您目前已经预约了 <span id="numofReserved"></span> 本书。<br>
+		<p style="font-size:large">您目前已经借阅了 <span id="numofReserved"></span> 本书。<br>
 
             <br><br><br><br>
 
-            <a id="0" href="detailsofBook.html"></a><br><br>
-            <a id="1" href="detailsofBook.html"></a><br><br>
-            <a id="2" href="detailsofBook.html"></a><br><br>
-            <a id="3" href="detailsofBook.html"></a><br><br>
-            <a id="4" href="detailsofBook.html"></a><br><br>
-            <a id="5" href="detailsofBook.html"></a><br><br>
-            <a id="6" href="detailsofBook.html"></a><br><br>
-            <a id="7" href="detailsofBook.html"></a><br><br>
-            <a id="8" href="detailsofBook.html"></a><br><br>
-            <a id="9" href="detailsofBook.html"></a><br><br>
-            <a id="10" href="detailsofBook.html"></a><br><br>
-            <a id="11" href="detailsofBook.html"></a><br><br>
-            <a id="12" href="detailsofBook.html"></a><br><br>
-            <a id="13" href="detailsofBook.html"></a><br><br>
-            <a id="14" href="detailsofBook.html"></a><br><br>
-            <a id="15" href="detailsofBook.html"></a><br><br>
-            <a id="16" href="detailsofBook.html"></a><br><br>
-            <a id="17" href="detailsofBook.html"></a><br><br>
-            <a id="18" href="detailsofBook.html"></a><br><br>
-            <a id="19" href="detailsofBook.html"></a><br><br>
-            <a id="20" href="detailsofBook.html"></a><br><br>
+            <a id="0" href="detailsofBook.php"></a><br><br>
+            <a id="1" href="detailsofBook.php"></a><br><br>
+            <a id="2" href="detailsofBook.php"></a><br><br>
+            <a id="3" href="detailsofBook.php"></a><br><br>
+            <a id="4" href="detailsofBook.php"></a><br><br>
+            <a id="5" href="detailsofBook.php"></a><br><br>
+            <a id="6" href="detailsofBook.php"></a><br><br>
+            <a id="7" href="detailsofBook.php"></a><br><br>
+            <a id="8" href="detailsofBook.php"></a><br><br>
+            <a id="9" href="detailsofBook.php"></a><br><br>
+            <a id="10" href="detailsofBook.php"></a><br><br>
+            <a id="11" href="detailsofBook.php"></a><br><br>
+            <a id="12" href="detailsofBook.php"></a><br><br>
+            <a id="13" href="detailsofBook.php"></a><br><br>
+            <a id="14" href="detailsofBook.php"></a><br><br>
+            <a id="15" href="detailsofBook.php"></a><br><br>
+            <a id="16" href="detailsofBook.php"></a><br><br>
+            <a id="17" href="detailsofBook.php"></a><br><br>
+            <a id="18" href="detailsofBook.php"></a><br><br>
+            <a id="19" href="detailsofBook.php"></a><br><br>
+            <a id="20" href="detailsofBook.php"></a><br><br>
 
         </p>
 

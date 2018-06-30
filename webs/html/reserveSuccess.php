@@ -6,6 +6,8 @@ require_once 'SystemFrame.php';
 
 session_start();
 
+
+
 ?>
 
 
@@ -24,7 +26,7 @@ session_start();
 
 <body>
 	<div class="page-header">
-        <h1 style="color:yellow"><b>预约成功！</b>
+        <h1 style="color:yellow"><b>借阅成功！</b>
 			</h1>
 	</div>
 	<div class="divbase panel panel-success">
@@ -92,7 +94,7 @@ session_start();
     </div>
 	</div><br>
 	<br><br><br><br>
-	<a href="detailsofBook.html">
+	<a href="detailsofBook.php">
 		<button type="button" class="btn btn-primary btn-lg center-block">返回</button>
 	</a>
 </body>
