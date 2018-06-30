@@ -21,11 +21,10 @@ ReaderManagement::ReaderManagement(QWidget *parent) :
      hostaddress.setAddress(QString("35.194.106.246"));
      readersocket->connectToHost(hostaddress,8333);
 
-     if(!readersocket->waitForConnected(10000))
+     if(!readersocket->waitForConnected(3000))
      {
      QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
-     return;
-     }
+    this->close();     }
 
 }
 
@@ -116,7 +115,7 @@ void ReaderManagement::socket_Read_Data()
     int index = jsontypevalue.toInt();
 
 
-    if(index == 1)
+    if(rootobj.value("document").toArray().size()==0)
     {
         QMessageBox::warning(this, tr("错误"), tr("没有找到相关信息！"));
         return;

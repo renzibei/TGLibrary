@@ -30,12 +30,12 @@ MainPage::~MainPage()
 
 void MainPage::on_Book_bt_clicked()
 {
-  //  this->hide();
+  //this->hide();
     BookManagement *bookmanagement = new BookManagement(this);
  //   bookmanagement->setAttribute(Qt::WA_DeleteOnClose);
     bookmanagement->show();
-   // bookmanagement->exec();
-  //ne  this->show();
+   //bookmanagement->exec();
+ // this->show();
 }
 
 void MainPage::on_Return_bt_clicked()
@@ -46,7 +46,7 @@ void MainPage::on_Return_bt_clicked()
 
 void MainPage::on_toolButton_2_clicked()
 {
-   // this->hide();
+   //this->hide();
     ReaderManagement *readermanagement = new ReaderManagement(this);
     readermanagement->show();
     //readermanagement->exec();

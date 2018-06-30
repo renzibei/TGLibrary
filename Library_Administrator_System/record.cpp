@@ -11,6 +11,16 @@ Record::Record(QWidget *parent) :
     QObject::connect(recordsocket, &QTcpSocket::readyRead, this, &Record::socket_Read_Data);
 
     recordsocket = new QTcpSocket;
+
+
+    hostaddress.setAddress(QString("35.194.106.246"));
+    recordsocket->connectToHost(hostaddress,8333);
+
+    if(!recordsocket->waitForConnected(3000))
+    {
+    QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
+    this->close();
+    }
 }
 
 Record::~Record()
@@ -27,14 +37,7 @@ void Record::on_pushButton_clicked()
         return;
     }
 
-    hostaddress.setAddress(QString("35.194.106.246"));
-    recordsocket->connectToHost(hostaddress,8333);
 
-    if(!recordsocket->waitForConnected(10000))
-    {
-    QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
-    return;
-    }
 
     recordjson.insert("jsontype","12");
     if(ui->Searchway->currentText()=="书目名称")

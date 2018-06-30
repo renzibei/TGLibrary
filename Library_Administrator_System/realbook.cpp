@@ -6,10 +6,19 @@ RealBook::RealBook(QWidget *parent) :
     ui(new Ui::RealBook)
 {
     ui->setupUi(this);
+    realbooksocket = new QTcpSocket;
+
     QObject::connect(realbooksocket, &QTcpSocket::readyRead, this, &RealBook::socket_Read_Data);
     this->setAttribute(Qt::WA_DeleteOnClose);
 
-    realbooksocket = new QTcpSocket;
+    hostaddress.setAddress(QString("35.194.106.246"));
+    realbooksocket->connectToHost(hostaddress,8333);
+
+    if(!realbooksocket->waitForConnected(3000))
+    {
+    QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
+    this->close();
+    }
 
 
 }
@@ -26,15 +35,7 @@ void RealBook::on_backbutton_clicked()
 
 void RealBook::on_Addrealbook_clicked()
 {
-    //存疑 是否需要每次都连接
-    hostaddress.setAddress(QString("35.194.106.246"));
-    realbooksocket->connectToHost(hostaddress,8333);
 
-    if(!realbooksocket->waitForConnected(10000))
-    {
-    QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
-    return;
-    }
 
     if(ui->PlaceEdit->text()=="")
     {

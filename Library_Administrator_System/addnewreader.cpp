@@ -13,6 +13,15 @@ Addnewreader::Addnewreader(QWidget *parent) :
 
     addreadersocket = new QTcpSocket();
     QObject::connect(addreadersocket, &QTcpSocket::readyRead, this, &Addnewreader::socket_Read_Data);
+
+    hostaddress.setAddress(QString("35.194.106.246"));
+    addreadersocket->connectToHost(hostaddress,8333);
+
+    if(!addreadersocket->waitForConnected(3000))
+    {
+    QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
+    this->close();
+    }
 }
 
 Addnewreader::~Addnewreader()
@@ -35,14 +44,6 @@ if(ui->pushButton->text()=="确认")
     else
     {
        // QHostAddress hostaddress;
-        hostaddress.setAddress(QString("35.194.106.246"));
-        addreadersocket->connectToHost(hostaddress,8333);
-
-        if(!addreadersocket->waitForConnected(10000))
-        {
-        QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
-        return;
-        }
         if(operationtype == 1)
         {
             addreaderjson.insert("jsontype", "14");

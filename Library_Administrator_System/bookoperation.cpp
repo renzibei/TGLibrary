@@ -3,8 +3,10 @@
 
 #include "bookoperation.h"
 #include "bookmanagement.h"
+#include "realbook.h"
 
 #include <QHeaderView>
+#include <QString>
 
 bookoperation::bookoperation(QWidget *parent) :
     QDialog(parent),
@@ -26,7 +28,14 @@ bookoperation::bookoperation(QWidget *parent) :
 
     QObject::connect(bookoperationsocket, &QTcpSocket::readyRead, this, &bookoperation::socket_Read_Data);
 
+    hostaddress.setAddress(QString("35.194.106.246"));
+    bookoperationsocket->connectToHost(hostaddress,8333);
 
+    if(!bookoperationsocket->waitForConnected(3000))
+    {
+    QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
+    this->close();
+    }
 
 }
 
@@ -48,14 +57,7 @@ bookoperation::~bookoperation()
 
 void bookoperation::on_add_Books_clicked()
 {
-    hostaddress.setAddress(QString("35.194.106.246"));
-    bookoperationsocket->connectToHost(hostaddress,8333);
 
-    if(!bookoperationsocket->waitForConnected(10000))
-    {
-    QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
-    return;
-    }
 
     if (operationtype == 0)
 {
@@ -67,6 +69,8 @@ void bookoperation::on_add_Books_clicked()
     if(operationtype == 1)
     {
     bookoperationjson.insert("jsontype","13");
+    bookoperationjson.insert("docID", booktransferobject.value("docID").toString());
+
 
     }
     if(operationtype == 3)
@@ -77,7 +81,6 @@ void bookoperation::on_add_Books_clicked()
     if(operationtype == 2)
     {
     bookoperationjson.insert("jsontype","6");
-    bookoperationjson.insert("docID", booktransferobject.value("docID").toString());
     }
 
     if(operationtype == 3 || operationtype == 1)
@@ -142,8 +145,9 @@ void bookoperation::socket_Read_Data()
 
     QJsonValue jsonvalue = rootobj.value("jsontype");
 
-    if(rootobj.value("jsontype").toInt()== 6)
+    if(rootobj.value("jsontype").toString()== "6")
     {
+        qDebug() << rootobj;
         QJsonArray qwertybookarray = rootobj.value("documents").toArray();
 
         if(qwertybookarray.size() == 0)
@@ -152,8 +156,9 @@ void bookoperation::socket_Read_Data()
         {
             BookManagement *asd = (BookManagement*) parent();
             asd->advancetransfer =qwertybookarray;
+            this->close();
         }
-        this->close();
+
     }
 
     int index =rootobj.value("confirmvalue").toInt();
@@ -175,17 +180,33 @@ void bookoperation::socket_Read_Data()
 
 void bookoperation::writeinformation()
 {
+    QJsonArray subjectarray = booktransferobject.value("subjects").toArray();
+    QJsonArray authorarray= booktransferobject.value("authors").toArray();
+    QJsonArray ISBNarray= booktransferobject.value("ISBNs").toArray();
+
+    QString subjectstring =""; QString authorstring = ""; QString ISBNstring = "";
+    for(int i=0; i<subjectarray.size();i++)
+    subjectstring = subjectstring +subjectarray.at(i).toString() +"; ";
+
+
+    for(int j=0; j<authorarray.size(); j++)
+    authorstring = authorstring+ authorarray.at(j).toString() + "; ";
+
+    for(int k=0; k<ISBNarray.size();k++)
+    ISBNstring = ISBNstring+ ISBNarray.at(k).toString() + "; ";
+
 
     //可能是指针 后续再改
     ui->bookinformation->setItem(0,0,new QTableWidgetItem(booktransferobject.value("title").toString()));
-    ui->bookinformation->setItem(1,0,new QTableWidgetItem(booktransferobject.value("authors").toString()));
+    ui->bookinformation->setItem(1,0,new QTableWidgetItem(authorstring.left(authorstring.size()-1)));
+
     ui->bookinformation->setItem(2,0,new QTableWidgetItem(booktransferobject.value("publisher").toString()));
     ui->bookinformation->setItem(3,0,new QTableWidgetItem(booktransferobject.value("publicationYear").toString()));
-    ui->bookinformation->setItem(4,0,new QTableWidgetItem(booktransferobject.value("ISBNs").toString()));
+    ui->bookinformation->setItem(4,0,new QTableWidgetItem(ISBNstring.left(ISBNstring.size()-1)));
     ui->bookinformation->setItem(5,0,new QTableWidgetItem(booktransferobject.value("source").toString()));
     ui->bookinformation->setItem(6,0,new QTableWidgetItem(booktransferobject.value("urls").toString()));
     ui->bookinformation->setItem(7,0,new QTableWidgetItem(booktransferobject.value("languages").toString()));
-    ui->bookinformation->setItem(8,0,new QTableWidgetItem(booktransferobject.value("subjects").toString()));
+    ui->bookinformation->setItem(8,0,new QTableWidgetItem(subjectstring.left(subjectstring.length()-1)));
     ui->bookinformation->setItem(9,0,new QTableWidgetItem(booktransferobject.value("description").toString()));
 
     QJsonArray realbookarray = booktransferobject.value("realBooks").toArray();
@@ -212,8 +233,15 @@ void bookoperation::writeinformation()
 void bookoperation::on_AddRealBooks_clicked()
 {
 //    this->hide();
+    if(ui->bookinformation->item(0,0)==0)
+    {
+        QMessageBox::warning(this, tr("错误"), tr("先有虚拟书目才能添加该书目对应实体书哦~"));
+
+    }
+    else{
     RealBook *addrealbook = new RealBook(this);
     addrealbook->virtualbookobject = booktransferobject;
     addrealbook->show();
    // this->show();
+    }
 }
