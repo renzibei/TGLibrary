@@ -131,13 +131,13 @@ class ServerWrapper
                         throw new \Exception("No username or wrong password ", errorCode\AccountWrongError);
                         //$msg = self::getReturnPackage(1);
                     }
-                    $this->sendReturnPackage(0);
+                    $this->sendReturnPackage(0, $jsonType);
                     //socket_write($this->sockRe, $msg, strlen($msg));
                 } else if ($jsonType == self::messageType['addBookRequest']) {
                     try {
                         SystemFrame::docData()->addDocument(new Book($json['title'], $json['authors'], $json['languages'], $json["publicationYear"],
                             $json['subjects'], $json['publisher'], $json['urls'], $json['source'], $json['description'], $json['ISBNs'], '', NULL));
-                        $this->sendReturnPackage(0);
+                        $this->sendReturnPackage(0, $jsonType);
                     } catch (\Exception $e) {
                         //SystemFrame::log_info("Fail to add book " . $e->getMessage() . " Line " . $e->getLine());
                         //$this->sendReturnPackage(1);
@@ -145,16 +145,16 @@ class ServerWrapper
                     }
                 } else if ($jsonType == self::messageType['deleteBookRequest']) {
                     SystemFrame::docData()->deleteDoc($json['docID']);
-                    $this->sendReturnPackage(0);
+                    $this->sendReturnPackage(0, $jsonType);
                 } else if ($jsonType == self::messageType['addRealBookRequest']) {
                     $doc = SystemFrame::docData()->getDocument($json['docID']);
                     $realBook = new RealBook($doc, $json['callNum'], NULL, TRUE, $json['place']);
                     $doc->addRealBook($realBook);
-                    $this->sendReturnPackage(0);
+                    $this->sendReturnPackage(0, $jsonType);
                 } else if ($jsonType == self::messageType['normalQueryBook']) {
                     require_once 'retrieveSimple.php';
                     $docs = SystemFrame::docData()->queryDoc(array((new retrieveSimple($json['keywords']))->And()));
-                    $this->sendDocuments(0, $docs, 5);
+                    $this->sendDocuments(0, $docs, $jsonType);
 
                 } else if ($jsonType == self::messageType['advancedQueryBook']) {
 

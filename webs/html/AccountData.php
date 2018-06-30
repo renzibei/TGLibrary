@@ -136,6 +136,8 @@ abstract class AccountData
         $conn = SystemFrame::instance()->getConnection();
         $query = "SELECT * FROM $this->accountTable WHERE username = '$username'";
         $result = $conn->query($query);
+        if($result === false)
+            throw new \Exception("Fail to query username " . $conn->error, errorCode\QueryTableError);
         if($result->num_rows === 0)
             return false;
         else {
