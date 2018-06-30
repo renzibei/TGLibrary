@@ -11,7 +11,7 @@ class WebIO : public QObject
 protected:
     static QTcpSocket *socket;
     static WebIO *instance;
-    QDataStream *dataStream;
+    //QDataStream *dataStream;
     int getIntFromBuffer(const QByteArray &buffer);
     int readIntoBuffer(QByteArray& buffer, int len);
 

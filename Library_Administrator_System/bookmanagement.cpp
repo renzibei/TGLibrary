@@ -21,7 +21,7 @@ BookManagement::BookManagement(QWidget *parent) :
     booksocket = WebIO::getSocket();//new QTcpSocket;
 
     QObject::connect(booksocket, &QTcpSocket::readyRead, this, &BookManagement::socket_Read_Data);
-
+    /*
 
     hostaddress.setAddress(QString("35.194.106.246"));
     booksocket->connectToHost(hostaddress,8333);
@@ -31,6 +31,7 @@ BookManagement::BookManagement(QWidget *parent) :
     QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
     this->close();
     }
+    */
 
 }
 

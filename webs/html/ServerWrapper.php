@@ -104,7 +104,7 @@ class ServerWrapper
         $msg = self::getReturnPackage($returnValue, $jsonType);
         $this->sendSimpleMessage($msg);
         //socket_write($this->sockRe, $msg, strlen($msg));
-        self::echoMessage($msg);
+        //self::echoMessage($msg);
     }
 
     protected function sendDocuments($returnValue, array $documents, $jsonType = 0)
@@ -124,7 +124,8 @@ class ServerWrapper
 
     protected static function echoMessage($msg)
     {
-        echo "发送的信息:" . $msg . PHP_EOL;
+       // debug_print_backtrace();
+        echo "发送的信息:长度 " . strlen($msg) . " "  . $msg . PHP_EOL;
     }
 
     protected function sendAccounts($returnValue, array $accounts, $jsonType = 0)
