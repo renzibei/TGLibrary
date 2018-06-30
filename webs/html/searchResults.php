@@ -23,10 +23,13 @@ session_start();
 /**
  * @throws Exception
  */
+
+$result = null;
+
 function query(){
     $searchtype = isset($_POST['searchtype'])? htmlspecialchars($_POST['searchtype']) : 'bookname';
     $keywords = $_POST['keywords'];
-    $result =null;
+    global $result;
     if($searchtype =='bookname') {
         $result = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveTitle($keywords))->And()));
     } else if($searchtype =='authorname') {
@@ -98,8 +101,10 @@ query();
 		<p style="font-size:large">我们为您找到了 <span id="numofResults"></span> 条结果。<br>
 			<br><br><br><br>
             <?php
+                $url = "detailsofBook.php";
                 for($i = 0; $i < 20; $i++){
-                    echo "<a id=\"$i\" href=\"javascript:doPost(\"detailsofBook.php\", $result[$i]);\"></a>";
+                    $send = json_encode($result[$i]);
+                    echo "<a id=\"$i\" href=\"javascript:doPost($url, $send);\"></a>";
                     echo "<br><br>";
                 }
                 echo "<br><br><br><br><br><br>";
