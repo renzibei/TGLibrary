@@ -5,6 +5,7 @@
 require_once 'SystemFrame.php';
 
 session_start();
+$user = $_SESSION['USER'];
 
 /**
  * @throws Exception

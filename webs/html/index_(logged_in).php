@@ -16,38 +16,32 @@
 
 <?php
     require_once 'SystemFrame.php';
-
-    $user = null;
+    session_start();
 
     /**
     * @throws Exception
     */
     function checklogin()
     {
-        $ID = isset($_POST['']) ? htmlspecialchars($_POST['ID']) : '';
-        $password = isset($_POST['']) ? htmlspecialchars($_POST['password']) : '';
-        \tg\SystemFrame::log_info($ID);
-        \tg\SystemFrame::log_info($password);
+        $ID = isset($_POST['ID']) ? htmlspecialchars($_POST['ID']) : '';
+        $password = isset($_POST['password']) ? htmlspecialchars($_POST['password']) : '';
         $user = \tg\SystemFrame::userData()->queryFromUsername($ID);
-        \tg\SystemFrame::log_info("kjkkjkkjkkjkkjk");
         $usertype = gettype($user);
-        \tg\SystemFrame::log_info($usertype);
-        /*
-        if ($user === false){
-            \tg\SystemFrame::log_info("False user!");
-        }
-        else{
-            \tg\SystemFrame::log_info($user);
+
+        $actualPwd = null;
+        if($usertype !== "boolean"){
             $actualPwd = $user->getPassword();
-            \tg\SystemFrame::log_info($actualPwd);
         }
 
-        if ($actualPwd != $password) {
+        if ($actualPwd !== $password) {
             $url = "loginFailure.html";
             echo "<script language='javascript' type='text/javascript'>";
             echo "window.location.href='$url'";
             echo "</script>";
-        }*/
+        }
+        else{
+            $_SESSION['USER'] = $user;
+        }
     }
     checklogin();
 ?>
