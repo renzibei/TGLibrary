@@ -1,5 +1,15 @@
 <!DOCTYPE html>
 <html>
+
+<?php
+require_once 'SystemFrame.php';
+
+session_start();
+
+?>
+
+
+
 <head>
 <meta http-equiv="content-type"; content="text/html"; charset="utf-8">
 <title>TGDD.com</title>

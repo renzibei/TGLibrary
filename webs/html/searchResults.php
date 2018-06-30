@@ -99,7 +99,6 @@ query();
             <a id="18" href="detailsofBook.html"></a><br><br>
             <a id="19" href="detailsofBook.html"></a><br><br>
             <a id="20" href="detailsofBook.html"></a><br><br>
-            <a id="21" href="detailsofBook.html"></a><br><br>
 
 		</p>
 

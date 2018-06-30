@@ -1,6 +1,33 @@
 <!DOCTYPE HTML>
 <html>
 
+<?php
+require_once 'SystemFrame.php';
+
+session_start();
+
+/**
+ * @throws Exception
+ */
+function checkReserve(){
+
+    $NUM = $_SESSION["numofReserved"];
+    for($i = 0; $i < $NUM; $i++)
+    {
+        $reserved[$i] = $_SESSION["Reserved"][$i];
+    }
+
+    echo "<script language='javascript' type='text/javascript'>";
+    echo "var numofReserved = " . json_encode($NUM) . ";";
+    echo "var reserved = " . json_encode($reserved) . ";";
+    echo "</script>";
+
+}
+
+checkReserve();
+
+?>
+
 <head>
 <meta charset="utf-8">
 <title>TGDD.com</title>
@@ -29,7 +56,7 @@
 
 
 
-		<p style="font-size:large">您目前已经预约了 <span id="numofReserves"></span> 本书。<br>
+		<p style="font-size:large">您目前已经预约了 <span id="numofReserved"></span> 本书。<br>
 
             <br><br><br><br>
 
@@ -54,7 +81,6 @@
             <a id="18" href="detailsofBook.html"></a><br><br>
             <a id="19" href="detailsofBook.html"></a><br><br>
             <a id="20" href="detailsofBook.html"></a><br><br>
-            <a id="21" href="detailsofBook.html"></a><br><br>
 
         </p>
 
@@ -70,19 +96,19 @@
 
             var numOfReserves = getJsonLength(result);
 
-            document.getElementById("numofReserves").innerHTML=numofReserves;
+            document.getElementById("numofReserved").innerHTML=numofReserved;
             for(var i = 0; i < numofReserves; i++){
-                if(result[i].docID < 10) var plac1 = "0000000"; else plac1 = "000000";
-                //if(result[i].authors !== null) var plac2 = "著"; else plac2 = "";
-                if(result[i].source) var plac3 = "来源："; else plac3 = "";
-                document.getElementById(i).innerHTML= plac1 + result[i].docID + " 《"
-                    + result[i].title + "》 " + result[i].authors  + " "
-                    + result[i].publisher + " " + plac3 + result[i].source;
+                if(reserved[i].docID < 10) var plac1 = "0000000"; else plac1 = "000000";
+                //if(reserved[i].authors !== null) var plac2 = "著"; else plac2 = "";
+                if(reserved[i].source) var plac3 = "来源："; else plac3 = "";
+                document.getElementById(i).innerHTML= plac1 + reserved[i].docID + " 《"
+                    + reserved[i].title + "》 " + reserved[i].authors  + " "
+                    + reserved[i].publisher + " " + plac3 + reserved[i].source;
             }
 
         </script>
 
-
+<!--
 	<div class="flippage">
 	<ul class="pagination">
     <li><a href="#">&laquo;</a></li>
@@ -94,6 +120,7 @@
     <li><a href="#">&raquo;</a></li>
 	</ul>
 	</div>
+-->
 
 	</div>
 </body>
