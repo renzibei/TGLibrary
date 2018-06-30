@@ -60,7 +60,7 @@
         }
 
 
-        function print()
+        function __print()
         {
             echo get_called_class(). $this->aa . "<br />";
         }
