@@ -44,12 +44,14 @@
 </head>
 
 <body>
+<?php session_start(); session_id(SID);?>
 	<div class="page-header">
 			<h1 style="color:white">图书详情
 			</h1>
 	</div>
 	<div class="divbase panel panel-info">
 		<div class="btn-group">
+            <div style="font-size:large; position:absolute; right:0; top:15px;"><?php echo "您好，" . $_SESSION['ID'] . "！"; ?></div>
 			<a href="mylib.php" class="loggedin1">
 				<button type="button" class="btn btn-info">我的图书</button>　　　
 			</a>

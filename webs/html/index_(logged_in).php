@@ -44,6 +44,7 @@
             $_SESSION['USER'] = $user;
             $_SESSION['ID'] = $ID;
         }
+        session.write.close
     }
     checklogin();
 ?>
@@ -88,6 +89,7 @@
             echo "window.location.href='$url'";
             echo "</div>";
             ?>
+            void 0;
         }
 
     </script>

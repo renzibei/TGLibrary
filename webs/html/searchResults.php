@@ -19,6 +19,9 @@
 require_once 'SystemFrame.php';
 
 session_start();
+session_id(SID);
+
+
 
 $result = null;
 
@@ -26,6 +29,9 @@ $result = null;
  * @throws Exception
  */
 function query(){
+    if(!isset($_SESSION['ID']))
+        \tg\SystemFrame::log_info("Oops");
+    \tg\SystemFrame::log_info($_SESSION['ID']);
     $searchtype = isset($_POST['searchtype'])? htmlspecialchars($_POST['searchtype']) : 'bookname';
     $keywords = isset($_POST['keywords'])? htmlspecialchars($_POST['keywords']) : '';
     global $result;
