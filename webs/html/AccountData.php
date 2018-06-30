@@ -131,11 +131,13 @@ abstract class AccountData
      * @return bool/Account
      * @throws \Exception
      */
-    public function &queryFromUsername($username)
+    public function queryFromUsername($username)
     {
         $conn = SystemFrame::instance()->getConnection();
         $query = "SELECT * FROM $this->accountTable WHERE username = '$username'";
         $result = $conn->query($query);
+        if($result === false)
+            throw new \Exception("Fail to query username " . $conn->error, errorCode\QueryTableError);
         if($result->num_rows === 0)
             return false;
         else {
