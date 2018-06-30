@@ -88,6 +88,30 @@
 			<?php
   		echo $contents;
 			?>
+
+        <table class="table table-hover">
+		<caption>在架书籍</caption>
+		<thead>
+		    <tr>
+			    <th>索书号</th>
+			    <th>类型</th>
+			    <th>状态</th>
+			    <th>借阅</th>
+		    </tr>
+		</thead>
+		<tbody>
+		<?php
+        $RealBooks = $book.getBooks();
+            for($i = 0; $i < getJsonLength(result); $i++){
+                echo "<tr> <br>";
+                echo "<td>" . "</td>";
+                echo "</tr>";
+            }
+
+
+        ?>
+		</tbody>
+	</table>
 			<br><br><br><br>
 			<a href="searchResults.php">
 				<button type="button" class="btn btn-primary btn-lg center-block">返回</button>
@@ -95,24 +119,6 @@
 		</span>
 	</div>
 	<br><br><br><br>
-
-
-	<table class="table table-hover">
-		<caption>在架书籍</caption>
-		<thead>
-		<tr>
-			<th>索书号</th>
-			<th>类型</th>
-			<th>状态</th>
-			<th>借阅</th>
-		</tr>
-		</thead>
-		<tbody>
-		<?php
-
-		?>
-		</tbody>
-	</table>
 
 
 	<script>

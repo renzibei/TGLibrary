@@ -1,9 +1,24 @@
 <!DOCTYPE HTML>
 <html>
 
+<head>
+    <meta charset="utf-8">
+    <title>TGDD.com</title>
+    <link rel="stylesheet" type="text/css" href="../css/background.css">
+    <link rel="stylesheet" type="text/css" href="../css/divbase.css">
+    <link rel="stylesheet" type="text/css" href="../css/alink.css">
+    <link rel="stylesheet" type="text/css" href="../css/loggedinbtn.css">
+    <link rel="stylesheet" type="text/css" href="../css/flippage.css">
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <script src="../bootstrap/js/jquery-3.3.1.min.js"></script>
+</head>
+
+
 <?php
 require_once 'SystemFrame.php';
 
+session_start();
 
 /**
  * @throws Exception
@@ -38,19 +53,7 @@ query();
 
 ?>
 
-<head>
-<meta charset="utf-8">
-<title>TGDD.com</title>
-<link rel="stylesheet" type="text/css" href="../css/background.css">
-<link rel="stylesheet" type="text/css" href="../css/divbase.css">
-<link rel="stylesheet" type="text/css" href="../css/alink.css">
-<link rel="stylesheet" type="text/css" href="../css/loggedinbtn.css">
-<link rel="stylesheet" type="text/css" href="../css/flippage.css">
-<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
 
-<script src="../bootstrap/js/bootstrap.min.js"></script>
-	<script src="../bootstrap/js/jquery-3.3.1.min.js"></script>
-</head>
 
 <body>
 	<div class="page-header">
@@ -60,46 +63,47 @@ query();
 
 	<div class="divbase panel panel-info">
 				<div class="btn-group">
-					<a href="mylib.php" class="loggedin1">
+					<a href="mylib.php" class="loggedin1">　
 						<button type="button" class="btn btn-info">我的图书</button>　　　
 					</a>
-					<a href="../index.html" class="loggedin2">
+					<a href="../index.html" class="loggedin2">　
 						<button type="button" class="btn btn-primary">退出登录</button>
 					</a>
 				</div>
 
-<h3><span style="font-size:x-large"><a href="/css/" target="_self">海量资源</a>  <a href="/css/" target="_self">纸本图书</a>  <a href="/css/" target="_self">期刊杂志</a>  <a href="/css/" target="_self">学术论文</a> <a href="/css/" target="_self">在馆图书</a>
+        <h3><span style="font-size:x-large"><a href="#" style=" font-weight:bold; color:#233333;" target="_self">海量资源</a>  <a href="#" target="_self">纸本图书</a>  <a href="#" target="_self">期刊杂志</a>  <a href="#" target="_self">学术论文</a> <a href="#" target="_self">在馆图书</a>
 
-<form action="searchResults.php" method="post"> <input type="radio" name="searchtype" value="bookname" /><span style="text-align:center; font-size:x-large" class="white">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large" class="white">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large" class="white">按作者</span>
-<input type="text" name="bookname"> <input type="submit" value="搜索">
+        <form action="searchResults.php" method="post"> <input type="radio" name="searchtype" value="bookname" /><span style="text-align:center; font-size:x-large" class="white">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large" class="white">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large" class="white">按作者</span>
+        <input type="text" name="bookname"> <input type="submit" value="搜索">
 
-</form>
+        </form>
+                <script>
+                function doPost(url, struct) {  // to:提交动作（action）,struct:参数
+                    var myForm = document.createElement("form");
+                    myForm.method = "post";
+                    myForm.action = url;
+                    myForm.style.display = "none";
+
+                    var myInput = document.createElement("input");
+                    myInput.setAttribute("name", "thisbook");  // 为input对象设置name
+                    myInput.setAttribute("value", struct);  // 为input对象设置value
+                    myForm.appendChild(myInput);
+
+                    document.body.appendChild(myForm);
+                    myForm.submit();
+                    document.body.removeChild(myForm);  // 提交后移除创建的form
+                }
+            </script>
 
 		<p style="font-size:large">我们为您找到了 <span id="numofResults"></span> 条结果。<br>
 			<br><br><br><br>
-
-		    <a id="0" href="detailsofBook.php"></a><br><br>
-		    <a id="1" href="detailsofBook.php"></a><br><br>
-		    <a id="2" href="detailsofBook.php"></a><br><br>
-		    <a id="3" href="detailsofBook.php"></a><br><br>
-		    <a id="4" href="detailsofBook.php"></a><br><br>
-            <a id="5" href="detailsofBook.php"></a><br><br>
-            <a id="6" href="detailsofBook.php"></a><br><br>
-            <a id="7" href="detailsofBook.php"></a><br><br>
-            <a id="8" href="detailsofBook.php"></a><br><br>
-            <a id="9" href="detailsofBook.php"></a><br><br>
-            <a id="10" href="detailsofBook.php"></a><br><br>
-            <a id="11" href="detailsofBook.php"></a><br><br>
-            <a id="12" href="detailsofBook.php"></a><br><br>
-            <a id="13" href="detailsofBook.php"></a><br><br>
-            <a id="14" href="detailsofBook.php"></a><br><br>
-            <a id="15" href="detailsofBook.php"></a><br><br>
-            <a id="16" href="detailsofBook.php"></a><br><br>
-            <a id="17" href="detailsofBook.php"></a><br><br>
-            <a id="18" href="detailsofBook.php"></a><br><br>
-            <a id="19" href="detailsofBook.php"></a><br><br>
-            <a id="20" href="detailsofBook.php"></a><br><br>
-
+            <?php
+                for($i = 0; $i < 20; $i++){
+                    echo "<a id=\"$i\" href=\"javascript:doPost(\"detailsofBook.php\", $result[$i]);\"></a>";
+                    echo "<br><br>";
+                }
+                echo "<br><br><br><br><br><br>";
+            ?>
 		</p>
 
 		<script>
@@ -123,6 +127,8 @@ query();
 					+ result[i].title + "》 " + result[i].authors  + " "
 					+ result[i].publisher + " " + plac3 + result[i].source;
 			}
+            for(var i = numofResults; i <= 20; i++)
+                document.getElementById(i).innerHTML = "";
 
 		</script>
 
