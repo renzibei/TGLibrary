@@ -3,6 +3,7 @@
 #include "addnewreader.h"
 #include <QDesktopWidget>
 #include <QMessageBox>
+#include "webio.h"
 
 ReaderManagement::ReaderManagement(QWidget *parent) :
     QDialog(parent),
@@ -14,7 +15,7 @@ ReaderManagement::ReaderManagement(QWidget *parent) :
 
     ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
-    readersocket = new QTcpSocket();
+    readersocket = WebIO::getSocket();//new QTcpSocket();
     QObject::connect(readersocket, &QTcpSocket::readyRead, this, &ReaderManagement::socket_Read_Data);
 
     // QHostAddress hostaddress;
@@ -105,9 +106,9 @@ void ReaderManagement::on_Modifieduser_clicked()
 void ReaderManagement::socket_Read_Data()
 {
     QByteArray getbuffer;
-    getbuffer = readersocket->readAll();
+    //getbuffer = WebIO::Singleton()->readJsonDocument();//readersocket->readAll();
 
-    QJsonDocument getdocument = QJsonDocument::fromJson(getbuffer);
+    QJsonDocument getdocument = WebIO::Singleton()->readJsonDocument();//QJsonDocument::fromJson(getbuffer);
     QJsonObject rootobj = getdocument.object();
     transferobject = rootobj;
 

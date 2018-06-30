@@ -1,5 +1,6 @@
 #include "confirm.h"
 #include "ui_confirm.h"
+#include "webio.h"
 #include <QMessageBox>
 
 Confirm::Confirm(QWidget *parent) :
@@ -12,7 +13,7 @@ Confirm::Confirm(QWidget *parent) :
 
     ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
-    confirmsocket = new QTcpSocket;
+    confirmsocket = WebIO::getSocket();//new QTcpSocket;
     QObject::connect(confirmsocket, &QTcpSocket::readyRead, this, &Confirm::socket_Read_Data);
 
     hostaddress.setAddress(QString("35.194.106.246"));
@@ -105,9 +106,9 @@ void Confirm::on_KotowariRecord_clicked()
 void Confirm::socket_Read_Data()
 {
     QByteArray getbuffer;
-    getbuffer = confirmsocket->readAll();
+    //getbuffer = WebIO::Singleton()->readJsonDocument();//confirmsocket->readAll();
 
-    QJsonDocument getdocument = QJsonDocument::fromJson(getbuffer);
+    QJsonDocument getdocument = WebIO::Singleton()->readJsonDocument();//QJsonDocument::fromJson(getbuffer);
     QJsonObject rootobj = getdocument.object();
 
     if(rootobj.value("jsontype").toString()=="16")

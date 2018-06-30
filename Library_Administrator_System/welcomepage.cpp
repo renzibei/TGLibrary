@@ -4,6 +4,7 @@
 #include "mainpage.h"
 #include <QMessageBox>
 #include <QString>
+#include "webio.h"
 
 WelcomePage::WelcomePage(QWidget *parent) :
     QMainWindow(parent),
@@ -16,7 +17,7 @@ WelcomePage::WelcomePage(QWidget *parent) :
    // ui->label->setMovie(welcomemovie);
    // welcomemovie->start();
 
-    loginsocket = new QTcpSocket();
+    loginsocket =  WebIO::getSocket();//new QTcpSocket();
     QObject::connect(loginsocket, &QTcpSocket::readyRead, this, &WelcomePage::socket_Read_Data);
 
     ui->adminpassword->setEchoMode(QLineEdit::Password);
@@ -60,9 +61,9 @@ void WelcomePage::on_En_Bt_clicked()
 void WelcomePage::socket_Read_Data()
 {
     QByteArray getbuffer;
-    getbuffer = loginsocket->readAll();
+    //getbuffer = WebIO::Singleton()->readJsonDocument();//loginsocket->readAll();
 
-    QJsonDocument getdocument = QJsonDocument::fromJson(getbuffer);
+    QJsonDocument getdocument = WebIO::Singleton()->readJsonDocument();//WebIO::Singleton()->readJsonDocument();//QJsonDocument::fromJson(getbuffer);
     QJsonObject rootobj = getdocument.object();
     QJsonValue jsontypevalue = rootobj.value("confirmtype");
     int index = jsontypevalue.toInt();

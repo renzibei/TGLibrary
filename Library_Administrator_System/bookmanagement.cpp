@@ -2,6 +2,7 @@
 #include "ui_bookmanagement.h"
 
 #include "bookoperation.h"
+#include "webio.h"
 
 #include <QMessageBox>
 
@@ -17,7 +18,7 @@ BookManagement::BookManagement(QWidget *parent) :
 
     ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
-    booksocket = new QTcpSocket;
+    booksocket = WebIO::getSocket();//new QTcpSocket;
 
     QObject::connect(booksocket, &QTcpSocket::readyRead, this, &BookManagement::socket_Read_Data);
 
@@ -158,9 +159,9 @@ void BookManagement::on_SearchBook_clicked()
 void BookManagement::socket_Read_Data()
 {
     QByteArray getbuffer;
-    getbuffer = booksocket->readAll();
+    //getbuffer = WebIO::Singleton()->readJsonDocument();//booksocket->readAll();
 
-    QJsonDocument getdocument = QJsonDocument::fromJson(getbuffer);
+    QJsonDocument getdocument = WebIO::Singleton()->readJsonDocument();//QJsonDocument::fromJson(getbuffer);
     QJsonObject rootobj = getdocument.object();
     qDebug() << rootobj;
     QJsonValue jsonvalue = rootobj.value("jsontype");

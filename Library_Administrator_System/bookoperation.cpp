@@ -4,6 +4,7 @@
 #include "bookoperation.h"
 #include "bookmanagement.h"
 #include "realbook.h"
+#include "webio.h"
 
 #include <QHeaderView>
 #include <QString>
@@ -24,7 +25,7 @@ bookoperation::bookoperation(QWidget *parent) :
 
     //connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(close()));
 
-    bookoperationsocket = new QTcpSocket;
+    bookoperationsocket = WebIO::getSocket();//new QTcpSocket;
 
     QObject::connect(bookoperationsocket, &QTcpSocket::readyRead, this, &bookoperation::socket_Read_Data);
 
@@ -138,9 +139,9 @@ void bookoperation::on_Back_Button_clicked()
 void bookoperation::socket_Read_Data()
 {
     QByteArray getbuffer;
-    getbuffer = bookoperationsocket->readAll();
+    //getbuffer = WebIO::Singleton()->readJsonDocument();//bookoperationsocket->readAll();
 
-    QJsonDocument getdocument = QJsonDocument::fromJson(getbuffer);
+    QJsonDocument getdocument = WebIO::Singleton()->readJsonDocument();//QJsonDocument::fromJson(getbuffer);
     QJsonObject rootobj = getdocument.object();
 
     QJsonValue jsonvalue = rootobj.value("jsontype");

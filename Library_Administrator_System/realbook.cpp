@@ -1,12 +1,13 @@
 #include "realbook.h"
 #include "ui_realbook.h"
+#include "webio.h"
 
 RealBook::RealBook(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::RealBook)
 {
     ui->setupUi(this);
-    realbooksocket = new QTcpSocket;
+    realbooksocket = WebIO::getSocket();//new QTcpSocket;
 
     QObject::connect(realbooksocket, &QTcpSocket::readyRead, this, &RealBook::socket_Read_Data);
     this->setAttribute(Qt::WA_DeleteOnClose);
@@ -60,9 +61,9 @@ void RealBook::on_Addrealbook_clicked()
 void RealBook::socket_Read_Data()
 {
     QByteArray getbuffer;
-    getbuffer = realbooksocket->readAll();
+    //getbuffer = WebIO::Singleton()->readJsonDocument();//realbooksocket->readAll();
 
-    QJsonDocument getdocument = QJsonDocument::fromJson(getbuffer);
+    QJsonDocument getdocument = WebIO::Singleton()->readJsonDocument();//QJsonDocument::fromJson(getbuffer);
     QJsonObject rootobj = getdocument.object();
 
     QJsonValue confirmvalue = rootobj.value("confirmtype");
