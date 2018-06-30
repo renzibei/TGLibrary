@@ -20,34 +20,32 @@ require_once 'SystemFrame.php';
 
 session_start();
 
+$result = null;
+
 /**
  * @throws Exception
  */
-
-$result = null;
-
 function query(){
     $searchtype = isset($_POST['searchtype'])? htmlspecialchars($_POST['searchtype']) : 'bookname';
-    $keywords = $_POST['keywords'];
+    $keywords = isset($_POST['keywords'])? htmlspecialchars($_POST['keywords']) : '';
     global $result;
     if($searchtype =='bookname') {
         $result = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveTitle($keywords))->And()));
     } else if($searchtype =='authorname') {
         $result = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveAuthor($keywords))->And()));
+        $result = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveAuthor($keywords))->And()));
     } else if($searchtype =='pressname') {
         $result = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrievePublisher($keywords))->And()));
     }
-    if($result == "") {
+    if(sizeof($result) === 0) {
         $url = "searchFailure.html";
         echo "<script language='javascript' type='text/javascript'>";
         echo "javascript:window.location.href='$url'";
         echo "</script>";
     }
     else {
-        //$url = "searchResults.html";
         echo "<script language='javascript' type='text/javascript'>";
         echo "var result = " . json_encode($result) . ";";
-       // echo " javascript:window.location.href='$url' ";
         echo "</script>";
     }
 }
@@ -77,7 +75,7 @@ query();
         <h3><span style="font-size:x-large"><a href="#" style=" font-weight:bold; color:#233333;" target="_self">海量资源</a>  <a href="#" target="_self">纸本图书</a>  <a href="#" target="_self">期刊杂志</a>  <a href="#" target="_self">学术论文</a> <a href="#" target="_self">在馆图书</a>
 
         <form action="searchResults.php" method="post"> <input type="radio" name="searchtype" value="bookname" /><span style="text-align:center; font-size:x-large" class="white">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large" class="white">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large" class="white">按作者</span>
-        <input type="text" name="bookname"> <input type="submit" value="搜索">
+        <input type="text" class="form-control col-lg" name="keywords"><input type="submit" value="搜索">
 
         </form>
                 <script>

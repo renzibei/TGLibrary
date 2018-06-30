@@ -114,6 +114,7 @@ class User extends Account
         return $this->uid;
     }
 
+
     /**
      * @param $uid
      * @throws \Exception
