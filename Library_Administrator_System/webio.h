@@ -25,7 +25,7 @@ public:
     static QTcpSocket *getSocket() {
         if(WebIO::socket == nullptr) {
             WebIO::socket = new QTcpSocket;
-            WebIO::socket->connectToHost(QHostAddress("127.0.0.1"), 8333);
+            WebIO::socket->connectToHost(QHostAddress("35.194.106.246"), 8333);
         }
         return WebIO::instance->socket;
     };
