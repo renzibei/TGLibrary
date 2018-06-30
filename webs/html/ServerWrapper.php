@@ -242,6 +242,7 @@ class ServerWrapper
     protected function readMsgLength()
     {
         $buffer = socket_read($this->sockRe, 4);
+        echo "buffer length $buffer";
         $len = int_helper::uInt32($buffer, true);
         return $len;
     }
