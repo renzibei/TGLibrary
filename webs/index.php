@@ -90,7 +90,7 @@
         require_once 'html/retrieveSet.php';
         require_once 'html/RealBook.php';
         \tg\SystemFrame::log_info("finish load include");
-        $book = new \tg\Book('算法导论', "科曼", '中文', 2006, array("计算机", "算法"), "机械工程出版社", array("ib.tsinghua.edu.cn"), "lib.tsinghua.edu.cn", "你想获得力量吗", "9787111187776", "页数:754,开本16");
+        $book = new \tg\Book('鞋狗', "[美]菲尔-奈特", '中文', 2016, array("纪实", "励志"), "北京联合出版公司", array("ib.tsinghua.edu.cn"), "book.douban.com", "懦夫从不启程，弱者死于途中", "9787550284463", "页数:410,开本16");
 	    //$book = new \tg\Book('他改变了中国', array('长者'), 'Chinese', 1998, array("哲学", "膜蛤"), "人民出版社", array('www.baidu.com'), 'www.baidu.com', "不要总想搞个大新闻", '2332332', '精装');
         \tg\SystemFrame::log_info("new a book");
 	    \tg\SystemFrame::docData()->addDocument($book);
