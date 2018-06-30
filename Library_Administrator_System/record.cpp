@@ -1,6 +1,7 @@
 #include "record.h"
 #include "ui_record.h"
 #include <QMessageBox>
+#include "webio.h"
 
 Record::Record(QWidget *parent) :
     QDialog(parent),
@@ -8,11 +9,12 @@ Record::Record(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setAttribute(Qt::WA_DeleteOnClose);
+    recordsocket = WebIO::getSocket();//new QTcpSocket;
     QObject::connect(recordsocket, &QTcpSocket::readyRead, this, &Record::socket_Read_Data);
 
-    recordsocket = new QTcpSocket;
 
 
+    /*
     hostaddress.setAddress(QString("35.194.106.246"));
     recordsocket->connectToHost(hostaddress,8333);
 
@@ -21,6 +23,7 @@ Record::Record(QWidget *parent) :
     QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
     this->close();
     }
+    */
 }
 
 Record::~Record()
@@ -55,8 +58,8 @@ void Record::on_pushButton_clicked()
     jsondoc.setObject(recordjson);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
     //booksocket->write( std::to_string(bytearray.size()).c_str() );
-    recordsocket->write(bytearray);
-
+    //recordsocket->write(bytearray);
+    WebIO::Singleton()->sendMessage(bytearray);
 
 }
 
@@ -64,9 +67,9 @@ void Record::socket_Read_Data()
 {
 
     QByteArray getbuffer;
-    getbuffer = recordsocket->readAll();
+   // getbuffer = WebIO::Singleton()->readJsonDocument();//recordsocket->readAll();
 
-    QJsonDocument getdocument = QJsonDocument::fromJson(getbuffer);
+    QJsonDocument getdocument = WebIO::Singleton()->readJsonDocument();//QJsonDocument::fromJson(getbuffer);
     QJsonObject rootobj = getdocument.object();
 
     QJsonValue jsontypevalue = rootobj.value("jsontype");

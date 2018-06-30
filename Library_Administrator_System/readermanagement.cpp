@@ -3,6 +3,7 @@
 #include "addnewreader.h"
 #include <QDesktopWidget>
 #include <QMessageBox>
+#include "webio.h"
 
 ReaderManagement::ReaderManagement(QWidget *parent) :
     QDialog(parent),
@@ -14,10 +15,11 @@ ReaderManagement::ReaderManagement(QWidget *parent) :
 
     ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
-    readersocket = new QTcpSocket();
+    readersocket = WebIO::getSocket();//new QTcpSocket();
     QObject::connect(readersocket, &QTcpSocket::readyRead, this, &ReaderManagement::socket_Read_Data);
 
     // QHostAddress hostaddress;
+    /*
      hostaddress.setAddress(QString("35.194.106.246"));
      readersocket->connectToHost(hostaddress,8333);
 
@@ -25,6 +27,7 @@ ReaderManagement::ReaderManagement(QWidget *parent) :
      {
      QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
     this->close();     }
+    */
 
 }
 
@@ -77,7 +80,8 @@ void ReaderManagement::on_pushButton_4_clicked()
         sendjson.setObject(readerjson);
         bytearray = sendjson.toJson(QJsonDocument::Compact);
         //readersocket->write( std::to_string(bytearray.size()).c_str() );
-        readersocket->write(bytearray);
+        WebIO::Singleton()->sendMessage(bytearray);
+        //readersocket->write(bytearray);
 }
 }
 
@@ -105,9 +109,9 @@ void ReaderManagement::on_Modifieduser_clicked()
 void ReaderManagement::socket_Read_Data()
 {
     QByteArray getbuffer;
-    getbuffer = readersocket->readAll();
+    //getbuffer = WebIO::Singleton()->readJsonDocument();//readersocket->readAll();
 
-    QJsonDocument getdocument = QJsonDocument::fromJson(getbuffer);
+    QJsonDocument getdocument = WebIO::Singleton()->readJsonDocument();//QJsonDocument::fromJson(getbuffer);
     QJsonObject rootobj = getdocument.object();
     transferobject = rootobj;
 
@@ -165,6 +169,7 @@ void ReaderManagement::on_delete_hito_clicked()
 
     //  连接服务器
     //QHostAddress hostaddress;
+    /*
      hostaddress.setAddress(QString("35.194.106.246"));
      readersocket->connectToHost(hostaddress,8333);
 
@@ -173,11 +178,13 @@ void ReaderManagement::on_delete_hito_clicked()
      QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
      return;
      }
+     */
 
     // 上传服务器
      QJsonDocument sendjson;
      sendjson.setObject(deletebookvalue);
      bytearray = sendjson.toJson(QJsonDocument::Compact);
      //readersocket->write( std::to_string(bytearray.size()).c_str() );
-     readersocket->write(bytearray);
+     WebIO::Singleton()->sendMessage(bytearray);
+     //readersocket->write(bytearray);
 }

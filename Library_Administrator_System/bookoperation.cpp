@@ -4,6 +4,7 @@
 #include "bookoperation.h"
 #include "bookmanagement.h"
 #include "realbook.h"
+#include "webio.h"
 
 #include <QHeaderView>
 #include <QString>
@@ -24,11 +25,12 @@ bookoperation::bookoperation(QWidget *parent) :
 
     //connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(close()));
 
-    bookoperationsocket = new QTcpSocket;
+    bookoperationsocket = WebIO::getSocket();//new QTcpSocket;
 
     QObject::connect(bookoperationsocket, &QTcpSocket::readyRead, this, &bookoperation::socket_Read_Data);
 
-    hostaddress.setAddress(QString("35.194.106.246"));
+    //hostaddress.setAddress(QString("35.194.106.246"));
+    /*
     bookoperationsocket->connectToHost(hostaddress,8333);
 
     if(!bookoperationsocket->waitForConnected(3000))
@@ -36,6 +38,7 @@ bookoperation::bookoperation(QWidget *parent) :
     QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
     this->close();
     }
+    */
 
 }
 
@@ -123,7 +126,8 @@ void bookoperation::on_add_Books_clicked()
     jsondoc.setObject(bookoperationjson);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
     // bookoperationsocket->write( std::to_string(bytearray.size()).c_str() );
-    bookoperationsocket->write(bytearray);
+    //bookoperationsocket->write(bytearray);
+    WebIO::Singleton()->sendMessage(bytearray);
 
 
 
@@ -138,9 +142,9 @@ void bookoperation::on_Back_Button_clicked()
 void bookoperation::socket_Read_Data()
 {
     QByteArray getbuffer;
-    getbuffer = bookoperationsocket->readAll();
+    //getbuffer = WebIO::Singleton()->readJsonDocument();//bookoperationsocket->readAll();
 
-    QJsonDocument getdocument = QJsonDocument::fromJson(getbuffer);
+    QJsonDocument getdocument = WebIO::Singleton()->readJsonDocument();//QJsonDocument::fromJson(getbuffer);
     QJsonObject rootobj = getdocument.object();
 
     QJsonValue jsonvalue = rootobj.value("jsontype");

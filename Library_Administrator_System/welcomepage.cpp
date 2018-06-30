@@ -4,6 +4,7 @@
 #include "mainpage.h"
 #include <QMessageBox>
 #include <QString>
+#include "webio.h"
 
 WelcomePage::WelcomePage(QWidget *parent) :
     QMainWindow(parent),
@@ -16,7 +17,7 @@ WelcomePage::WelcomePage(QWidget *parent) :
    // ui->label->setMovie(welcomemovie);
    // welcomemovie->start();
 
-    loginsocket = new QTcpSocket();
+    loginsocket =  WebIO::getSocket();//new QTcpSocket();
     QObject::connect(loginsocket, &QTcpSocket::readyRead, this, &WelcomePage::socket_Read_Data);
 
     ui->adminpassword->setEchoMode(QLineEdit::Password);
@@ -34,14 +35,15 @@ void WelcomePage::on_En_Bt_clicked()
     else
     {
        // QHostAddress hostaddress;
-        hostaddress.setAddress(QString("35.194.106.246"));
-        loginsocket->connectToHost(hostaddress,8333);
-
+        //hostaddress.setAddress(QString("35.194.106.246"));
+        //loginsocket->connectToHost(hostaddress,8333);
+        /*
         if(!loginsocket->waitForConnected(3000))
         {
         QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
         return;
         }
+        */
 
       //  QJsonObject loginjson;
         loginjson.insert("jsontype",1);
@@ -52,7 +54,8 @@ void WelcomePage::on_En_Bt_clicked()
         sendjson.setObject(loginjson);
         bytearray = sendjson.toJson(QJsonDocument::Compact);
        // loginsocket->write( std::to_string(bytearray.size()).c_str() );
-        loginsocket->write(bytearray);
+        //loginsocket->write(bytearray);
+        WebIO::Singleton()->sendMessage(bytearray);
     }
 }
 
@@ -60,9 +63,9 @@ void WelcomePage::on_En_Bt_clicked()
 void WelcomePage::socket_Read_Data()
 {
     QByteArray getbuffer;
-    getbuffer = loginsocket->readAll();
+    //getbuffer = WebIO::Singleton()->readJsonDocument();//loginsocket->readAll();
 
-    QJsonDocument getdocument = QJsonDocument::fromJson(getbuffer);
+    QJsonDocument getdocument = WebIO::Singleton()->readJsonDocument();//WebIO::Singleton()->readJsonDocument();//QJsonDocument::fromJson(getbuffer);
     QJsonObject rootobj = getdocument.object();
     QJsonValue jsontypevalue = rootobj.value("confirmtype");
     int index = jsontypevalue.toInt();

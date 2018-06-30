@@ -2,6 +2,7 @@
 #include "ui_bookmanagement.h"
 
 #include "bookoperation.h"
+#include "webio.h"
 
 #include <QMessageBox>
 
@@ -17,10 +18,10 @@ BookManagement::BookManagement(QWidget *parent) :
 
     ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
-    booksocket = new QTcpSocket;
+    booksocket = WebIO::getSocket();//new QTcpSocket;
 
     QObject::connect(booksocket, &QTcpSocket::readyRead, this, &BookManagement::socket_Read_Data);
-
+    /*
 
     hostaddress.setAddress(QString("35.194.106.246"));
     booksocket->connectToHost(hostaddress,8333);
@@ -30,6 +31,7 @@ BookManagement::BookManagement(QWidget *parent) :
     QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
     this->close();
     }
+    */
 
 }
 
@@ -75,7 +77,8 @@ void BookManagement::on_Delete_Book_clicked()
     jsondoc.setObject(onloadbookjson);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
    // booksocket->write( std::to_string(bytearray.size()).c_str() );
-    booksocket->write(bytearray);
+    WebIO::Singleton()->sendMessage(bytearray);
+    //booksocket->write(bytearray);
 }
 
 
@@ -152,15 +155,16 @@ void BookManagement::on_SearchBook_clicked()
         jsondoc.setObject(bookjson);
         bytearray = jsondoc.toJson(QJsonDocument::Compact);
         //booksocket->write( std::to_string(bytearray.size()).c_str() );
-        booksocket->write(bytearray);
+        WebIO::Singleton()->sendMessage(bytearray);
+        //booksocket->write(bytearray);
 }
 }
 void BookManagement::socket_Read_Data()
 {
     QByteArray getbuffer;
-    getbuffer = booksocket->readAll();
+    //getbuffer = WebIO::Singleton()->readJsonDocument();//booksocket->readAll();
 
-    QJsonDocument getdocument = QJsonDocument::fromJson(getbuffer);
+    QJsonDocument getdocument = WebIO::Singleton()->readJsonDocument();//QJsonDocument::fromJson(getbuffer);
     QJsonObject rootobj = getdocument.object();
     qDebug() << rootobj;
     QJsonValue jsonvalue = rootobj.value("jsontype");

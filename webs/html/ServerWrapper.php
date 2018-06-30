@@ -55,6 +55,14 @@ class ServerWrapper
         }
     }
 
+    protected function writeLength($msg)
+    {
+        require_once 'int_helper.php';
+        $len = strlen($msg);
+        $sendMsg = int_helper::uint32($len, true);
+        socket_write($this->sockRe, $sendMsg, 4);
+    }
+
     /**
      * @param int $status
      * @param int $jsonType
@@ -71,6 +79,22 @@ class ServerWrapper
 
     }
 
+    protected function readJson()
+    {
+        $len = $this->readMsgLength();
+        $leftLen = $len;
+        $msg = "";
+        while($leftLen > 0) {
+            $tempBuffer = socket_read($this->sockRe, $leftLen);
+            $leftLen -= strlen($tempBuffer);
+            $msg.= $tempBuffer;
+
+        }
+        if(!empty($msg))
+            return $msg;
+        else return false;
+    }
+
     /**
      * @param $returnValue
      * @param int $jsonType
@@ -78,8 +102,9 @@ class ServerWrapper
     protected function sendReturnPackage($returnValue, $jsonType = 0)
     {
         $msg = self::getReturnPackage($returnValue, $jsonType);
-        socket_write($this->sockRe, $msg, strlen($msg));
-        self::echoMessage($msg);
+        $this->sendSimpleMessage($msg);
+        //socket_write($this->sockRe, $msg, strlen($msg));
+        //self::echoMessage($msg);
     }
 
     protected function sendDocuments($returnValue, array $documents, $jsonType = 0)
@@ -92,13 +117,15 @@ class ServerWrapper
 
     protected  function sendSimpleMessage($msg)
     {
+        $this->writeLength($msg);
         socket_write($this->sockRe, $msg, strlen($msg));
         self::echoMessage($msg);
     }
 
     protected static function echoMessage($msg)
     {
-        echo "发送的信息:" . $msg . PHP_EOL;
+       // debug_print_backtrace();
+        echo "发送的信息:长度 " . strlen($msg) . " "  . $msg . PHP_EOL;
     }
 
     protected function sendAccounts($returnValue, array $accounts, $jsonType = 0)
@@ -214,6 +241,15 @@ class ServerWrapper
         }
     }
 
+    protected function readMsgLength()
+    {
+        require_once 'int_helper.php';
+        $buffer = socket_read($this->sockRe, 4);
+        //echo "buffer length $buffer";
+        $len = int_helper::uInt32($buffer, true);
+        return $len;
+    }
+
     /**
      * @throws \Exception
      */
@@ -233,8 +269,8 @@ class ServerWrapper
                 //$msg ="测试成功！\n";
                 //socket_write($this->sockRe, $msg, strlen($msg));
 
-
-                $buf = socket_read($this->sockRe,65535);
+                $buf = $this->readJson();
+                //$buf = socket_read($this->sockRe,65535);
                 try {
                     $talkback = "收到的信息:$buf\n";
                     echo $talkback . PHP_EOL;
