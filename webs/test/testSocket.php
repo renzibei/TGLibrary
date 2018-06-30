@@ -1,10 +1,10 @@
 <?php
 //确保在连接客户端时不会超时
 set_time_limit(0);
-
+require_once '../html/int_helper.php';
 $ip = '0';
 //$ip = '127.0.0.1';
-$port = 8333;
+$port = 8334;
 
 /*
  +-------------------------------
@@ -43,13 +43,15 @@ do {
         
         //发到客户端
         $msg ="测试成功！\n";
-        socket_write($msgsock, $msg, strlen($msg));
+        $intx = 16;
+        $sendMsg = \tg\int_helper::uInt32($intx, true);
+        socket_write($msgsock, $sendMsg, 4);
         
         echo "测试成功了啊\n";
-        $buf = socket_read($msgsock,8192);
+        $buf = socket_read($msgsock,4);
         
-        
-        $talkback = "收到的信息:$buf\n";
+        $num = \tg\int_helper::uInt32($buf, true);
+        $talkback = "收到的信息:$num\n";
         echo $talkback;
         
         if(++$count >= 5){
