@@ -168,18 +168,7 @@ void ReaderManagement::on_delete_hito_clicked()
     else
     deletebookvalue.insert("usertype","1");
 
-    //  连接服务器
-    //QHostAddress hostaddress;
-    /*
-     hostaddress.setAddress(QString("35.194.106.246"));
-     readersocket->connectToHost(hostaddress,8333);
 
-     if(!readersocket->waitForConnected(10000))
-     {
-     QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
-     return;
-     }
-     */
 
     // 上传服务器
      QJsonDocument sendjson;

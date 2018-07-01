@@ -274,7 +274,7 @@ void BookManagement::getadvancedresult(){
         QJsonValue docIDvalue = iteratorobject.value("docID");
 
         ui->tableWidget->setItem(i,0,new QTableWidgetItem(titlevalue.toString()));
-        ui->tableWidget->setItem(i,1,new QTableWidgetItem(authorstring));
+        ui->tableWidget->setItem(i,1,new QTableWidgetItem(authorstring.left(authorstring.size()-2)));
         ui->tableWidget->setItem(i,2,new QTableWidgetItem(publishervalue.toString()));
         ui->tableWidget->setItem(i,3,new QTableWidgetItem(docIDvalue.toString()));
 

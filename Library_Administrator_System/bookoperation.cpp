@@ -214,15 +214,15 @@ void bookoperation::writeinformation()
 
     //可能是指针 后续再改
     ui->bookinformation->setItem(0,0,new QTableWidgetItem(booktransferobject.value("title").toString()));
-    ui->bookinformation->setItem(1,0,new QTableWidgetItem(authorstring.left(authorstring.size()-1)));
+    ui->bookinformation->setItem(1,0,new QTableWidgetItem(authorstring.left(authorstring.size()-2)));
 
     ui->bookinformation->setItem(2,0,new QTableWidgetItem(booktransferobject.value("publisher").toString()));
     ui->bookinformation->setItem(3,0,new QTableWidgetItem(booktransferobject.value("publicationYear").toString()));
-    ui->bookinformation->setItem(4,0,new QTableWidgetItem(ISBNstring.left(ISBNstring.size()-1)));
+    ui->bookinformation->setItem(4,0,new QTableWidgetItem(ISBNstring.left(ISBNstring.size()-2)));
     ui->bookinformation->setItem(5,0,new QTableWidgetItem(booktransferobject.value("source").toString()));
     ui->bookinformation->setItem(6,0,new QTableWidgetItem(booktransferobject.value("urls").toString()));
     ui->bookinformation->setItem(7,0,new QTableWidgetItem(booktransferobject.value("languages").toString()));
-    ui->bookinformation->setItem(8,0,new QTableWidgetItem(subjectstring.left(subjectstring.length()-1)));
+    ui->bookinformation->setItem(8,0,new QTableWidgetItem(subjectstring.left(subjectstring.length()-2)));
     ui->bookinformation->setItem(9,0,new QTableWidgetItem(booktransferobject.value("description").toString()));
 
     QJsonArray realbookarray = booktransferobject.value("realBooks").toArray();
