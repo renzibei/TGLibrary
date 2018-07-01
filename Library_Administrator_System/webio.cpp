@@ -31,7 +31,9 @@ int WebIO::readIntoBuffer(QByteArray& buffer, int len)
     int i = 0;
    // if(leftBytes == 4681)
     //    leftBytes = 5000;
+
     while(leftBytes > 0) {
+        /*
         if(WebIO::getSocket()->waitForReadyRead(30000) == false) {
             qDebug() << WebIO::getSocket()->state();
             qDebug() << WebIO::getSocket()->error();
@@ -39,12 +41,17 @@ int WebIO::readIntoBuffer(QByteArray& buffer, int len)
             continue;
             //return -1;
         }
+        */
         //tempBuffer = this->socket->read(leftBytes);
         tempStr = new char[leftBytes+1];
         memset(tempStr, 0, leftBytes + 1);
         tempLen = WebIO::getSocket()->read(tempStr, leftBytes);
         leftBytes -= tempLen;
         result.append(tempStr);
+        if(leftBytes > 0) {
+            if(WebIO::getSocket()->waitForReadyRead(30000) == false)
+                qDebug() << "接受超时";
+        }
         i++;
         if(i > 1000) {
             qDebug() << WebIO::getSocket()->errorString();
