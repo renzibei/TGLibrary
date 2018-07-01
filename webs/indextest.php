@@ -128,7 +128,7 @@
                 '科学出版社', array("www.sina.com", "www.nature.com"), "Nature Database", "少年你渴望力量吗",
                 "ae86", '1*1小开本');
         \tg\SystemFrame::docData()->addDocument($journal1);
-        $journals = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveAuthor('王'))->And()), (new \tg\retrieveISSN("ae986"))->And());
+        $journals = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveAuthor('王'))->And(), (new \tg\retrieveISSN("ae986"))->And()));
         var_dump($journals);
     }
 

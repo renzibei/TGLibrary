@@ -1,18 +1,24 @@
-# Document
+#Document
 
 
 
-## Api Reference
+此处是服务器的系统框架部分的API文档。此框架是出于数据库和前端之间的抽象层，将一些数据库操作、计算等等抽象为高层API。
 
 
+
+## API Reference
+
+
+
+
+
+## namespace tg
 
 ## class
 
-
-
-
-
 ### SystemFrame
+
+![SystemFrame](./bigSystemFrame.png)
 
 
 
@@ -34,14 +40,10 @@
 
 
 
-
-
-
-
 ***
 ### Document
 
-
+![Document](./DocumentAndAccount.png)
 
 #### Member Functions
 
@@ -197,6 +199,8 @@
 
 ### Account (Abstract Class)
 
+![Account](./DocumentAndAccount.png)
+
 #### Member Function
 
 | Function Name            | Return Type |
@@ -322,8 +326,6 @@
 | queryFromUid(uid)                                            | Admin&         |
 | addAccount(&\$Account)                                       | void           |
 | deleteUser(\$uuid, \$deleteType) //type 为1时uuid为username, 默认为1 | void           |
-|                                                              |                |
-|                                                              |                |
 
 
 
@@ -363,5 +365,25 @@
 | addBorrowRequest    | void |
 | ------------------- | ---- |
 | getBorrowRecordList | void |
-|                     |      |
+
+
+
+
+
+***
+
+### RetrieveStrategy
+
+检索采取策略模式，可以灵活地将检索方法和逻辑词进行组合。检索策略可以用在检索书和检索用户傻姑娘。
+
+![retrieveStrategy](./retrieve.png)
+
+####Member Functions
+
+| Function Name | Return Type |
+| ------------- | ----------- |
+| And           | string      |
+| Or            | string      |
+| Not           | string      |
+| Normal        | string      |
 
