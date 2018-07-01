@@ -52,47 +52,47 @@ $_GET['highlevel'] = "";
     <form action="searchResults.php?highlevel=true" method="post">
         <div class="row">
             <div class="col-lg-4">
-            <b>标题</b><input type="text" class="form-control col-lg" name="titlekey"
+            <b>标题</b><input type="text" class="form-control col-lg" name="titlekey1"
                    placeholder="请输入标题,无要求请留白"/></div>
             <br>
             <div class="col-lg-3">
-            <select class="form-control">
+            <select class="form-control" name="titleconj">
                 <option value="and">同时包含</option>
                 <option value="or">或包含</option>
                 <option value="not">但不包含</option>
             </select></div>
             <div class="col-lg-4">
-            <input type="text" class="form-control col-lg" name="titlekey"
+            <input type="text" class="form-control col-lg" name="titlekey2"
                    placeholder="请输入标题,无要求请留白"/></div>
         </div>
 
         <div class="row">
             <div class="col-lg-4">
-                <b>作者</b><input type="text" class="form-control col-lg" name="authorkey"
+                <b>作者</b><input type="text" class="form-control col-lg" name="authorkey1"
                                 placeholder="请输入作者,无要求请留白"/></div>
             <br>
             <div class="col-lg-3">
-                <select class="form-control">
+                <select class="form-control" name="authorconj">
                     <option value="and">同时包含</option>
                     <option value="or">或包含</option>
                     <option value="not">但不包含</option>
                 </select></div>
             <div class="col-lg-4">
-                <input type="text" class="form-control col-lg" name="authorkey"
+                <input type="text" class="form-control col-lg" name="authorkey2"
                        placeholder="请输入作者,无要求请留白"/></div>
         </div>
 
         <div class="row">
             <div class="col-lg-4">
-                <b>出版社</b><input type="text" class="form-control col-lg" name="publisherkey"
+                <b>出版社</b><input type="text" class="form-control col-lg" name="publisherkey1"
                                 placeholder="请输入出版社,无要求请留白"/></div>
             <br>
             <div class="col-lg-3">
-                <select class="form-control">
+                <select class="form-control" name="publisherconj">
                     <option value="or">或</option>
                 </select></div>
             <div class="col-lg-4">
-                <input type="text" class="form-control col-lg" name="publisherkey"
+                <input type="text" class="form-control col-lg" name="publisherkey2"
                        placeholder="请输入出版社,无要求请留白"/></div>
         </div>
 
@@ -103,54 +103,23 @@ $_GET['highlevel'] = "";
             <br>
             <div class="col-lg-4">
                 <select class="form-control">
-                    <option value="exactly">精确</option>
-                    <option value="around">左右</option>
+                    <option>及之后</option>
                 </select></div>
         </div>
 
         <div class="row">
             <div class="col-lg-4">
-                <b>来源</b><input type="text" class="form-control col-lg" name="sourcekey"
-                                placeholder="请输入来源网站,无要求请留白"/></div>
-            <br>
-            <div class="col-lg-3">
-                <select class="form-control">
-                    <option value="or">或</option>
-                </select></div>
-            <div class="col-lg-4">
-                <input type="text" class="form-control col-lg" name="sourcekey"
-                       placeholder="请输入来源网站,无要求请留白"/></div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-4">
-                <b>语言</b><input type="text" class="form-control col-lg" name="languagekey"
-                                placeholder="请输入语言,无要求请留白"/></div>
-            <br>
-            <div class="col-lg-3">
-                <select class="form-control">
-                    <option value="and">同时包含</option>
-                    <option value="or">或包含</option>
-                    <option value="not">但不包含</option>
-                </select></div>
-            <div class="col-lg-4">
-                <input type="text" class="form-control col-lg" name="languagekey"
-                       placeholder="请输入语言,无要求请留白"/></div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-4">
-                <b>描述</b><input type="text" class="form-control col-lg" name="descrpkey"
+                <b>关键词</b><input type="text" class="form-control col-lg" name="subjectkey1"
                                 placeholder="请输入描述,无要求请留白"/></div>
             <br>
             <div class="col-lg-3">
-                <select class="form-control">
+                <select class="form-control" name="subjectconj">
                     <option value="and">同时包含</option>
                     <option value="or">或包含</option>
                     <option value="not">但不包含</option>
                 </select></div>
             <div class="col-lg-4">
-                <input type="text" class="form-control col-lg" name="descrpkey"
+                <input type="text" class="form-control col-lg" name="subjectkey2"
                        placeholder="请输入描述,无要求请留白"/></div>
         </div>
 
