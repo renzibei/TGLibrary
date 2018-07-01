@@ -71,80 +71,78 @@ function query(){
  * @throws Exception
  */
 function HLquery(){
-    //global $result;
-    $result1 = array();
-    $result2 = array();
-    $result3 = array();
-    //$result4 not needed here
-    $result5 = array();
+    global $result;
 
     $titlekey1 = isset($_POST['titlekey1'])? htmlspecialchars($_POST['titlekey1']) : "";
-    $titlekey2 = isset($_POST['titlekey2'])? htmlspecialchars($_POST['titlekey2']) : "";
     $titleconj = isset($_POST['titleconj'])? $_POST['titleconj'] : "and";
+    $element11 = (new \tg\retrieveTitle($titlekey1))->And();
     if($titleconj == "and"){
-        $result1 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveTitle($titlekey1))->And(), (new \tg\retrieveTitle($titlekey2))->And()));
+        $titlekey2 = isset($_POST['titlekey2'])? htmlspecialchars($_POST['titlekey2']) : "";
+        $element12 = (new \tg\retrieveTitle($titlekey2))->And();
     }
     else if($titleconj == "or"){
-        $result1 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveTitle($titlekey1))->And(), (new \tg\retrieveTitle($titlekey2))->Or()));
+        $titlekey2 = isset($_POST['titlekey2'])? htmlspecialchars($_POST['titlekey2']) : "UNDEFINED";
+        $element12 = (new \tg\retrieveTitle($titlekey2))->Or();
     }
     else if($titleconj == "not"){
-        $result1 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveTitle($titlekey1))->And(), (new \tg\retrieveTitle($titlekey2))->Not()));
+        $titlekey2 = isset($_POST['titlekey2'])? htmlspecialchars($_POST['titlekey2']) : "UNDEFINED";
+        $element12 = (new \tg\retrieveTitle($titlekey2))->Not();
     }
-    \tg\SystemFrame::log_info("1  " .sizeof($result1));
-
 
     $authorkey1 = isset($_POST['authorkey1'])? htmlspecialchars($_POST['authorkey1']) : "";
-    $authorkey2 = isset($_POST['authorkey2'])? htmlspecialchars($_POST['authorkey2']) : "";
     $authorconj = isset($_POST['authorconj'])? $_POST['authorconj'] : "and";
+    $element21 = (new \tg\retrieveAuthor($authorkey1))->And();
     if($authorconj == "and"){
-        $result2 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveAuthor($authorkey1))->And(), (new \tg\retrieveAuthor($authorkey2))->And()));
+        $authorkey2 = isset($_POST['authorkey2'])? htmlspecialchars($_POST['authorkey2']) : "";
+        $element22 = (new \tg\retrieveAuthor($authorkey2))->And();
     }
     else if($authorconj == "or"){
-        $result2 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveAuthor($authorkey1))->And(), (new \tg\retrieveAuthor($authorkey2))->Or()));
+        $authorkey2 = isset($_POST['authorkey2'])? htmlspecialchars($_POST['authorkey2']) : "UNDEFINED";
+        $element22 = (new \tg\retrieveAuthor($authorkey2))->Or();
     }
     else if($authorconj == "not"){
-        $result2 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveAuthor($authorkey1))->And(), (new \tg\retrieveAuthor($authorkey2))->Not()));
+        $authorkey2 = isset($_POST['authorkey2'])? htmlspecialchars($_POST['authorkey2']) : "UNDEFINED";
+        $element22 = (new \tg\retrieveAuthor($authorkey2))->Not();
     }
-    \tg\SystemFrame::log_info("2  " .sizeof($result2));
-
 
     $publisherkey1 = isset($_POST['publisherkey1'])? htmlspecialchars($_POST['publisherkey1']) : "";
-    $publisherkey2 = isset($_POST['publisherkey2'])? htmlspecialchars($_POST['publisherkey2']) : "UNDEFINED";
     $publisherconj = isset($_POST['publisherconj'])? $_POST['publisherconj'] : "and";
+    $element31 = (new \tg\retrievePublisher($publisherkey1))->And();
     if($publisherconj == "and"){
-        $result3 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrievePublisher($publisherkey1))->And(), (new \tg\retrievePublisher($publisherkey2))->And()));
+        $publisherkey2 = isset($_POST['publisherkey2'])? htmlspecialchars($_POST['publisherkey2']) : "";
+        $element32 = (new \tg\retrievePublisher($publisherkey2))->And();
     }
     else if($publisherconj == "or"){
-        $result3 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrievePublisher($publisherkey1))->And(), (new \tg\retrievePublisher($publisherkey2))->Or()));
+        $publisherkey2 = isset($_POST['publisherkey2'])? htmlspecialchars($_POST['publisherkey2']) : "UNDEFINED";
+        $element32 = (new \tg\retrievePublisher($publisherkey2))->Or();
     }
     else if($publisherconj == "not"){
-        $result3 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrievePublisher($publisherkey1))->And(), (new \tg\retrievePublisher($publisherkey2))->Not()));
+        $publisherkey2 = isset($_POST['publisherkey2'])? htmlspecialchars($_POST['publisherkey2']) : "UNDEFINED";
+        $element32 = (new \tg\retrievePublisher($publisherkey2))->Not();
     }
-    \tg\SystemFrame::log_info("3  " .sizeof($result3));
 
-/*
-    $pyearkey = isset($_POST['pyearkey'])? htmlspecialchars($_POST['pyearkey']) : 1861;
-    $result4 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrievePublicationDate($pyearkey))->And()));
-    \tg\SystemFrame::log_info("4  " .sizeof($result4));
-*/
+    $pyearkey = isset($_POST['pyearkey'])? htmlspecialchars($_POST['pyearkey']) : "1861";
+    $element41 = (new \tg\retrievePublicationDate($pyearkey))->And();
 
     $subjectkey1 = isset($_POST['subjectkey1'])? htmlspecialchars($_POST['subjectkey1']) : "";
-    $subjectkey2 = isset($_POST['subjectkey2'])? htmlspecialchars($_POST['subjectkey2']) : "";
     $subjectconj = isset($_POST['subjectconj'])? $_POST['subjectconj'] : "and";
+    $element51 = (new \tg\retrieveSubject($subjectkey1))->And();
     if($subjectconj == "and"){
-        $result5 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveSubject($subjectkey1))->And(), (new \tg\retrieveSubject($subjectkey2))->And()));
+        $subjectkey2 = isset($_POST['subjectkey2'])? htmlspecialchars($_POST['subjectkey2']) : "";
+        $element52 = (new \tg\retrieveSubject($subjectkey2))->And();
     }
     else if($subjectconj == "or"){
-        $result5 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveSubject($subjectkey1))->And(), (new \tg\retrieveSubject($subjectkey2))->Or()));
+        $subjectkey2 = isset($_POST['subjectkey2'])? htmlspecialchars($_POST['subjectkey2']) : "UNDEFINED";
+        $element52 = (new \tg\retrieveSubject($subjectkey2))->Or();
     }
     else if($subjectconj == "not"){
-        $result5 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveSubject($subjectkey1))->And(), (new \tg\retrieveSubject($subjectkey2))->Not()));
+        $subjectkey2 = isset($_POST['subjectkey2'])? htmlspecialchars($_POST['subjectkey2']) : "UNDEFINED";
+        $element52 = (new \tg\retrieveSubject($subjectkey2))->Not();
     }
-    \tg\SystemFrame::log_info("5  " .sizeof($result5));
-    \tg\SystemFrame::log_info("5  " .json_encode($result5));
+
+    $result = \tg\SystemFrame::docData()->queryDoc(array($element11, $element12, $element21, $element22, $element31, $element32, $element41, $element51, $element52));
 
 
-    $result = array_intersect_assoc($result1, $result2, $result3, $result5);
     \tg\SystemFrame::log_info("6  " .sizeof($result));
 
 
