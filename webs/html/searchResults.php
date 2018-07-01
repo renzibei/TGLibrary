@@ -74,11 +74,11 @@ query();
 				        "<button type=\"button\" class=\"btn btn-info\">我的图书</button></a>";
 
                         echo "<a href=\"../index.php\" class=\"loggedin2\">".
-						"<button type=\"button\" class=\"btn btn-primary\">退出登录</button></a>"
+						"<button type=\"button\" class=\"btn btn-primary\">退出登录</button></a>";
                         }
 
                     else echo "<a href=\"login.php\" class=\"loginbtn\">" .
-				        "<button type=\"button\" class=\"btn btn-primary\">我要登录</button></a>"
+				        "<button type=\"button\" class=\"btn btn-primary\">我要登录</button></a>";
                     ?>
 				</div>
 
