@@ -103,7 +103,7 @@ $_GET['highlevel'] = "";
             <br>
             <div class="col-lg-4">
                 <select class="form-control">
-                    <option>及之后</option>
+                    <option>之后</option>
                 </select></div>
         </div>
 

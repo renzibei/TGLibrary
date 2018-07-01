@@ -25,14 +25,6 @@ if(isset($_SESSION['ID']))
 /**
  * @throws Exception
  */
-function logintest(){
-    $b = isset($_SESSION['USER']);
-    $type = gettype($b);
-    \tg\SystemFrame::log_info("In index.php: logged=");
-    \tg\SystemFrame::log_info($type);
-
-}
-logintest();
 
 ?>
 	<div class="page-header">
