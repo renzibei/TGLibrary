@@ -27,7 +27,7 @@ bookoperation::bookoperation(QWidget *parent) :
 
     bookoperationsocket = WebIO::getSocket();//new QTcpSocket;
 
-    QObject::connect(bookoperationsocket, &QTcpSocket::readyRead, this, &bookoperation::socket_Read_Data);
+    //QObject::connect(bookoperationsocket, &QTcpSocket::readyRead, this, &bookoperation::socket_Read_Data);
 
     //hostaddress.setAddress(QString("35.194.106.246"));
     /*
@@ -65,12 +65,12 @@ void bookoperation::on_add_Books_clicked()
 
 
     if (operationtype == 0)
-{
+    {
 
-    ui->bookinformation->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    return;
+        ui->bookinformation->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        return;
 
-}
+    }
     if(operationtype == 1)
     {
     bookoperationjson.insert("jsontype","13");
@@ -128,15 +128,13 @@ void bookoperation::on_add_Books_clicked()
     jsondoc.setObject(bookoperationjson);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
     // bookoperationsocket->write( std::to_string(bytearray.size()).c_str() );
-    WebIO::Singleton()->sendMessage(bytearray);
+
+    //bookoperationsocket->write(bytearray);
+    WebIO::Singleton()->sendMessage(bytearray, this,  SLOT(socket_Read_Data()));
+
+
+
 }
-
-
-
-
-
-
-
 
 void bookoperation::on_Back_Button_clicked()
 {

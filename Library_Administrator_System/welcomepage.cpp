@@ -18,7 +18,7 @@ WelcomePage::WelcomePage(QWidget *parent) :
    // welcomemovie->start();
 
     loginsocket =  WebIO::getSocket();//new QTcpSocket();
-    QObject::connect(loginsocket, &QTcpSocket::readyRead, this, &WelcomePage::socket_Read_Data);
+    //QObject::connect(loginsocket, &QTcpSocket::readyRead, this, &WelcomePage::socket_Read_Data);
 
     ui->adminpassword->setEchoMode(QLineEdit::Password);
 }
@@ -57,7 +57,7 @@ void WelcomePage::on_En_Bt_clicked()
         bytearray = sendjson.toJson(QJsonDocument::Compact);
        // loginsocket->write( std::to_string(bytearray.size()).c_str() );
         //loginsocket->write(bytearray);
-        WebIO::Singleton()->sendMessage(bytearray);
+        WebIO::Singleton()->sendMessage(bytearray, this ,SLOT(socket_Read_Data()));
     }
 }
 

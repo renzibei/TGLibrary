@@ -14,7 +14,7 @@ Confirm::Confirm(QWidget *parent) :
     ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     confirmsocket = WebIO::getSocket();//new QTcpSocket;
-    QObject::connect(confirmsocket, &QTcpSocket::readyRead, this, &Confirm::socket_Read_Data);
+    //QObject::connect(confirmsocket, &QTcpSocket::readyRead, this, &Confirm::socket_Read_Data);
     /*
     hostaddress.setAddress(QString("35.194.106.246"));
     confirmsocket->connectToHost(hostaddress,8333);
@@ -48,7 +48,7 @@ void Confirm::on_update_record_clicked()
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
     //confirmsocket->write( std::to_string(bytearray.size()).c_str() );
     //confirmsocket->write(bytearray);
-    WebIO::Singleton()->sendMessage(bytearray);
+    WebIO::Singleton()->sendMessage(bytearray, this,  SLOT(socket_Read_Data()));
 }
 
 
@@ -77,7 +77,7 @@ void Confirm::on_AcceptRequest_clicked()
     jsondoc.setObject(transferobject);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
     //confirmsocket->write( std::to_string(bytearray.size()).c_str() );
-    WebIO::Singleton()->sendMessage(bytearray);
+    WebIO::Singleton()->sendMessage(bytearray, this,  SLOT(socket_Read_Data()));
     //confirmsocket->write(bytearray);
 
     ui->tableWidget->removeRow(rownumber);
@@ -105,7 +105,7 @@ void Confirm::on_KotowariRecord_clicked()
     jsondoc.setObject(transferobject);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
     //confirmsocket->write( std::to_string(bytearray.size()).c_str() );
-    WebIO::Singleton()->sendMessage(bytearray);
+    WebIO::Singleton()->sendMessage(bytearray, this,  SLOT(socket_Read_Data()));
     //confirmsocket->write(bytearray);
 
     ui->tableWidget->removeRow(rownumber);

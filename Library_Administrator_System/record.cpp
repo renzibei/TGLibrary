@@ -11,7 +11,7 @@ Record::Record(QWidget *parent) :
     this->setAttribute(Qt::WA_DeleteOnClose);
 
     recordsocket = WebIO::getSocket();//new QTcpSocket;
-    QObject::connect(recordsocket, &QTcpSocket::readyRead, this, &Record::socket_Read_Data);
+    //QObject::connect(recordsocket, &QTcpSocket::readyRead, this, &Record::socket_Read_Data);
 
     /*
     hostaddress.setAddress(QString("35.194.106.246"));
@@ -59,7 +59,7 @@ void Record::on_pushButton_clicked()
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
     //booksocket->write( std::to_string(bytearray.size()).c_str() );
     //recordsocket->write(bytearray);
-    WebIO::Singleton()->sendMessage(bytearray);
+    WebIO::Singleton()->sendMessage(bytearray, this, SLOT(socket_Read_Data()));
 
 }
 
