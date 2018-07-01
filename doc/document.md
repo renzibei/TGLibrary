@@ -235,6 +235,7 @@
 | setUid(newUid)           | void                  |
 | setName(newName)         | void                  |
 | borrowList               | array of BorrowRecord |
+|                          |                       |
 
 
 
