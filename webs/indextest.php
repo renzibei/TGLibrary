@@ -91,23 +91,23 @@
         require_once 'html/RealBook.php';
         \tg\SystemFrame::log_info("finish load include");
         $book = new \tg\Book('鞋狗', "[美]菲尔-奈特", '中文', 2016, array("纪实", "励志"), "北京联合出版公司", array("ib.tsinghua.edu.cn"), "book.douban.com", "懦夫从不启程，弱者死于途中", "9787550284463", "页数:410,开本16");
-	    //$book = new \tg\Book('他改变了中国', array('长者'), 'Chinese', 1998, array("哲学", "膜蛤"), "人民出版社", array('www.baidu.com'), 'www.baidu.com', "不要总想搞个大新闻", '2332332', '精装');
+        //$book = new \tg\Book('他改变了中国', array('长者'), 'Chinese', 1998, array("哲学", "膜蛤"), "人民出版社", array('www.baidu.com'), 'www.baidu.com', "不要总想搞个大新闻", '2332332', '精装');
         \tg\SystemFrame::log_info("new a book");
 	    \tg\SystemFrame::docData()->addDocument($book);
 	    \tg\SystemFrame::log_info("add book");
-        $book2 = \tg\SystemFrame::docData()->getDocument(1);
+        //$book2 = \tg\SystemFrame::docData()->getDocument(1);
         //$books = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveTitle('他改变了中国'))->And(), (new \tg\retrieveAuthor('长者'))->And(),
                //                                         (new \tg\retrieveISBN('2332333'))->Or(), (new \tg\retrieveSubject('膜蛤'))->Not()));
-        $books2 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveTitle('算法导论'))->And()));
+        $books2 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveTitle('他改变了中国'))->And()));
         if(count($books2) > 0) {
             $book1 = $books2[0];
             //var_dump($book1);
             $realBook1 = new \tg\RealBook($book1, 'k87.7', 1, true, '法学图书馆');
-            $realBook2 = new \tg\RealBook($book1, 'k909e.2', 2, true, '老馆');
+            //$realBook2 = new \tg\RealBook($book2, 'k909e.2', 2, true, '逸夫馆');
             $book1->addRealBook($realBook1);
-            $book1->addRealBook($realBook2);
+            //$book2->addRealBook($realBook2);
             $realBooks = $book1->getBooks();
-            var_dump($book1);
+            //var_dump($book1);
             //var_dump($realBooks);
         }
 	    \tg\SystemFrame::log_info("query books");
@@ -167,7 +167,7 @@
     set_error_handler('errorHandle');
 	echo "begin <br />";
 
-    testSomething();
+    //testBook();
 
 
 
