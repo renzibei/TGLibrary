@@ -65,12 +65,12 @@ void bookoperation::on_add_Books_clicked()
 
 
     if (operationtype == 0)
-{
+    {
 
-    ui->bookinformation->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    return;
+        ui->bookinformation->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        return;
 
-}
+    }
     if(operationtype == 1)
     {
     bookoperationjson.insert("jsontype","13");
@@ -134,7 +134,7 @@ void bookoperation::on_add_Books_clicked()
 
 
 
-
+}
 
 void bookoperation::on_Back_Button_clicked()
 {

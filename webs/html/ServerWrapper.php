@@ -123,7 +123,7 @@ class ServerWrapper
     protected  function sendSimpleMessage($msg)
     {
         //$this->writeLength($msg);
-        $msg .= $this->getLength($msg);
+        $msg = $this->getLength($msg) . $msg;
         socket_write($this->sockRe, $msg, strlen($msg));
         self::echoMessage($msg);
     }
