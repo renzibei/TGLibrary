@@ -25,7 +25,9 @@ WelcomePage::WelcomePage(QWidget *parent) :
 
 WelcomePage::~WelcomePage()
 {
+        loginsocket->disconnectFromHost();
     delete ui;
+
 }
 
 void WelcomePage::on_En_Bt_clicked()

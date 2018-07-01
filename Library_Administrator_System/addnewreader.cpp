@@ -28,7 +28,8 @@ Addnewreader::Addnewreader(QWidget *parent) :
 
 Addnewreader::~Addnewreader()
 {
-    delete ui;
+    addreadersocket->disconnectFromHost();
+        delete ui;
 }
 
 void Addnewreader::on_pushButton_2_clicked()
@@ -132,14 +133,14 @@ void Addnewreader::socket_Read_Data()
     QJsonObject rootobj = getdocument.object();
 
     QJsonValue jsontypevalue = rootobj.value("confirmtype");
-    int index = jsontypevalue.toInt();
+    QString index = jsontypevalue.toString();
 
-    if(index == 0)
+    if(index == "0")
     {
         QMessageBox::information(this, tr(""), tr("操作成功"));
         this->close();
     }
-    else if(index == 1)
+    else if(index == "1")
     {
         QMessageBox::warning(this, tr("错误"), tr("终端出现错误，请检查网络设置!"));
     }

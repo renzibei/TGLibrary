@@ -37,7 +37,11 @@
 			</div>
 			<br><br>
             <input type="submit" class="btn btn-info btn-lg center-block" value="登录" />
+            <a href="../index.php">
+                <button type="button" class="btn btn-default" style="position:relative; left:107px; top:15px;">取消</button>
+            </a>
         </form>
+
 	</div>
 </div>
 

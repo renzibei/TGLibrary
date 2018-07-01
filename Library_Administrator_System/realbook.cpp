@@ -27,7 +27,8 @@ RealBook::RealBook(QWidget *parent) :
 
 RealBook::~RealBook()
 {
-    delete ui;
+    realbooksocket->disconnectFromHost();
+      delete ui;
 }
 
 void RealBook::on_backbutton_clicked()

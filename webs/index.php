@@ -14,6 +14,12 @@
 </head>
 
 <body>
+<?php
+if(isset($_SESSION['USER']))
+    unset($_SESSION['USER']);
+if(isset($_SESSION['ID']))
+    unset($_SESSION['ID']);
+?>
 	<div class="page-header">
 	    <h1 style="color:white">踢馆大队の学术搜索平台
 	    </h1>
@@ -26,9 +32,9 @@
 				<button type="button" class="btn btn-primary">用户登录</button>
 			</a>
 		</div>
-		<h3><span style="font-size:x-large"><a href="#" style=" font-weight:bold; color:#233333;" target="_self">海量资源</a>  <a href="#" target="_self">纸本图书</a>  <a href="#" target="_self">期刊杂志</a>  <a href="#" target="_self">学术论文</a> <a href="#" target="_self">在馆图书</a>
+        <h3><span style="font-size:x-large"><a href="#" style=" font-weight:bold; color:#233333;" target="_self">海量资源</a>  <a href="#" target="_self">纸本图书</a>  <a href="#" target="_self">期刊杂志</a>  <a href="#" target="_self">学术论文</a> <a href="#" target="_self">在馆图书</a></span></h3>
 
-			<form action="html/searchResults.php" method="post"><input type="radio" name="searchtype" value="bookname" <?php echo("checked");?>/><span style="text-align:center; font-size:x-large" class="white">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large" class="white">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large" class="white">按作者</span>
+        <form action="html/searchResults.php" method="post"><input type="radio" name="searchtype" value="bookname" <?php echo("checked");?>/><span style="text-align:center; font-size:x-large" class="white">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large" class="white">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large" class="white">按作者</span>
 			<div class="form-group">
 				<input type="text" class="form-control col-lg" name="keywords"
 					   placeholder="请输入搜索关键字">

@@ -29,7 +29,10 @@ Confirm::Confirm(QWidget *parent) :
 
 Confirm::~Confirm()
 {
+    confirmsocket->disconnectFromHost();
+    confirmsocket->close();
     delete ui;
+
 }
 
 void Confirm::on_update_record_clicked()

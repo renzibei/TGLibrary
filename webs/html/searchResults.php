@@ -17,7 +17,6 @@
 
 <?php
 require_once 'SystemFrame.php';
-
 session_start();
 
 $result = null;
@@ -64,7 +63,7 @@ query();
 
 	<div class="divbase panel panel-info">
 				<div class="btn-group">
-                    <div style="font-size:large"><?php echo "　　　　　　　　　　　　　　　　　　　　　　　　　　　　　 您好，" . $_SESSION['ID'] . "！"; ?></div>
+                    <div style="font-size:large; position:absolute; right:0; top:15px;"><?php echo "您好，" . $_SESSION['ID'] . "！"; ?></div>
 					<a href="mylib.php" class="loggedin1">　
 						<button type="button" class="btn btn-info">我的图书</button>　　　
 					</a>
@@ -73,12 +72,13 @@ query();
 					</a>
 				</div>
 
-        <h3><span style="font-size:x-large"><a href="#" style=" font-weight:bold; color:#233333;" target="_self">海量资源</a>  <a href="#" target="_self">纸本图书</a>  <a href="#" target="_self">期刊杂志</a>  <a href="#" target="_self">学术论文</a> <a href="#" target="_self">在馆图书</a>
+        <h3><span style="font-size:x-large"><a href="#" style=" font-weight:bold; color:#233333;" target="_self">海量资源</a>  <a href="#" target="_self">纸本图书</a>  <a href="#" target="_self">期刊杂志</a>  <a href="#" target="_self">学术论文</a> <a href="#" target="_self">在馆图书</a></span></h3>
 
-        <form action="searchResults.php" method="post"> <input type="radio" name="searchtype" value="bookname" <?php echo("checked");?>/><span style="text-align:center; font-size:x-large" class="white checked">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large" class="white">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large" class="white">按作者</span>
+        <form action="searchResults.php" method="post"> <input type="radio" name="searchtype" value="bookname" <?php echo("checked");?>/><span style="text-align:center; font-size:x-large" class="white">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large" class="white">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large" class="white">按作者</span>
         <input type="text" class="form-control col-lg" name="keywords"><input type="submit" value="搜索">
 
         </form>
+        <!--
                 <script>
                 function doPost(url, struct) {  // to:提交动作（action）,struct:参数
                     var myForm = document.createElement("form");
@@ -96,18 +96,18 @@ query();
                     document.body.removeChild(myForm);  // 提交后移除创建的form
                 }
             </script>
-
+        -->
 		<p style="font-size:large">我们为您找到了 <span id="numofResults"></span> 条结果。<br>
-			<br><br><br><br>
+			<br>
             <?php
-                $url = "detailsofBook.php";
+                $_GET['select'] = "";
+                $_SESSION['RESULT'] = json_encode($result);
                 $NUM = sizeof($result);
-                for($i = 0; $i < $NUM; $i++){
-                    $send = json_encode($result[$i]);
-                    echo "<a id=\"$i\" href=\"javascript:doPost($url, $send);\"></a>";
-                    echo "<br><br>";
-                }
-                echo "<br><br><br><br><br><br>";
+                for($i = 0; $i < $NUM; $i++) {
+                    echo "<a id=\"$i\" href=\"detailsofBook.php?select=$i\"></a>";
+                    echo "<br>";
+                    }
+                    echo "<br><br><br><br><br><br>";
             ?>
 		</p>
 
@@ -126,15 +126,11 @@ query();
             document.getElementById("numofResults").innerHTML=numOfResults;
             for(var i = 0; i < numOfResults; i++){
                 if(result[i].docID < 10) var plac1 = "0000000"; else plac1 = "000000";
-                //if(result[i].authors !== null) var plac2 = "著"; else plac2 = "";
                 if(result[i].source) var plac3 = "来源："; else plac3 = "";
-                document.getElementById(i).innerHTML= plac1 + result[i].docID + " 《"
+                document.getElementById(i).innerHTML = plac1 + result[i].docID + " 《"
 					+ result[i].title + "》 " + result[i].authors  + " "
 					+ result[i].publisher + " " + plac3 + result[i].source;
 			}
-            for(var i = numofResults; i <= 20; i++)
-                document.getElementById(i).innerHTML = "";
-
 		</script>
 
 

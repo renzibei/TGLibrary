@@ -55,24 +55,28 @@
 
 	<div class="indexdiv panel panel-info">
 			<div class="btn-group">
-                <div style="font-size:large"><?php echo "　　　　　　　　　　　　　　　　　　　　　　　　　　　　　 您好，" . $_SESSION['ID'] . "！"; ?></div>
+                <div style="font-size:large; position:absolute; right:0; top:15px;"><?php echo "您好，" . $_SESSION['ID'] . "！"; ?></div>
 				<a href="mylib.php" class="loggedin1">
 					<button type="button" class="btn btn-info">我的图书</button>　　　
 				</a>
-				<a href="../index.php" class="loggedin2">
-					<button type="button" class="btn btn-primary">退出登录</button>
+
+
+                <a href="../index.php" class="loggedin2">
+                    <button type="button" class="btn btn-primary">退出登录</button>
 				</a>
-			<div>
-	</div>
-	<h3><span style="font-size:x-large"><a href="#" style=" font-weight:bold; color:#233333;" target="_self">海量资源</a>  <a href="#" target="_self">纸本图书</a>  <a href="#" target="_self">期刊杂志</a>  <a href="#" target="_self">学术论文</a> <a href="#" target="_self">在馆图书</a>
+			</div>
 
-<form action="searchResults.php" method="post"><input type="radio" name="searchtype" value="bookname" <?php echo("checked");?>/><span style="text-align:center; font-size:x-large">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large">按作者</span>
-	<div class="form-group">
-		<input type="text" class="form-control col-lg" name="keywords"
+        <h3><span style="font-size:x-large"><a href="#" style=" font-weight:bold; color:#233333;" target="_self">海量资源</a>  <a href="#" target="_self">纸本图书</a>  <a href="#" target="_self">期刊杂志</a>  <a href="#" target="_self">学术论文</a> <a href="#" target="_self">在馆图书</a></span></h3>
+
+        <form action="searchResults.php" method="post"><input type="radio" name="searchtype" value="bookname" <?php echo("checked");?>/><span style="text-align:center; font-size:x-large">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large">按作者</span>
+	        <div class="form-group">
+		        <input type="text" class="form-control col-lg" name="keywords"
 				 placeholder="请输入搜索关键字"/>
-	<br><br><br><br><br>
-		<input type="submit" class="btn btn-info btn-lg center-block" value="搜索" />
+	            <br><br><br><br><br>
+		        <input type="submit" class="btn btn-info btn-lg center-block" value="搜索" />
+	        </div>
+        </form>
+    </div>
 
-	</div>
-</form>
+
 </body>

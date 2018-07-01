@@ -5,6 +5,7 @@
 #include "webio.h"
 
 #include <QMessageBox>
+#include <QString>
 
 BookManagement::BookManagement(QWidget *parent) :
     QDialog(parent),
@@ -31,13 +32,17 @@ BookManagement::BookManagement(QWidget *parent) :
     QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
     this->close();
     }
+
     */
+
 
 }
 
 BookManagement::~BookManagement()
 {
-    delete ui;
+
+    booksocket->disconnectFromHost();
+      delete ui;
 }
 
 void BookManagement::on_AddBook_Bt_clicked()
@@ -77,8 +82,11 @@ void BookManagement::on_Delete_Book_clicked()
     jsondoc.setObject(onloadbookjson);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
    // booksocket->write( std::to_string(bytearray.size()).c_str() );
+
     WebIO::Singleton()->sendMessage(bytearray, this, SLOT(socket_Read_Data()));
+
     //booksocket->write(bytearray);
+
 }
 
 
@@ -136,8 +144,9 @@ void BookManagement::on_advancedsearch_clicked()
     bookoperation1->operationtype = 2;
     bookoperation1->show();
     bookoperation1->exec();
-    getadvancedresult();
+
     this->show();
+    this->getadvancedresult();
 
 }
 
@@ -155,8 +164,11 @@ void BookManagement::on_SearchBook_clicked()
         jsondoc.setObject(bookjson);
         bytearray = jsondoc.toJson(QJsonDocument::Compact);
         //booksocket->write( std::to_string(bytearray.size()).c_str() );
+
         WebIO::Singleton()->sendMessage(bytearray, this, SLOT(socket_Read_Data()));
+
         //booksocket->write(bytearray);
+
 }
 }
 void BookManagement::socket_Read_Data()
@@ -168,19 +180,22 @@ void BookManagement::socket_Read_Data()
     QJsonObject rootobj = getdocument.object();
     qDebug() << rootobj;
     QJsonValue jsonvalue = rootobj.value("jsontype");
-            \
+
     QString jsonvaluenumber = jsonvalue.toString();
 
     QJsonValue confirmvalue = rootobj.value("confirmtype");
 
-    if(jsonvaluenumber == "5" || jsonvaluenumber ==  "6")
+
+
+    if(jsonvaluenumber == "5" )// || jsonvaluenumber == 6
+
     {
         QJsonValue jsontypevalue = rootobj.value("documents");
         qDebug() << jsontypevalue;
 
-        int index = confirmvalue.toInt();
+        QString index = confirmvalue.toString();
 
-        if(index == 2)
+        if(index == "2")
         {
             QMessageBox::warning(this, tr("错误"), tr("终端出现错误，请检查网络设置!"));
             return;
@@ -192,6 +207,8 @@ void BookManagement::socket_Read_Data()
         }
 
         counterpartobject.clear();
+        ui->tableWidget->setRowCount(0);
+        ui->tableWidget->clearContents();
 
         QJsonArray bookarray = jsontypevalue.toArray();
 
@@ -203,13 +220,18 @@ void BookManagement::socket_Read_Data()
             QJsonObject iteratorobject = bookarray.at(i).toObject();
             counterpartobject.push_back(iteratorobject);
 
+            QJsonArray authorarray = iteratorobject.value("authors").toArray();
+            QString authorstring = "";
+            for(int i=0; i<authorarray.size(); i++)
+            authorstring = authorstring + authorarray.at(i).toString() + " ;";
+
             QJsonValue titlevalue = iteratorobject.value("title");
             QJsonValue authorvalue = iteratorobject.value("authors");
             QJsonValue publishervalue = iteratorobject.value("publisher");
             QJsonValue docIDvalue = iteratorobject.value("docID");
 
             ui->tableWidget->setItem(i,0,new QTableWidgetItem(titlevalue.toString()));
-            ui->tableWidget->setItem(i,1,new QTableWidgetItem(authorvalue.toString()));
+            ui->tableWidget->setItem(i,1,new QTableWidgetItem(authorstring));
             ui->tableWidget->setItem(i,2,new QTableWidgetItem(publishervalue.toString()));
             ui->tableWidget->setItem(i,3,new QTableWidgetItem(docIDvalue.toString()));
 
@@ -219,7 +241,7 @@ void BookManagement::socket_Read_Data()
     {
         int index = confirmvalue.toInt();
 
-        if(index == 1)
+        if(index == 2)
         {
             QMessageBox::warning(this, tr("错误"), tr("终端发生错误，请检查网络设置"));
             return;
@@ -241,13 +263,18 @@ void BookManagement::getadvancedresult(){
     {
         QJsonObject iteratorobject = advancetransfer.at(i).toObject();
 
+        QJsonArray authorarray = iteratorobject.value("authors").toArray();
+        QString authorstring = "";
+        for(int i=0; i<authorarray.size(); i++)
+        authorstring = authorstring +authorarray.at(i).toString() + " ;";
+
         QJsonValue titlevalue = iteratorobject.value("title");
         QJsonValue authorvalue = iteratorobject.value("authors");
         QJsonValue publishervalue = iteratorobject.value("publisher");
         QJsonValue docIDvalue = iteratorobject.value("docID");
 
         ui->tableWidget->setItem(i,0,new QTableWidgetItem(titlevalue.toString()));
-        ui->tableWidget->setItem(i,1,new QTableWidgetItem(authorvalue.toString()));
+        ui->tableWidget->setItem(i,1,new QTableWidgetItem(authorstring));
         ui->tableWidget->setItem(i,2,new QTableWidgetItem(publishervalue.toString()));
         ui->tableWidget->setItem(i,3,new QTableWidgetItem(docIDvalue.toString()));
 
