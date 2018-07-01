@@ -39,6 +39,13 @@ function query(){
         $keywords = $_SESSION['SaveOldKeywords'];
     }
 
+    if($keywords == ""){
+        $url = "searchFailure.php";
+        echo "<script language='javascript' type='text/javascript'>";
+        echo "javascript:window.location.href='$url'";
+        echo "</script>";
+    }
+
     if($searchtype =='bookname') {
         $result = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveTitle($keywords))->And()));
     } else if($searchtype =='authorname') {
@@ -48,7 +55,7 @@ function query(){
         $result = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrievePublisher($keywords))->And()));
     }
     if(sizeof($result) === 0) {
-        $url = "searchFailure.html";
+        $url = "searchFailure.php";
         echo "<script language='javascript' type='text/javascript'>";
         echo "javascript:window.location.href='$url'";
         echo "</script>";

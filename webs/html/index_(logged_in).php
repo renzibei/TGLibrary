@@ -19,6 +19,7 @@
     require_once 'SystemFrame.php';
     session_start();
 
+    $doNotCheck = isset($_GET['doNotCheckLogin'])? $_GET['doNotCheckLogin'] : false;
     /**
     * @throws Exception
     */
@@ -45,7 +46,19 @@
             $_SESSION['ID'] = $ID;
         }
     }
-    checklogin();
+
+    if(!$doNotCheck){
+        checklogin();
+    }
+    else{
+        if(!isset($_SESSION['USER'])){
+            $url = "../index.php";
+            echo "<script language='javascript' type='text/javascript'>";
+            echo "window.location.href='$url'";
+            echo "</script>";
+        }
+    }
+
 ?>
 
 	<div class="page-header">
