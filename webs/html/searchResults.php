@@ -99,19 +99,16 @@ query();
         -->
 		<p style="font-size:large">我们为您找到了 <span id="numofResults"></span> 条结果。<br>
 			<br>
-            <form action="detailsofBook.php" method="post">
             <?php
+                $_GET['select'] = "";
                 $_SESSION['RESULT'] = json_encode($result);
                 $NUM = sizeof($result);
                 for($i = 0; $i < $NUM; $i++) {
-                    echo "<input id=\"$i\" name=\"\" type=\"button\">";
-                    //echo "<a id=\"$i\" href=\"detailsofBook.php\"></a>";
-                    echo "<input type=\"hidden\" name=\"select\" value=$i>";
-                    echo "<br><br>";
+                    echo "<a id=\"$i\" href=\"detailsofBook.php?select=$i\"></a>";
+                    echo "<br>";
+                    }
                     echo "<br><br><br><br><br><br>";
-                }
             ?>
-            </form>
 		</p>
 
 		<script>
