@@ -4,43 +4,13 @@
 <meta http-equiv="content-type" content="text/html" charset="utf-8">
 <link rel="stylesheet" type="text/css" href="../css/background.css">
 <link rel="stylesheet" type="text/css" href="../css/divbase.css">
+<link rel="stylesheet" type="text/css" href="../css/loginbtn.css">
 <link rel="stylesheet" type="text/css" href="../css/loggedinbtn.css">
 <link rel="stylesheet" type="text/css" href="../css/aside.css">
 <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
 
 <script src="../bootstrap/js/bootstrap.min.js"></script>
-	<!--<script type="text/javascript">
-        $(function(){
-        	$.ajax({
-            	url: "ajax_php.php",
-            	type: "LOAD",
 
-            	error: function(){
-                	alert('Error loading XML document');
-            	},
-            	success: function(data,status){//如果调用php成功
-                	alert(unescape(data));//解码，显示汉字
-            	}
-        	});
-
-
-        $(function(){
-            var book_details;
-            book_details = new Array();
-                $.ajax({
-                    url:'search.php',
-                    type:'post',
-                    dataType:'json',
-                    data:cont,
-                    success:function(data){
-                        var str = "DocId：" + data.docid + "<br>书名：" + data.title +
-                            + "<br>作者：" + data.author + "<br>出版社：" + data.publisher
-                        + "<br>发行年：" + data.publicationYear + "<br>语言：" + data.language;
-                        $("#result").html(str);
-                    }
-                });
-        });
-	</script>-->
 </head>
 
 <body>
@@ -74,13 +44,25 @@ retrieve();
 	</div>
 	<div class="divbase panel panel-info">
 		<div class="btn-group">
-            <div style="font-size:large; position:absolute; right:0; top:15px;"><?php echo "您好，" . $_SESSION['ID'] . "！"; ?></div>
-			<a href="mylib.php" class="loggedin1">
-				<button type="button" class="btn btn-info">我的图书</button>　　　
-			</a>
-			<a href="../index.php" class="loggedin2">
-				<button type="button" class="btn btn-primary">退出登录</button>
-			</a>
+
+            <div style="font-size:large; position:absolute; right:0; top:15px;"><?php
+                if(isset($_SESSION['USER']))
+                    echo "您好，" . $_SESSION['ID'] . "！"; ?>
+            </div>
+            <?php
+            if(isset($_SESSION['USER'])){
+                echo "<a href=\"mylib.php\" class=\"loggedin1\">
+				        <button type=\"button\" class=\"btn btn-info\">我的图书</button>　　　
+			            </a>";
+
+                echo "<a href=\"../index.php\" class=\"loggedin2\">　
+						<button type=\"button\" class=\"btn btn-primary\">退出登录</button>
+					    </a>";
+            }
+            else echo "<a href=\"login.php\" class=\"loginbtn\">
+				        <button type=\"button\" class=\"btn btn-primary\">我要登录</button>　　　
+			            </a>"
+            ?>
 		</div>
 
 		<h1>书名</h1>
@@ -91,7 +73,7 @@ retrieve();
 			<br>
 			<h2 class="white" style="font-size:x-large">基本信息</h2>
 			<p id="details" style="font-size:large">
-                DocId: <span id="docid"><?php echo $docID;?></span><br />
+                DocId: <span id="docid"><?php echo $thisbook->docID;?></span><br />
                 类型: <span id="format"><?php echo $thisbook->format;?></span><br />
 				书名：<span id="title"> <?php echo $thisbook->title;?></span><br />
                 作者：<span id="authors"> <?php echo $thisbook->authors;?></span><br />
@@ -159,24 +141,6 @@ retrieve();
 		</span>
 	</div>
 	<br><br><br><br>
-
-<!--
-	<script>
-        var book= {
-            "docid":"2333333",
-            "title":"他改变了中国",
-            "author":"嘻嘻",
-			"publisher":"2333出版社",
-			"landocument.getElementById("docid").innerHTML=book.docid;guage":"English"
-        };
-
-        document.getElementById("title").innerHTML=book.title;
-        document.getElementById("author").innerHTML=book.author;
-        document.getElementById("publisher").innerHTML=book.publisher;
-        document.getElementById("language").innerHTML=book.language;
-
-	</script>
--->
 
 </body>
 </html>
