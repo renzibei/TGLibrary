@@ -5,8 +5,13 @@
 require_once 'SystemFrame.php';
 
 session_start();
-session_id(SID);
 
+
+$borrowed = isset($_GET['borrowed'])? $_GET['borrowed'] : -1;
+if($borrowed != -1){
+    $realBooks = json_decode($_SESSION['realBooks']);
+    $realBooks[$borrowed]->_isOnShelf = false;
+}
 ?>
 
 
@@ -93,7 +98,7 @@ session_id(SID);
     </div>
 	</div><br>
 	<br><br><br><br>
-	<a href="detailsofBook.php">
+	<a href="searchResults.php?OldPage=true">
 		<button type="button" class="btn btn-primary btn-lg center-block">返回</button>
 	</a>
 </body>

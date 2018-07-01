@@ -67,8 +67,6 @@ query();
  */
 function logintest(){
     $b = isset($_SESSION['USER']);
-    \tg\SystemFrame::log_info("In searchResults.php: logged=");
-    \tg\SystemFrame::log_info($b);
 }
 logintest();
 

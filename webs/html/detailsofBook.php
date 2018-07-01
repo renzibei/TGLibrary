@@ -39,6 +39,7 @@ function retrieve(){
     $result = json_decode($_SESSION['RESULT']);
     $thisbook = $result[$select];
     $realBooks = $thisbook->realBooks;
+    $_SESSION['realBooks'] = json_encode($realBooks);
     $howmany = sizeof($realBooks);
     \tg\SystemFrame::log_info($howmany);
 }
@@ -92,11 +93,11 @@ retrieve();
 			<!--<p> 《算法导论》自第一版出版以来，已经成为世界范围内广泛使用的大学教材和专业人员的标准参考手册。本书全面论述了算法的内容，从一定深度上涵盖了算法的诸多方面，同时其讲授和分析方法又兼顾了各个层次读者的接受能力。各章内容自成体系，可作为独立单元学习。所有算法都用英文和伪码描述，使具备初步编程经验的人也可读懂。全书讲解通俗易懂，且不失深度和数学上的严谨性。第二版增加了新的章节，如算法作用、概率分析与随机算法、线性编程等，几乎对第一版的各个部分都作了大量修订。
 本书深入浅出，全面地介绍了计算机算法。对每一个算法的分析既易于理解又十分有趣，并保持了数学严谨性。本书的设计目标全面，适用于多种用途。涵盖的内容有：算法在计算中的作用，概率分析和随机算法的介绍。本书专门讨论了线性规划，介绍了动态规划的两个应用，随机化和线性规划技术的近似算法等，还有有关递归求解、快速排序中用到的划分方法与期望线性时间顺序统计算法，以及对贪心算法元素的讨论。本书还介绍了对强连通子图算法正确性的证明，对哈密顿回路和子集求和问题的NP完全性的证明等内容。全书提供了900多个练习题和思考题以及叙述较为详细的实例研究。
 本书内容丰富，对本科生的数据结构课程和研究生的算法课程都是很实用的教材。本书在读者的职业生涯中，也是一本案头的数学参考书或工程实践手册。</p>-->
-  		<span class="text-size:x-large"><?php echo $thisbook->description;?></span>
+  		<span class="text-size:x-large" style="position:relative; top:-260px"><?php echo $thisbook->description;?></span>
 
             <h3>在架书籍</h3>
         <table class="table table-hover">
-            <caption>喵喵喵</caption>
+            <caption></caption>
 		    <thead>
 		    <tr>
 			    <th>索书号</th>
@@ -107,22 +108,21 @@ retrieve();
 		    </thead>
 		<tbody>
 		<?php
+        $_GET['borrowed'] = "";
         if(gettype($realBooks) === "array"){
             $NUM = sizeof($realBooks);
             for($i = 0; $i < $NUM; $i++){
                 $callNum = $realBooks[$i]->_callNum;
-                \tg\SystemFrame::log_info($callNum);
                 $place = $realBooks[$i]->_place;
-                \tg\SystemFrame::log_info($place);
                 $onshelf = $realBooks[$i]->_isOnShelf;
-                \tg\SystemFrame::log_info($onshelf);
                 echo "<tr>";
                 echo "<td>$callNum</td>";
                 echo "<td>$place</td>";
                 if($onshelf) echo "<td>在架</td>";
                 else echo "<td>暂不在架</td>";
-                echo "<td>" .
-                "<a href=\"reserveSuccess.php\">" .
+                if(!isset($_SESSION['USER'])) echo "<td style=\"color:#999999\">访客身份无法借阅</td>";
+                else if($onshelf)echo "<td>" .
+                "<a href=\"reserveSuccess.php?borrowed=$i\">" .
 				"<button type=\"button\" class=\"btn btn-success\">我要借阅</button>" .
 			    "</a>";
                 echo "</tr>";
@@ -137,7 +137,7 @@ retrieve();
 				"<button type=\"button\" class=\"btn btn-primary btn-lg center-block\">返回</button></a>";
             ?>
 
-    
+
 	<br><br><br><br>
 
 </body>
