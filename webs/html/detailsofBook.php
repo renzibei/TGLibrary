@@ -117,7 +117,7 @@ retrieve();
 		</thead>
 		<tbody>
 		<?php
-        $book = $_SESSION['thisbook'];
+        /*$book = $_SESSION['thisbook'];
         $RealBooks = $book->getBooks();
         if(gettype($RealBooks) === "array"){
             $NUM = sizeof($RealBooks);
@@ -136,14 +136,16 @@ retrieve();
 			    "</a>";
                 echo "</tr>";
             }
-        }
+        }*/
         ?>
 		</tbody>
-	</table>
+	    </table>
 			<br><br><br><br>
-			<a href="searchResults.php">
-				<button type="button" class="btn btn-primary btn-lg center-block">返回</button>
-			</a>
+            <?php
+            echo "<a href=\"searchResults.php?OldPage=true\">" .
+				"<button type=\"button\" class=\"btn btn-primary btn-lg center-block\">返回</button></a>";
+            ?>
+
 		</span>
 	</div>
 	<br><br><br><br>

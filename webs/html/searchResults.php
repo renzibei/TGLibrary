@@ -19,7 +19,7 @@
 <?php
 require_once 'SystemFrame.php';
 session_start();
-
+$OldPage = isset($_GET['OldPage'])? $_GET['OldPage'] : false;
 $result = null;
 $_GET['loggedOut'] = isset($_GET['loggedOut'])? $_GET['loggedOut'] : false;
 
@@ -27,9 +27,18 @@ $_GET['loggedOut'] = isset($_GET['loggedOut'])? $_GET['loggedOut'] : false;
  * @throws Exception
  */
 function query(){
-    $searchtype = isset($_POST['searchtype'])? htmlspecialchars($_POST['searchtype']) : 'bookname';
-    $keywords = isset($_POST['keywords'])? htmlspecialchars($_POST['keywords']) : '';
-    global $result;
+    global $OldPage, $result;
+    if(!$OldPage){
+        $searchtype = isset($_POST['searchtype'])? htmlspecialchars($_POST['searchtype']) : 'bookname';
+        $keywords = isset($_POST['keywords'])? htmlspecialchars($_POST['keywords']) : '';
+        $_SESSION['SaveOldSearchtype'] = $searchtype;
+        $_SESSION['SaveOldKeywords'] = $keywords;
+    }
+    else{
+        $searchtype = $_SESSION['SaveOldSearchtype'];
+        $keywords = $_SESSION['SaveOldKeywords'];
+    }
+
     if($searchtype =='bookname') {
         $result = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveTitle($keywords))->And()));
     } else if($searchtype =='authorname') {
