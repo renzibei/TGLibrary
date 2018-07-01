@@ -11,16 +11,7 @@ RealBook::RealBook(QWidget *parent) :
 
     //QObject::connect(realbooksocket, &QTcpSocket::readyRead, this, &RealBook::socket_Read_Data);
     this->setAttribute(Qt::WA_DeleteOnClose);
-    /*
-    hostaddress.setAddress(QString("35.194.106.246"));
-    realbooksocket->connectToHost(hostaddress,8333);
 
-    if(!realbooksocket->waitForConnected(3000))
-    {
-    QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
-    this->close();
-    }
-    */
 
 
 }

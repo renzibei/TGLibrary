@@ -32,7 +32,6 @@ SOURCES += \
     readermanagement.cpp \
     record.cpp \
     confirm.cpp \
-    errorinput_e.cpp \
     addnewreader.cpp \
     bookoperation.cpp \
     realbook.cpp \
@@ -45,7 +44,6 @@ HEADERS += \
     readermanagement.h \
     record.h \
     confirm.h \
-    errorinput_e.h \
     addnewreader.h \
     bookoperation.h \
     realbook.h \
@@ -58,7 +56,6 @@ FORMS += \
     readermanagement.ui \
     record.ui \
     confirm.ui \
-    errorinput_e.ui \
     addnewreader.ui \
     bookoperation.ui \
     realbook.ui

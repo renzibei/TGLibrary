@@ -41,7 +41,8 @@ void MainPage::on_Book_bt_clicked()
 void MainPage::on_Return_bt_clicked()
 {
     emit sendsignal();
-    this->close();
+    QApplication *app;
+    app->quit();
 }
 
 void MainPage::on_toolButton_2_clicked()

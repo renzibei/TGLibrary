@@ -13,17 +13,7 @@ Addnewreader::Addnewreader(QWidget *parent) :
     ui->pushButton->setText("确认");
 
     addreadersocket = WebIO::getSocket();//new QTcpSocket();
-    //QObject::connect(addreadersocket, &QTcpSocket::readyRead, this, &Addnewreader::socket_Read_Data);
 
-    //hostaddress.setAddress(QString("35.194.106.246"));
-    //addreadersocket->connectToHost(hostaddress,8333);
-/*
-    if(!addreadersocket->waitForConnected(3000))
-    {
-    QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
-    this->close();
-    }
-    */
 }
 
 Addnewreader::~Addnewreader()
@@ -95,7 +85,7 @@ if(ui->pushButton->text()=="确认")
         //addreadersocket->write( std::to_string(bytearray.size()).c_str() );
         WebIO::Singleton()->sendMessage(bytearray, this, SLOT(socket_Read_Data()));
         //addreadersocket->write(bytearray);
-        this->close();
+        //this->close();
      //   addreaderjson.~QJsonObject();
 }
     }
@@ -105,17 +95,7 @@ else if (ui->pushButton->text()=="修改")
     QMessageBox::warning(this, tr("错误"), tr("请输入全部参数以修改读者/管理者"));
     else
     {
-       // QHostAddress hostaddress;
-        /*
-        hostaddress.setAddress(QString("35.194.106.246"));
-        addreadersocket->connectToHost(hostaddress,8333);
 
-        if(!addreadersocket->waitForConnected(10000))
-        {
-        QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
-        return;
-        }
-        */
 
 }
 
@@ -154,4 +134,14 @@ void Addnewreader::SendData(QJsonObject qjsonpass)
     ui->Cardnumber->setText(getpassjson.value("userID").toString());
     ui->password->setText(getpassjson.value("password").toString());
     ui->pushButton->setText("修改");
+}
+
+void Addnewreader::defaultchousen()
+{
+    if(windowtypes == 1)
+    {
+        this->setWindowTitle("修改信息");
+        ui->label_5->setVisible(false);
+        ui->comboBox->setVisible(false);
+    }
 }
