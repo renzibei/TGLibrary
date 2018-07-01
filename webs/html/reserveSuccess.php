@@ -5,8 +5,7 @@
 require_once 'SystemFrame.php';
 
 session_start();
-
-
+session_id(SID);
 
 ?>
 

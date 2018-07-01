@@ -1,5 +1,6 @@
 #include "addnewreader.h"
 #include "ui_addnewreader.h"
+#include "webio.h"
 #include <QMessageBox>
 
 Addnewreader::Addnewreader(QWidget *parent) :
@@ -11,17 +12,18 @@ Addnewreader::Addnewreader(QWidget *parent) :
 
     ui->pushButton->setText("确认");
 
-    addreadersocket = new QTcpSocket();
+    addreadersocket = WebIO::getSocket();//new QTcpSocket();
     QObject::connect(addreadersocket, &QTcpSocket::readyRead, this, &Addnewreader::socket_Read_Data);
 
-    hostaddress.setAddress(QString("35.194.106.246"));
-    addreadersocket->connectToHost(hostaddress,8333);
-
+    //hostaddress.setAddress(QString("35.194.106.246"));
+    //addreadersocket->connectToHost(hostaddress,8333);
+/*
     if(!addreadersocket->waitForConnected(3000))
     {
     QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
     this->close();
     }
+    */
 }
 
 Addnewreader::~Addnewreader()
@@ -91,7 +93,8 @@ if(ui->pushButton->text()=="确认")
         sendjson.setObject(addreaderjson);
         bytearray = sendjson.toJson(QJsonDocument::Compact);
         //addreadersocket->write( std::to_string(bytearray.size()).c_str() );
-        addreadersocket->write(bytearray);
+        WebIO::Singleton()->sendMessage(bytearray);
+        //addreadersocket->write(bytearray);
         this->close();
      //   addreaderjson.~QJsonObject();
 }
@@ -103,6 +106,7 @@ else if (ui->pushButton->text()=="修改")
     else
     {
        // QHostAddress hostaddress;
+        /*
         hostaddress.setAddress(QString("35.194.106.246"));
         addreadersocket->connectToHost(hostaddress,8333);
 
@@ -111,6 +115,7 @@ else if (ui->pushButton->text()=="修改")
         QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
         return;
         }
+        */
 
 }
 
@@ -122,9 +127,9 @@ else if (ui->pushButton->text()=="修改")
 void Addnewreader::socket_Read_Data()
 {
     QByteArray getbuffer;
-    getbuffer = addreadersocket->readAll();
+    //getbuffer = addreadersocket->readAll();
 
-    QJsonDocument getdocument = QJsonDocument::fromJson(getbuffer);
+    QJsonDocument getdocument =  WebIO::Singleton()->readJsonDocument();//QJsonDocument::fromJson(getbuffer);
     QJsonObject rootobj = getdocument.object();
 
     QJsonValue jsontypevalue = rootobj.value("confirmtype");

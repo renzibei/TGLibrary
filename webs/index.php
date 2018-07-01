@@ -1,178 +1,47 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-<meta http-equiv="Content-Type"  content="text/html"  charset="UTF-8">
+<meta http-equiv="content-type" content="text/html" charset="utf-8">
+<title>TGDD.com</title>
+<link rel="stylesheet" type="text/css" href="css/background.css">
+<link rel="stylesheet" type="text/css" href="css/indexdiv.css">
+<link rel="stylesheet" type="text/css" href="css/alink.css">
+<link rel="stylesheet" type="text/css" href="css/loginbtn.css">
 
+<link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
 
-<title>TGLibrary</title>
+<script src="./bootstrap/js/bootstrap.min.js"></script>
 </head>
+
 <body>
 <?php
-
-    /**
-     * @param $type
-     * @param $message
-     * @param $file
-     * @param $line
-     * @throws Exception
-     */
-    function errorHandle($type, $message, $file, $line)
-    {
-        \tg\SystemFrame::log_info(" type " . $type . " message " . $message . " file " . $file . " line " . $line);
-    }
-
-    /**
-     * @throws Exception
-     */
-    function testAdmin()
-    {
-        require_once 'html/AdminData.php';
-        $admin = new \tg\Admin('nevermore', '123456789','最帅的人');
-        \tg\SystemFrame::adminData()->addAccount($admin);
-        //$adminList = \tg\SystemFrame::adminData()->userList();
-        //var_dump($adminList);
-    }
-
-
-/**
- * @throws Exception
- */
-    function testUser()
-    {
-        require_once 'html/UserData.php';
-        require_once 'html/SystemFrame.php';
-        $user = new \tg\User('nevermore1', '123456', 'shuaige', '201701063');
-        \tg\SystemFrame::userData()->addAccount($user);
-        $oldUser = \tg\SystemFrame::userData()->userList();
-        var_dump($oldUser);
-
-    }
-
-
-
-    class testClass {
-        public $aa;
-
-        public function __construct($a)
-        {
-            $this->aa = $a;
-        }
-
-
-        function print()
-        {
-            echo get_called_class(). $this->aa . "<br />";
-        }
-    }
-
-    class testNew extends testClass {
-
-    }
-
-
-    function testNewClass()
-    {
-        $str = "testClass";
-        $a = new $str(2);
-        //$a->aa = 1;
-        $a->print();
-    }
-
-/**
- * @throws Exception
- */
-    function testBook()
-    {
-        \tg\SystemFrame::log_info("begin to test Book");
-	    require_once 'html/Book.php';
-        require_once 'html/DocData.php';
-        require_once 'html/retrieveSet.php';
-        require_once 'html/RealBook.php';
-        \tg\SystemFrame::log_info("finish load include");
-        $book = new \tg\Book('算法导论', "科曼", '中文', 2006, array("计算机", "算法"), "机械工程出版社", array("ib.tsinghua.edu.cn"), "lib.tsinghua.edu.cn", "你想获得力量吗", "9787111187776", "页数:754,开本16");
-	    //$book = new \tg\Book('他改变了中国', array('长者'), 'Chinese', 1998, array("哲学", "膜蛤"), "人民出版社", array('www.baidu.com'), 'www.baidu.com', "不要总想搞个大新闻", '2332332', '精装');
-        \tg\SystemFrame::log_info("new a book");
-	    \tg\SystemFrame::docData()->addDocument($book);
-	    \tg\SystemFrame::log_info("add book");
-        $book2 = \tg\SystemFrame::docData()->getDocument(1);
-        //$books = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveTitle('他改变了中国'))->And(), (new \tg\retrieveAuthor('长者'))->And(),
-               //                                         (new \tg\retrieveISBN('2332333'))->Or(), (new \tg\retrieveSubject('膜蛤'))->Not()));
-        $books2 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveTitle('算法导论'))->And()));
-        if(count($books2) > 0) {
-            $book1 = $books2[0];
-            //var_dump($book1);
-            $realBook1 = new \tg\RealBook($book1, 'k87.7', 1, true, '法学图书馆');
-            $realBook2 = new \tg\RealBook($book1, 'k909e.2', 2, true, '老馆');
-            $book1->addRealBook($realBook1);
-            $book1->addRealBook($realBook2);
-            $realBooks = $book1->getBooks();
-            var_dump($book1);
-            //var_dump($realBooks);
-        }
-	    \tg\SystemFrame::log_info("query books");
-       // var_dump($books);
-
-    }
-
-
-    /**
-     * @throws Exception
-     */
-    function testJournal()
-    {
-        require_once 'html/Journal.php';
-        require_once 'html/DocData.php';
-
-        $journal1 = new \tg\Journal('Nature', array('吴冠中', "王"), 'English', 1999, "科学",
-                '科学出版社', array("www.sina.com", "www.nature.com"), "Nature Database", "少年你渴望力量吗",
-                "ae86", '1*1小开本');
-        \tg\SystemFrame::docData()->addDocument($journal1);
-        $journals = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveAuthor('王'))->And()), (new \tg\retrieveISSN("ae986"))->And());
-        var_dump($journals);
-    }
-
-/**
- * @throws Exception
- */
-    function testDoc()
-    {
-       /* $doc = new \tg\Document('',"haha", array("秘密"), 'Book', "Chinese",
-            array("Computer"), "中国教育", array("www.baidu.com"), "他改变了中国", "嘻嘻");
-        \tg\SystemFrame::docData()->addDocument($doc);
-       */
-    }
-
-    /**
-     * @throws Exception
-     */
-    function testSomething()
-    {
-        require_once 'html/SystemFrame.php';
-        require_once 'html/Document.php';
-        try {
-            \tg\SystemFrame::log_info("begin to init");
-            \tg\SystemFrame::instance()->initServer();
-            \tg\SystemFrame::log_info("finish init");
-	     	for($i = 1; $i < 2; $i++) {
-                testBook();
-            }
-            \tg\SystemFrame::log_info("finish");
-        } catch (Exception $e) {
-            \tg\SystemFrame::log_info($e->getMessage() . " Line " . $e->getLine());
-            throw $e;
-        }
-    }
-
-    set_error_handler('errorHandle');
-	echo "begin <br />";
-
-    testSomething();
-
-
-
-
-	echo "finish";
+if(isset($_SESSION['USER']))
+    unset($_SESSION['USER']);
+if(isset($_SESSION['ID']))
+    unset($_SESSION['ID']);
 ?>
+	<div class="page-header">
+	    <h1 style="color:white">踢馆大队の学术搜索平台
+	    </h1>
+	</div>
+
+	<div class="indexdiv panel panel-info">
+
+		<div class="loginbtn">
+			<a href="html/login.php">
+				<button type="button" class="btn btn-primary">用户登录</button>
+			</a>
+		</div>
+        <h3><span style="font-size:x-large"><a href="#" style=" font-weight:bold; color:#233333;" target="_self">海量资源</a>  <a href="#" target="_self">纸本图书</a>  <a href="#" target="_self">期刊杂志</a>  <a href="#" target="_self">学术论文</a> <a href="#" target="_self">在馆图书</a></span></h3>
+
+        <form action="html/searchResults.php" method="post"><input type="radio" name="searchtype" value="bookname" <?php echo("checked");?>/><span style="text-align:center; font-size:x-large" class="white">按书名</span>  <input type="radio" name="searchtype" value="pressname" /><span style="text-align:center; font-size:x-large" class="white">按出版社</span>  <input type="radio" name="searchtype" value="authorname" /><span style="text-align:center; font-size:x-large" class="white">按作者</span>
+			<div class="form-group">
+				<input type="text" class="form-control col-lg" name="keywords"
+					   placeholder="请输入搜索关键字">
+				<br><br><br><br><br>
+				<input type="submit" class="btn btn-info btn-lg center-block" value="搜索" />
+			</div>
+		</form>
+
+	</div>
 </body>
-</html>

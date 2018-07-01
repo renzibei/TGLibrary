@@ -5,6 +5,8 @@
 require_once 'SystemFrame.php';
 
 session_start();
+$user = $_SESSION['USER'];
+$reserved=array();
 
 /**
  * @throws Exception
@@ -49,7 +51,8 @@ checkReserve();
 
 	<div class="divbase panel panel-info">
 				<div class="btn-group">
-					<a href="../index.html" class="loggedin2">
+                    <div style="font-size:large; position:relative; left:400px;"><?php echo "您好，" . $_SESSION['ID'] . "！"; ?></div>
+					<a href="../index.php" class="loggedin2">
 						<button type="button" class="btn btn-primary">退出登录</button>
 					</a>
 				</div>
@@ -59,28 +62,16 @@ checkReserve();
 		<p style="font-size:large">您目前已经借阅了 <span id="numofReserved"></span> 本书。<br>
 
             <br><br><br><br>
-
-            <a id="0" href="detailsofBook.php"></a><br><br>
-            <a id="1" href="detailsofBook.php"></a><br><br>
-            <a id="2" href="detailsofBook.php"></a><br><br>
-            <a id="3" href="detailsofBook.php"></a><br><br>
-            <a id="4" href="detailsofBook.php"></a><br><br>
-            <a id="5" href="detailsofBook.php"></a><br><br>
-            <a id="6" href="detailsofBook.php"></a><br><br>
-            <a id="7" href="detailsofBook.php"></a><br><br>
-            <a id="8" href="detailsofBook.php"></a><br><br>
-            <a id="9" href="detailsofBook.php"></a><br><br>
-            <a id="10" href="detailsofBook.php"></a><br><br>
-            <a id="11" href="detailsofBook.php"></a><br><br>
-            <a id="12" href="detailsofBook.php"></a><br><br>
-            <a id="13" href="detailsofBook.php"></a><br><br>
-            <a id="14" href="detailsofBook.php"></a><br><br>
-            <a id="15" href="detailsofBook.php"></a><br><br>
-            <a id="16" href="detailsofBook.php"></a><br><br>
-            <a id="17" href="detailsofBook.php"></a><br><br>
-            <a id="18" href="detailsofBook.php"></a><br><br>
-            <a id="19" href="detailsofBook.php"></a><br><br>
-            <a id="20" href="detailsofBook.php"></a><br><br>
+            <?php
+            $url = "detailsofBook.php";
+            $NUM = sizeof($reserved);
+            for($i = 0; $i < $NUM; $i++){
+                $send = json_encode($reserved[$i]);
+                echo "<a id=\"$i\" href=\"javascript:doPost($url, $send);\"></a>";
+                echo "<br><br>";
+            }
+            echo "<br><br><br><br><br><br>";
+            ?>
 
         </p>
 

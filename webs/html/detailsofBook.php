@@ -44,16 +44,30 @@
 </head>
 
 <body>
+<?php
+session_start();
+require_once "SystemFrame.php";
+/**
+ * @throws Exception
+ */
+function test(){
+    $bookinfo = json_encode($_SESSION['RESULT']);
+    \tg\SystemFrame::log_info($bookinfo);
+    unset($_SESSION['RESULT']);
+}
+
+?>
 	<div class="page-header">
 			<h1 style="color:white">图书详情
 			</h1>
 	</div>
 	<div class="divbase panel panel-info">
 		<div class="btn-group">
+            <div style="font-size:large; position:absolute; right:0; top:15px;"><?php echo "您好，" . $_SESSION['ID'] . "！"; ?></div>
 			<a href="mylib.php" class="loggedin1">
 				<button type="button" class="btn btn-info">我的图书</button>　　　
 			</a>
-			<a href="../index.html" class="loggedin2">
+			<a href="../index.php" class="loggedin2">
 				<button type="button" class="btn btn-primary">退出登录</button>
 			</a>
 		</div>
@@ -68,9 +82,6 @@
 			<p id="details" style="font-size:large"> DocId: <span id="docid"></span><br />
 				书名：<span id="title"> 算法导论</span><br />作者：<span id="author"> 科曼（Cormen,T.H.）</span><br />
 				出版社：<span id="publisher">机械工业出版社</span><br />语言：<span id="language">中文</span><br />
-			<a href="reserveSuccess.php">
-				<button type="button" class="btn btn-success">我要借阅</button>
-			</a>
 		</div>
 
 		<br><br>
@@ -88,6 +99,42 @@
 			<?php
   		echo $contents;
 			?>
+
+        <table class="table table-hover">
+		<caption>在架书籍</caption>
+		<thead>
+		    <tr>
+			    <th>索书号</th>
+			    <th>所在馆</th>
+			    <th>状态</th>
+			    <th>借阅</th>
+		    </tr>
+		</thead>
+		<tbody>
+		<?php
+        $book = $_SESSION['thisbook'];
+        $RealBooks = $book->getBooks();
+        if(gettype($RealBooks) === "array"){
+            $NUM = sizeof($RealBooks);
+            for($i = 0; $i < $NUM; $i++){
+                $ISBN = $RealBooks[$i]->getIsbn();
+                $place = $RealBooks[$i]->getPlace();
+                $onshelf = $RealBooks[$i]->isOnShelf();
+                echo "<tr><br>";
+                echo "<td>$ISBN</td><br>";
+                echo "<td>$place</td><br>";
+                if($onshelf) echo "<td>在架</td><br>";
+                else echo "<td>暂不在架</td><br>";
+                echo "<td>" .
+                "<a href=\"reserveSuccess.php\">" .
+				"<button type=\"button\" class=\"btn btn-success\">我要借阅</button>" .
+			    "</a>";
+                echo "</tr>";
+            }
+        }
+        ?>
+		</tbody>
+	</table>
 			<br><br><br><br>
 			<a href="searchResults.php">
 				<button type="button" class="btn btn-primary btn-lg center-block">返回</button>
@@ -95,24 +142,6 @@
 		</span>
 	</div>
 	<br><br><br><br>
-
-
-	<table class="table table-hover">
-		<caption>在架书籍</caption>
-		<thead>
-		<tr>
-			<th>索书号</th>
-			<th>类型</th>
-			<th>状态</th>
-			<th>借阅</th>
-		</tr>
-		</thead>
-		<tbody>
-		<?php
-
-		?>
-		</tbody>
-	</table>
 
 
 	<script>

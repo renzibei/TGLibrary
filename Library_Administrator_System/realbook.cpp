@@ -1,16 +1,17 @@
 #include "realbook.h"
 #include "ui_realbook.h"
+#include "webio.h"
 
 RealBook::RealBook(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::RealBook)
 {
     ui->setupUi(this);
-    realbooksocket = new QTcpSocket;
+    realbooksocket = WebIO::getSocket();//new QTcpSocket;
 
     QObject::connect(realbooksocket, &QTcpSocket::readyRead, this, &RealBook::socket_Read_Data);
     this->setAttribute(Qt::WA_DeleteOnClose);
-
+    /*
     hostaddress.setAddress(QString("35.194.106.246"));
     realbooksocket->connectToHost(hostaddress,8333);
 
@@ -19,6 +20,7 @@ RealBook::RealBook(QWidget *parent) :
     QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
     this->close();
     }
+    */
 
 
 }
@@ -53,7 +55,8 @@ void RealBook::on_Addrealbook_clicked()
     jsondoc.setObject(realbookjson);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
     //booksocket->write( std::to_string(bytearray.size()).c_str() );
-    realbooksocket->write(bytearray);
+    WebIO::Singleton()->sendMessage(bytearray);
+    //realbooksocket->write(bytearray);
 
 
 }
@@ -61,9 +64,9 @@ void RealBook::on_Addrealbook_clicked()
 void RealBook::socket_Read_Data()
 {
     QByteArray getbuffer;
-    getbuffer = realbooksocket->readAll();
+    //getbuffer = WebIO::Singleton()->readJsonDocument();//realbooksocket->readAll();
 
-    QJsonDocument getdocument = QJsonDocument::fromJson(getbuffer);
+    QJsonDocument getdocument = WebIO::Singleton()->readJsonDocument();//QJsonDocument::fromJson(getbuffer);
     QJsonObject rootobj = getdocument.object();
 
     QJsonValue confirmvalue = rootobj.value("confirmtype");

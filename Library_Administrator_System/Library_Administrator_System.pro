@@ -35,7 +35,8 @@ SOURCES += \
     errorinput_e.cpp \
     addnewreader.cpp \
     bookoperation.cpp \
-    realbook.cpp
+    realbook.cpp \
+    webio.cpp
 
 HEADERS += \
         welcomepage.h \
@@ -47,7 +48,8 @@ HEADERS += \
     errorinput_e.h \
     addnewreader.h \
     bookoperation.h \
-    realbook.h
+    realbook.h \
+    webio.h
 
 FORMS += \
         welcomepage.ui \
