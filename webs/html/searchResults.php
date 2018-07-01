@@ -22,6 +22,7 @@ session_start();
 $OldPage = isset($_GET['OldPage'])? $_GET['OldPage'] : false;
 $result = null;
 $_GET['loggedOut'] = isset($_GET['loggedOut'])? $_GET['loggedOut'] : false;
+$highlevel = isset($_GET['highlevel'])? $_GET['highlevel'] : false;
 
 /**
  * @throws Exception
@@ -67,7 +68,97 @@ function query(){
     }
 }
 
-query();
+/**
+ * @throws Exception
+ */
+function HLquery(){
+    $titlekey1 = isset($_POST['titlekey1'])? htmlspecialchars($_POST['titlekey1']) : "";
+    $titlekey2 = isset($_POST['titlekey2'])? htmlspecialchars($_POST['titlekey2']) : "";
+    $titleconj = isset($_POST['titleconj'])? $_POST['titleconj'] : "and";
+    if($titleconj == "and"){
+        $result1 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveTitle($titlekey1))->And(), (new \tg\retrieveTitle($titlekey2))->And()));
+    }
+    else if($titleconj == "or"){
+        $result1 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveTitle($titlekey1))->And(), (new \tg\retrieveTitle($titlekey2))->Or()));
+    }
+    else if($titleconj == "not"){
+        $result1 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveTitle($titlekey1))->And(), (new \tg\retrieveTitle($titlekey2))->Not()));
+    }
+
+
+
+    $authorkey1 = isset($_POST['authorkey1'])? htmlspecialchars($_POST['authorkey1']) : "";
+    $authorkey2 = isset($_POST['authorkey2'])? htmlspecialchars($_POST['authorkey2']) : "";
+    $authorconj = isset($_POST['authorconj'])? $_POST['authorconj'] : "and";
+    if($authorconj == "and"){
+        $result2 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveAuthor($authorkey1))->And(), (new \tg\retrieveAuthor($authorkey2))->And()));
+    }
+    else if($authorconj == "or"){
+        $result2 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveAuthor($authorkey1))->And(), (new \tg\retrieveAuthor($authorkey2))->Or()));
+    }
+    else if($authorconj == "not"){
+        $result2 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveAuthor($authorkey1))->And(), (new \tg\retrieveAuthor($authorkey2))->Not()));
+    }
+
+
+
+    $publisherkey1 = isset($_POST['publisherkey1'])? htmlspecialchars($_POST['publisherkey1']) : "";
+    $publisherkey2 = isset($_POST['publisherkey2'])? htmlspecialchars($_POST['publisherkey2']) : "";
+    $publisherconj = isset($_POST['publisherconj'])? $_POST['publisherconj'] : "and";
+    if($publisherconj == "and"){
+        $result3 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrievePublisher($publisherkey1))->And(), (new \tg\retrievePublisher($publisherkey2))->And()));
+    }
+    else if($publisherconj == "or"){
+        $result3 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrievePublisher($publisherkey1))->And(), (new \tg\retrievePublisher($publisherkey2))->Or()));
+    }
+    else if($publisherconj == "not"){
+        $result3 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrievePublisher($publisherkey1))->And(), (new \tg\retrievePublisher($publisherkey2))->Not()));
+    }
+
+
+
+    $pyearkey = isset($_POST['pyearkey'])? htmlspecialchars($_POST['pyearkey']) : "";
+    $result4 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrievePublicationDate($pyearkey))->And()));
+
+
+
+    $subjectkey1 = isset($_POST['subjectkey1'])? htmlspecialchars($_POST['subjectkey1']) : "";
+    $subjectkey2 = isset($_POST['subjectkey2'])? htmlspecialchars($_POST['subjectkey2']) : "";
+    $subjectconj = isset($_POST['subjectconj'])? $_POST['subjectconj'] : "and";
+    if($subjectconj == "and"){
+        $result5 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveSubject($subjectkey1))->And(), (new \tg\retrieveSource($subjectkey2))->And()));
+    }
+    else if($subjectconj == "or"){
+        $result5 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveSubject($subjectkey1))->And(), (new \tg\retrieveSource($subjectkey2))->Or()));
+    }
+    else if($subjectconj == "not"){
+        $result5 = \tg\SystemFrame::docData()->queryDoc(array((new \tg\retrieveSubject($subjectkey1))->And(), (new \tg\retrieveSource($subjectkey2))->Not()));
+    }
+
+
+
+    $result = array_intersect($result1, $result2, $result3, $result4, $result5);
+    if(sizeof($result) === 0) {
+        $url = "searchFailure.php";
+        echo "<script language='javascript' type='text/javascript'>";
+        echo "javascript:window.location.href='$url'";
+        echo "</script>";
+    }
+    else {
+        echo "<script language='javascript' type='text/javascript'>";
+        echo "var result = " . json_encode($result) . ";";
+        echo "</script>";
+    }
+
+}
+
+if(!$highlevel){
+    query();
+}
+else{
+    HLquery();
+}
+
 
 /**
  * @throws Exception

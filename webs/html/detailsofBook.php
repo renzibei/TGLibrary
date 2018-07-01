@@ -52,7 +52,7 @@ retrieve();
 	<div class="divbase panel panel-info">
 		<div class="btn-group">
 
-            <div style="font-size:large;"><?php
+            <div style="font-size:large"><?php
                 if(isset($_SESSION['USER']))
                     echo "您好，" . $_SESSION['ID'] . "！"; ?>
             </div>
