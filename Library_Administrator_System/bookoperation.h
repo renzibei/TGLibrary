@@ -25,10 +25,12 @@ public:
     ~bookoperation();
 
     //用于窗口传值的重要变量
-     QJsonObject booktransferobject; //可能需要变成指针
+     QJsonObject booktransferobject;
      int operationtype = 0;
      void writeinformation();
      QJsonArray sonadvance;
+
+     void defaultchousen();
 
 private slots:
 

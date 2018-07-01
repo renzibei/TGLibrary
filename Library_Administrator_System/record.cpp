@@ -11,18 +11,7 @@ Record::Record(QWidget *parent) :
     this->setAttribute(Qt::WA_DeleteOnClose);
 
     recordsocket = WebIO::getSocket();//new QTcpSocket;
-    //QObject::connect(recordsocket, &QTcpSocket::readyRead, this, &Record::socket_Read_Data);
 
-    /*
-    hostaddress.setAddress(QString("35.194.106.246"));
-    recordsocket->connectToHost(hostaddress,8333);
-
-    if(!recordsocket->waitForConnected(3000))
-    {
-    QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
-    this->close();
-    }
-    */
 }
 
 Record::~Record()

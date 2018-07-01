@@ -17,39 +17,13 @@ bookoperation::bookoperation(QWidget *parent) :
 
     ui->setupUi(this);
     ui->bookinformation->setColumnWidth(0,600);
-    //ui->bookinformation->setItem(0,0,Qt::AlignLeft);
-//  ui->bookinformation->resizeColumnsToContents();
-//  ui->bookinformation->resizeRowsToContents();
-//    ui->bookinformation->verticalHeader()->setVisible(false);
-    ui->bookinformation->setAlternatingRowColors(true);
 
-    //connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(close()));
+   ui->bookinformation->horizontalHeader()->hide();
+    ui->bookinformation->setAlternatingRowColors(true);
 
     bookoperationsocket = WebIO::getSocket();//new QTcpSocket;
 
-    //QObject::connect(bookoperationsocket, &QTcpSocket::readyRead, this, &bookoperation::socket_Read_Data);
-
-    //hostaddress.setAddress(QString("35.194.106.246"));
-    /*
-    bookoperationsocket->connectToHost(hostaddress,8333);
-
-    if(!bookoperationsocket->waitForConnected(3000))
-    {
-    QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
-    this->close();
-    }
-    */
-
 }
-
-/*
- * bookoperation::bookoperation(QWidget *parent, int i) : bookoperation(QWidget *parent)
-{
-    if(i==1)
-    ui->bookinformation->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
-
-}*/
 
 bookoperation::~bookoperation()
 {
@@ -260,4 +234,33 @@ void bookoperation::on_AddRealBooks_clicked()
     addrealbook->show();
    // this->show();
     }
+}
+
+
+void bookoperation::defaultchousen()
+{
+    if(operationtype == 0)
+    {
+        ui->bookinformation->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        ui->RealBookInformation->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        ui->add_Books->setEnabled(false);
+        ui->add_Books->setVisible(false);
+        ui->AddRealBooks->setEnabled(false);
+        ui->AddRealBooks->setVisible(false);
+        this->setWindowTitle("详细信息");
+    }
+    else if (operationtype == 2 || operationtype ==3 )
+    {
+        ui->AddRealBooks->setEnabled(false);
+        ui->AddRealBooks->setVisible(false);
+        ui->RealBookInformation->setVisible(false);
+        if(operationtype ==2)
+        this->setWindowTitle("高级检索");
+        else
+        this->setWindowTitle("添加书目");
+
+    }
+    else if (operationtype == 1)
+        this->setWindowTitle("修改书目");
+
 }

@@ -25,6 +25,10 @@ public:
    //用于窗口传值的重要变量
     QJsonObject *readertransferobject = nullptr;
     int operationtype = 0;
+    int windowtypes = 0;
+
+
+    void defaultchousen();
 
 
 private slots:

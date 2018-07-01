@@ -14,17 +14,7 @@ Confirm::Confirm(QWidget *parent) :
     ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     confirmsocket = WebIO::getSocket();//new QTcpSocket;
-    //QObject::connect(confirmsocket, &QTcpSocket::readyRead, this, &Confirm::socket_Read_Data);
-    /*
-    hostaddress.setAddress(QString("35.194.106.246"));
-    confirmsocket->connectToHost(hostaddress,8333);
 
-    if(!confirmsocket->waitForConnected(3000))
-    {
-    QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
-    this->close();
-    }
-    */
 }
 
 Confirm::~Confirm()

@@ -20,20 +20,6 @@ BookManagement::BookManagement(QWidget *parent) :
     ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     booksocket = WebIO::getSocket();//new QTcpSocket;
-    //QObject::disconnect(booksocket,0 ,0, 0);
-   // QObject::connect(booksocket, &QTcpSocket::readyRead, this, &BookManagement::socket_Read_Data);
-    /*
-
-    hostaddress.setAddress(QString("35.194.106.246"));
-    booksocket->connectToHost(hostaddress,8333);
-
-    if(!booksocket->waitForConnected(3000))
-    {
-    QMessageBox::warning(this, tr("错误"), tr("未能连接到服务器，请检查网络设置！"));
-    this->close();
-    }
-
-    */
 
 
 }
@@ -50,6 +36,7 @@ void BookManagement::on_AddBook_Bt_clicked()
     this->hide();
     bookoperation *bookoperation1 = new bookoperation(this);
     bookoperation1->operationtype = 3;
+    bookoperation1->defaultchousen();
 
     bookoperation1->show();
     bookoperation1->exec();
@@ -104,6 +91,7 @@ void BookManagement::on_detailed_information_clicked()
     this->hide();
     bookoperation *bookoperation1 = new bookoperation(this);
     bookoperation1->operationtype = 0;
+    bookoperation1->defaultchousen();
 
     bookoperation1->booktransferobject = counterpartobject[rownumber];
     bookoperation1->writeinformation();
@@ -142,6 +130,7 @@ void BookManagement::on_advancedsearch_clicked()
     this->hide();
     bookoperation *bookoperation1 = new bookoperation(this);
     bookoperation1->operationtype = 2;
+    bookoperation1->defaultchousen();
     bookoperation1->show();
     bookoperation1->exec();
 
@@ -223,7 +212,7 @@ void BookManagement::socket_Read_Data()
             QJsonArray authorarray = iteratorobject.value("authors").toArray();
             QString authorstring = "";
             for(int i=0; i<authorarray.size(); i++)
-            authorstring = authorstring + authorarray.at(i).toString() + " ;";
+            authorstring = authorstring + authorarray.at(i).toString() + "; ";
 
             QJsonValue titlevalue = iteratorobject.value("title");
             QJsonValue authorvalue = iteratorobject.value("authors");
@@ -231,7 +220,7 @@ void BookManagement::socket_Read_Data()
             QJsonValue docIDvalue = iteratorobject.value("docID");
 
             ui->tableWidget->setItem(i,0,new QTableWidgetItem(titlevalue.toString()));
-            ui->tableWidget->setItem(i,1,new QTableWidgetItem(authorstring));
+            ui->tableWidget->setItem(i,1,new QTableWidgetItem(authorstring.left(authorstring.size()-2   )));
             ui->tableWidget->setItem(i,2,new QTableWidgetItem(publishervalue.toString()));
             ui->tableWidget->setItem(i,3,new QTableWidgetItem(docIDvalue.toString()));
 
@@ -249,6 +238,7 @@ void BookManagement::socket_Read_Data()
         if(index == 0)
         {
             QMessageBox::information(this, tr("成功"), tr("删除成功！"));
+            ui->tableWidget->removeRow(ui->tableWidget->currentRow());
             return;
         }
     }
@@ -266,7 +256,7 @@ void BookManagement::getadvancedresult(){
         QJsonArray authorarray = iteratorobject.value("authors").toArray();
         QString authorstring = "";
         for(int i=0; i<authorarray.size(); i++)
-        authorstring = authorstring +authorarray.at(i).toString() + " ;";
+        authorstring = authorstring +authorarray.at(i).toString() + "; ";
 
         QJsonValue titlevalue = iteratorobject.value("title");
         QJsonValue authorvalue = iteratorobject.value("authors");
