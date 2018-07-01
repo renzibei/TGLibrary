@@ -6,6 +6,7 @@ QTcpSocket* WebIO::socket = nullptr;
 
 WebIO::WebIO(QObject *parent) : QObject(parent)
 {
+    //this->window = nullptr;
     this->socket =  WebIO::getSocket();//new QTcpSocket(this);
     //connect(socket, &QTcpSocket::readyRead, this, &TestClass::slotReadForRead);
     //socket->connectToHost(QHostAddress("35.194.106.246"), 8333);
@@ -24,39 +25,66 @@ int WebIO::getIntFromBuffer(const QByteArray &buffer)
 
 int WebIO::readIntoBuffer(QByteArray& buffer, int len)
 {
-    int leftBytes = len;
+    int leftBytes = len, tempLen;
     QByteArray tempBuffer, result;
+    char *tempStr;
     int i = 0;
+   // if(leftBytes == 4681)
+    //    leftBytes = 5000;
     while(leftBytes > 0) {
-        tempBuffer = this->socket->read(leftBytes);
-        leftBytes -= tempBuffer.length();
-        result.append(tempBuffer);
+        if(WebIO::getSocket()->waitForReadyRead(30000) == false) {
+            qDebug() << WebIO::getSocket()->state();
+            qDebug() << WebIO::getSocket()->error();
+            qDebug() << "超时";
+            continue;
+            //return -1;
+        }
+        //tempBuffer = this->socket->read(leftBytes);
+        tempStr = new char[leftBytes+1];
+        memset(tempStr, 0, leftBytes + 1);
+        tempLen = WebIO::getSocket()->read(tempStr, leftBytes);
+        leftBytes -= tempLen;
+        result.append(tempStr);
         i++;
-        if(i > 1000000)
+        if(i > 1000) {
+            qDebug() << WebIO::getSocket()->errorString();
             return -1;
+
+        }
     }
-    buffer = std::move(tempBuffer);
-    qDebug() << result;
+    buffer = std::move(result);
+    qDebug() << buffer;
     return buffer.length();
 }
 
-int WebIO::sendMessage(const QByteArray& message)
+int WebIO::sendMessage(const QByteArray& message, const QObject* window , const char* member)
 {
-    QDataStream dataStream((WebIO::getSocket()));
-    dataStream.setByteOrder(QDataStream::BigEndian);
-    dataStream << message.length();
-    int leftBytes = message.length(), tempLen;
-    while(leftBytes > 0) {
-        tempLen = this->socket->write(message);
-        if(tempLen == -1) {
-            qDebug() << "errorCode " << WebIO::getSocket()->error();
-            qDebug() << this->socket->errorString();
-            if(this->socket->error() == QTcpSocket::UnknownSocketError) {
-                socket->connectToHost(QHostAddress("35.194.106.246"), 8333);
+    if(window == nullptr) {
+        qDebug() << "window is null";
+        return -1;
+    }
+    qDebug() << "state" << this->socket->state();
+    if(WebIO::getSocket()->waitForConnected(30000) == 0)
+        qDebug() << "Cannot connected";
+    else {
+        disconnect(this->socket, 0, 0, 0);
+        connect(this->socket, SIGNAL(readyRead()), window, member);
+        QDataStream dataStream((WebIO::getSocket()));
+        dataStream.setByteOrder(QDataStream::BigEndian);
+        dataStream << message.length();
+        int leftBytes = message.length(), tempLen;
+        while(leftBytes > 0) {
+            tempLen = this->socket->write(message);
+            if(tempLen == -1) {
+                qDebug() << "errorCode " << WebIO::getSocket()->error();
+                qDebug() << this->socket->errorString();
+                if(this->socket->error() == QTcpSocket::UnknownSocketError) {
+                    //socket->connectToHost(QHostAddress("35.194.106.246"), 8333);
+                }
             }
-        }
 
-        leftBytes -= tempLen;
+            leftBytes -= tempLen;
+        }
     }
 }
 

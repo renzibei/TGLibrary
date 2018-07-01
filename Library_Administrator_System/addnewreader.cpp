@@ -13,7 +13,7 @@ Addnewreader::Addnewreader(QWidget *parent) :
     ui->pushButton->setText("确认");
 
     addreadersocket = WebIO::getSocket();//new QTcpSocket();
-    QObject::connect(addreadersocket, &QTcpSocket::readyRead, this, &Addnewreader::socket_Read_Data);
+    //QObject::connect(addreadersocket, &QTcpSocket::readyRead, this, &Addnewreader::socket_Read_Data);
 
     //hostaddress.setAddress(QString("35.194.106.246"));
     //addreadersocket->connectToHost(hostaddress,8333);
@@ -92,7 +92,7 @@ if(ui->pushButton->text()=="确认")
         sendjson.setObject(addreaderjson);
         bytearray = sendjson.toJson(QJsonDocument::Compact);
         //addreadersocket->write( std::to_string(bytearray.size()).c_str() );
-        WebIO::Singleton()->sendMessage(bytearray);
+        WebIO::Singleton()->sendMessage(bytearray, this, SLOT(socket_Read_Data()));
         //addreadersocket->write(bytearray);
         this->close();
      //   addreaderjson.~QJsonObject();

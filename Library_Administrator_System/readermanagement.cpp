@@ -16,7 +16,7 @@ ReaderManagement::ReaderManagement(QWidget *parent) :
     ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     readersocket = WebIO::getSocket();//new QTcpSocket();
-    QObject::connect(readersocket, &QTcpSocket::readyRead, this, &ReaderManagement::socket_Read_Data);
+    //QObject::connect(readersocket, &QTcpSocket::readyRead, this, &ReaderManagement::socket_Read_Data);
 
     // QHostAddress hostaddress;
     /*
@@ -80,7 +80,7 @@ void ReaderManagement::on_pushButton_4_clicked()
         sendjson.setObject(readerjson);
         bytearray = sendjson.toJson(QJsonDocument::Compact);
         //readersocket->write( std::to_string(bytearray.size()).c_str() );
-        WebIO::Singleton()->sendMessage(bytearray);
+        WebIO::Singleton()->sendMessage(bytearray, this,  SLOT(socket_Read_Data()));
         //readersocket->write(bytearray);
 }
 }
@@ -119,7 +119,7 @@ void ReaderManagement::socket_Read_Data()
     int index = jsontypevalue.toInt();
 
 
-    if(rootobj.value("document").toArray().size()==0)
+    if(rootobj.value("documents").toArray().size()==0)
     {
         QMessageBox::warning(this, tr("错误"), tr("没有找到相关信息！"));
         return;
@@ -185,6 +185,6 @@ void ReaderManagement::on_delete_hito_clicked()
      sendjson.setObject(deletebookvalue);
      bytearray = sendjson.toJson(QJsonDocument::Compact);
      //readersocket->write( std::to_string(bytearray.size()).c_str() );
-     WebIO::Singleton()->sendMessage(bytearray);
+     WebIO::Singleton()->sendMessage(bytearray, this,  SLOT(socket_Read_Data()));
      //readersocket->write(bytearray);
 }

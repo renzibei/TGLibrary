@@ -55,12 +55,13 @@ class ServerWrapper
         }
     }
 
-    protected function writeLength($msg)
+    protected function getLength($msg)
     {
         require_once 'int_helper.php';
         $len = strlen($msg);
         $sendMsg = int_helper::uint32($len, true);
-        socket_write($this->sockRe, $sendMsg, 4);
+        //socket_write($this->sockRe, $sendMsg, 4);
+        return $sendMsg;
     }
 
     /**
@@ -121,7 +122,8 @@ class ServerWrapper
 
     protected  function sendSimpleMessage($msg)
     {
-        $this->writeLength($msg);
+        //$this->writeLength($msg);
+        $msg .= $this->getLength($msg);
         socket_write($this->sockRe, $msg, strlen($msg));
         self::echoMessage($msg);
     }

@@ -9,7 +9,7 @@ RealBook::RealBook(QWidget *parent) :
     ui->setupUi(this);
     realbooksocket = WebIO::getSocket();//new QTcpSocket;
 
-    QObject::connect(realbooksocket, &QTcpSocket::readyRead, this, &RealBook::socket_Read_Data);
+    //QObject::connect(realbooksocket, &QTcpSocket::readyRead, this, &RealBook::socket_Read_Data);
     this->setAttribute(Qt::WA_DeleteOnClose);
     /*
     hostaddress.setAddress(QString("35.194.106.246"));
@@ -54,7 +54,7 @@ void RealBook::on_Addrealbook_clicked()
     jsondoc.setObject(realbookjson);
     bytearray = jsondoc.toJson(QJsonDocument::Compact);
     //booksocket->write( std::to_string(bytearray.size()).c_str() );
-    WebIO::Singleton()->sendMessage(bytearray);
+    WebIO::Singleton()->sendMessage(bytearray, this, SLOT(socket_Read_Data()));
     //realbooksocket->write(bytearray);
 
 
