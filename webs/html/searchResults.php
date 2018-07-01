@@ -76,6 +76,7 @@ function HLquery(){
     $titlekey1 = isset($_POST['titlekey1'])? htmlspecialchars($_POST['titlekey1']) : "";
     $titleconj = isset($_POST['titleconj'])? $_POST['titleconj'] : "and";
     $element11 = (new \tg\retrieveTitle($titlekey1))->And();
+    \tg\SystemFrame::log_info($titleconj);
     if($titleconj == "and"){
         $titlekey2 = isset($_POST['titlekey2'])? htmlspecialchars($_POST['titlekey2']) : "";
         $element12 = (new \tg\retrieveTitle($titlekey2))->And();
@@ -121,9 +122,10 @@ function HLquery(){
         $element32 = (new \tg\retrievePublisher($publisherkey2))->Not();
     }
 
-    $pyearkey = isset($_POST['pyearkey'])? htmlspecialchars($_POST['pyearkey']) : "1861";
+    /*
+    $pyearkey = isset($_POST['pyearkey'])? htmlspecialchars($_POST['pyearkey']) : 1861;
     $element41 = (new \tg\retrievePublicationDate($pyearkey))->And();
-
+*/
     $subjectkey1 = isset($_POST['subjectkey1'])? htmlspecialchars($_POST['subjectkey1']) : "";
     $subjectconj = isset($_POST['subjectconj'])? $_POST['subjectconj'] : "and";
     $element51 = (new \tg\retrieveSubject($subjectkey1))->And();
@@ -140,11 +142,8 @@ function HLquery(){
         $element52 = (new \tg\retrieveSubject($subjectkey2))->Not();
     }
 
-    $result = \tg\SystemFrame::docData()->queryDoc(array($element11, $element12, $element21, $element22, $element31, $element32, $element41, $element51, $element52));
-
-
-    \tg\SystemFrame::log_info("6  " .sizeof($result));
-
+    $result = \tg\SystemFrame::docData()->queryDoc(array($element11, $element12, $element21, $element22, $element31, $element32, $element51, $element52));
+    \tg\SystemFrame::log_info(sizeof($result));
 
 
     if(sizeof($result) === 0) {
