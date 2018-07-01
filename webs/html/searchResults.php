@@ -21,6 +21,7 @@ require_once 'SystemFrame.php';
 session_start();
 
 $result = null;
+$_GET['loggedOut'] = isset($_GET['loggedOut'])? $_GET['loggedOut'] : false;
 
 /**
  * @throws Exception
@@ -61,6 +62,14 @@ function logintest(){
     \tg\SystemFrame::log_info($b);
 }
 logintest();
+
+if($_GET['loggedOut']){
+    if(isset($_SESSION['USER']))
+        unset($_SESSION['USER']);
+    if(isset($_SESSION['ID']))
+        unset($_SESSION['ID']);
+}
+
 ?>
 
 <body>

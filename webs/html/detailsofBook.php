@@ -18,23 +18,31 @@
 session_start();
 require_once "SystemFrame.php";
 
+$_GET['loggedOut'] = isset($_GET['loggedOut'])? $_GET['loggedOut'] : false;
 $thisbook = null;
-$docID = "100000";
+$realBooks = array();
+$select = $_GET['select'];
+
+if($_GET['loggedOut']){
+    if(isset($_SESSION['USER']))
+        unset($_SESSION['USER']);
+    if(isset($_SESSION['ID']))
+        unset($_SESSION['ID']);
+}
 
 /**
  * @throws Exception
  */
 function retrieve(){
-    global $thisbook, $docID;
-    $bookinfo = json_decode($_SESSION['RESULT']);
-    unset($_SESSION['RESULT']);
-    $select = $_GET['select'];
+    global $thisbook, $realBooks, $select;
     \tg\SystemFrame::log_info($select);
-    $thisbook = $bookinfo[$select];
+    $result = json_decode($_SESSION['RESULT']);
+    $thisbook = $result[$select];
     $thisbookinfo = json_encode($thisbook);
     \tg\SystemFrame::log_info($thisbookinfo);
-    $docID = $thisbook->docID;
-    \tg\SystemFrame::log_info($docID);
+    $realBooks = $thisbook->realBooks;
+    $realBooksinfo = json_encode($realBooks);
+    \tg\SystemFrame::log_info($realBooksinfo);
 }
 retrieve();
 ?>
@@ -54,7 +62,7 @@ retrieve();
                 echo "<a href=\"mylib.php\" class=\"loggedin1\">".
                     "<button type=\"button\" class=\"btn btn-info\">我的图书</button></a>";
 
-                echo "<a href=\"../index.php\" class=\"loggedin2\">".
+                echo "<a href=\"detailsofBook.php?loggedOut=true&select=$select\" class=\"loggedin2\">".
                     "<button type=\"button\" class=\"btn btn-primary\" style=\"position:relative; left:60px;\">退出登录</button></a>";
             }
 
@@ -63,7 +71,7 @@ retrieve();
             ?>
 		</div>
 
-		<h1>书名</h1>
+		<h1><?php echo $thisbook->title;?></h1>
 
 		<img src="../images/daolun2.jpg" width="240" height="300"/>
 
@@ -72,11 +80,10 @@ retrieve();
 			<h2 class="white" style="font-size:x-large">基本信息</h2>
 			<p id="details" style="font-size:large">
                 DocId: <span id="docid"><?php echo $thisbook->docID;?></span><br />
-                类型: <span id="format"><?php echo $thisbook->format;?></span><br />
-				书名：<span id="title"> <?php echo $thisbook->title;?></span><br />
                 作者：<span id="authors"> <?php echo $thisbook->authors;?></span><br />
 				出版社：<span id="publisher"><?php echo $thisbook->publisher;?></span><br />
                 发行年：<span id="publisher"><?php echo $thisbook->publicationYear;?></span><br />
+                类型: <span id="format"><?php echo $thisbook->format;?></span><br />
                 语言：<span id="language"><?php echo $thisbook->language;?></span><br />
             </p>
 		</div>
@@ -88,17 +95,18 @@ retrieve();
 本书深入浅出，全面地介绍了计算机算法。对每一个算法的分析既易于理解又十分有趣，并保持了数学严谨性。本书的设计目标全面，适用于多种用途。涵盖的内容有：算法在计算中的作用，概率分析和随机算法的介绍。本书专门讨论了线性规划，介绍了动态规划的两个应用，随机化和线性规划技术的近似算法等，还有有关递归求解、快速排序中用到的划分方法与期望线性时间顺序统计算法，以及对贪心算法元素的讨论。本书还介绍了对强连通子图算法正确性的证明，对哈密顿回路和子集求和问题的NP完全性的证明等内容。全书提供了900多个练习题和思考题以及叙述较为详细的实例研究。
 本书内容丰富，对本科生的数据结构课程和研究生的算法课程都是很实用的教材。本书在读者的职业生涯中，也是一本案头的数学参考书或工程实践手册。</p>-->
 
-  		<?php echo $thisbook['description'];?>
+  		<span class="text-size:x-large"><?php echo $thisbook->description;?></span>
 
 
 			<br><br>
 			<h3 class="white" style="font-size:x-large">目录</h3>
 			<?php
-  		echo $thisbook['contents'];
+  		echo $thisbook->contents;
 			?>
 
+            <h3>在架书籍</h3>
         <table class="table table-hover">
-		<caption>在架书籍</caption>
+		<caption></caption>
 		<thead>
 		    <tr>
 			    <th>索书号</th>

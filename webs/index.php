@@ -44,7 +44,7 @@ logintest();
 
 		<div class="loginbtn">
 			<a href="html/login.php">
-				<button type="button" class="btn btn-primary">用户登录</button>
+				<button type="button" class="btn btn-primary">我要登录</button>
 			</a>
 		</div>
         <h3><span style="font-size:x-large"><a href="#" style=" font-weight:bold; color:#233333;" target="_self">海量资源</a>  <a href="#" target="_self">纸本图书</a>  <a href="#" target="_self">期刊杂志</a>  <a href="#" target="_self">学术论文</a> <a href="#" target="_self">在馆图书</a></span></h3>
