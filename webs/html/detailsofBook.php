@@ -45,23 +45,21 @@ retrieve();
 	<div class="divbase panel panel-info">
 		<div class="btn-group">
 
-            <div style="font-size:large; position:absolute; right:0; top:15px;"><?php
+            <div style="font-size:large;"><?php
                 if(isset($_SESSION['USER']))
                     echo "您好，" . $_SESSION['ID'] . "！"; ?>
             </div>
             <?php
-            if(isset($_SESSION['USER'])){
-                echo "<a href=\"mylib.php\" class=\"loggedin1\">
-				        <button type=\"button\" class=\"btn btn-info\">我的图书</button>　　　
-			            </a>";
+            if(isset($_SESSION['USER'])) {
+                echo "<a href=\"mylib.php\" class=\"loggedin1\">".
+                    "<button type=\"button\" class=\"btn btn-info\">我的图书</button></a>";
 
-                echo "<a href=\"../index.php\" class=\"loggedin2\">　
-						<button type=\"button\" class=\"btn btn-primary\">退出登录</button>
-					    </a>";
+                echo "<a href=\"../index.php\" class=\"loggedin2\">".
+                    "<button type=\"button\" class=\"btn btn-primary\" style=\"position:relative; left:60px;\">退出登录</button></a>";
             }
-            else echo "<a href=\"login.php\" class=\"loginbtn\">
-				        <button type=\"button\" class=\"btn btn-primary\">我要登录</button>　　　
-			            </a>"
+
+            else echo "<a href=\"login.php\" class=\"loginbtn\">" .
+                "<button type=\"button\" class=\"btn btn-primary\">我要登录</button></a>";
             ?>
 		</div>
 

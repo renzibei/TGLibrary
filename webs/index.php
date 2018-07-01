@@ -15,10 +15,25 @@
 
 <body>
 <?php
+session_start();
+require_once "html/SystemFrame.php";
 if(isset($_SESSION['USER']))
     unset($_SESSION['USER']);
 if(isset($_SESSION['ID']))
     unset($_SESSION['ID']);
+
+/**
+ * @throws Exception
+ */
+function logintest(){
+    $b = isset($_SESSION['USER']);
+    $type = gettype($b);
+    \tg\SystemFrame::log_info("In index.php: logged=");
+    \tg\SystemFrame::log_info($type);
+
+}
+logintest();
+
 ?>
 	<div class="page-header">
 	    <h1 style="color:white">踢馆大队の学术搜索平台

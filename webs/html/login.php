@@ -13,6 +13,14 @@
 
 <body>
 
+<?php
+session_start();
+if(isset($_SESSION['USER']))
+    unset($_SESSION['USER']);
+if(isset($_SESSION['ID']))
+    unset($_SESSION['ID']);
+?>
+
 <div class="page-header">
     <h1 style="color:white">登录页面
     </h1>
