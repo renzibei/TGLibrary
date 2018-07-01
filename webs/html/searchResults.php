@@ -22,6 +22,7 @@ session_start();
 $OldPage = isset($_GET['OldPage'])? $_GET['OldPage'] : false;
 $result = null;
 $_GET['loggedOut'] = isset($_GET['loggedOut'])? $_GET['loggedOut'] : false;
+$highlevel = isset($_GET['highlevel'])? $_GET['highlevel'] : false;
 
 /**
  * @throws Exception
@@ -67,7 +68,20 @@ function query(){
     }
 }
 
-query();
+/**
+ * @throws Exception
+ */
+function HLquery(){
+
+}
+
+if(!$highlevel){
+    query();
+}
+else{
+    HLquery();
+}
+
 
 /**
  * @throws Exception

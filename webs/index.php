@@ -53,7 +53,9 @@ logintest();
 			<div class="form-group">
 				<input type="text" class="form-control col-lg" name="keywords"
 					   placeholder="请输入搜索关键字">
-				<br><br><br><br><br>
+				<br>
+                <a style="text-decoration: underline; position: relative; left: 610px; font-size: large"  href="html/highlevelSearch.php">高级检索</a>
+                <br><br><br><br>
 				<input type="submit" class="btn btn-info btn-lg center-block" value="搜索" />
 			</div>
 		</form>
