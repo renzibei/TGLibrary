@@ -168,20 +168,16 @@ class BorrowRecord
     }
 
     /**
-     * @param mixed $isAnswered
+     * @param $isAnswered
+     * @throws \Exception
      */
     public function setIsAnswered($isAnswered)
     {
         $this->isAnswered = $isAnswered;
+        $this->updateData();
     }
 
-    /**
-     * @param bool $isAllowed
-     */
-    public function setIsAllowed(bool $isAllowed)
-    {
-        $this->isAllowed = $isAllowed;
-    }
+
 
 
     /**

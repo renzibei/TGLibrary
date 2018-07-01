@@ -18,7 +18,10 @@ class retrieveSimple extends retrieveStrategy
         require_once 'retrieveSubject.php';
         require_once 'retrieveIdentifier.php';
         require_once 'retrieveAuthor.php';
-        $returnStr = "(" . (new retrieveSubject($this->keywords))->Normal() . (new retrieveISBN($this->keywords))->Or()
+        if(empty($this->keywords))
+            $returnStr = " FALSE ";
+        else
+             $returnStr = "(" . (new retrieveSubject($this->keywords))->Normal() . (new retrieveISBN($this->keywords))->Or()
                     . (new retrieveISSN($this->keywords))->Or() . (new retrieveDoi($this->keywords))->Or()
                     . (new retrieveAuthor($this->keywords))->Or() .(new retrieveTitle($this->keywords))->Or() . ")";
         return $returnStr;

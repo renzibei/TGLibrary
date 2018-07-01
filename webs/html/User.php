@@ -89,6 +89,29 @@ class User extends Account
         }
     }
 
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    public function borrowList()
+    {
+        $requestRecordSql = "SELECT requestId FROM " . systemConfig\config['borrowRequest'] . " WHERE userId = $this->userID ";
+        $conn = SystemFrame::instance()->getConnection();
+        $requestResult = $conn->query($requestRecordSql);
+        if($requestResult === false) {
+            throw new \Exception("Fail to query requestId " . $conn->error, errorCode\QueryTableError);
+        }
+        $borrowRecords = array();
+        while($row = $requestResult->fetch_assoc()) {
+            $requestId = $row['requestId'];
+            $borrowRecords[] = SystemFrame::borrowRecordData()->getBorrowRecord($requestId);
+        }
+        return $borrowRecords;
+    }
+
+
+
+
     public function updatePassword()
     {
 

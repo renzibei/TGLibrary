@@ -39,6 +39,50 @@ class BorrowRecordData
 
     }
 
+    /**
+     * @param $requestId
+     * @param null $recordId
+     * @return bool|BorrowRecord
+     * @throws \Exception
+     */
+    public function getBorrowRecord($requestId, $recordId = null)
+    {
+        $requestSql = "SELECT * FROM " . systemConfig\config['borrowRequest'] . " WHERE requestId = $requestId";
+        $conn = SystemFrame::instance()->getConnection();
+        $requestResult = $conn->query($requestSql);
+        if($requestResult === false)
+            throw new \Exception("Fail to query requestRecord " . $conn->error, errorCode\QueryTableError);
+        $listLength = $requestResult->num_rows;
+
+        if($row = $requestResult->fetch_assoc()) {
+            $user = SystemFrame::userData()->queryFromId($row['userId']);
+            $book = SystemFrame::docData()->getDocument($row['docId']);
+            $realBook = SystemFrame::docData()->getRealBook($row['bookId']);
+
+            $borrowRecord = new BorrowRecord($user, $realBook, $book, NULL,
+                $row['isAnswered'], $row['allow'], NULL, NULL, $row['requestTime'], $row['answerTime'], NULL);
+
+
+            if(!empty($recordId)) {
+                $recordSql = "SELECT * FROM " . systemConfig\config['borrowRecord'] . " WHERE recordId = $recordId";
+                $recordResult = $conn->query($recordSql);
+                if ($recordResult === false)
+                    throw new \Exception("Fail to query borrowRecord" . $conn->error, errorCode\QueryTableError);
+
+                $row = $recordResult->fetch_assoc();
+                $borrowRecord->setRecordId($row['recordId']);
+                $borrowRecord->setIsReturned($row['returned']);
+                $borrowRecord->setBeginDate($row['beginDate']);
+                $borrowRecord->setDueDate($row['dueDate']);
+                $borrowRecord->setReturnDate($row['returnDate']);
+            }
+            return $borrowRecord;
+        }
+        return false;
+    }
+
+
+
 
     /**
      * @return array
