@@ -44,7 +44,19 @@
 </head>
 
 <body>
-<?php session_start(); require_once "SystemFrame.php"; ?>
+<?php
+session_start();
+require_once "SystemFrame.php";
+/**
+ * @throws Exception
+ */
+function test(){
+    $bookinfo = json_encode($_SESSION['RESULT']);
+    \tg\SystemFrame::log_info($bookinfo);
+    unset($_SESSION['RESULT']);
+}
+
+?>
 	<div class="page-header">
 			<h1 style="color:white">图书详情
 			</h1>

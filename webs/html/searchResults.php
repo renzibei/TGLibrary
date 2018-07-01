@@ -17,10 +17,7 @@
 
 <?php
 require_once 'SystemFrame.php';
-
 session_start();
-
-
 
 $result = null;
 
@@ -28,9 +25,6 @@ $result = null;
  * @throws Exception
  */
 function query(){
-    if(!isset($_SESSION['ID']))
-        \tg\SystemFrame::log_info("Oops");
-    \tg\SystemFrame::log_info($_SESSION['ID']);
     $searchtype = isset($_POST['searchtype'])? htmlspecialchars($_POST['searchtype']) : 'bookname';
     $keywords = isset($_POST['keywords'])? htmlspecialchars($_POST['keywords']) : '';
     global $result;
@@ -105,14 +99,19 @@ query();
         -->
 		<p style="font-size:large">我们为您找到了 <span id="numofResults"></span> 条结果。<br>
 			<br>
+            <form action="detailsofBook.php" method="post">
             <?php
+                $_SESSION['RESULT'] = json_encode($result);
                 $NUM = sizeof($result);
-                for($i = 0; $i < $NUM; $i++){
-                    echo "<a id=\"$i\" href=\"detailsofBook.php\"></a>";
+                for($i = 0; $i < $NUM; $i++) {
+                    echo "<input id=\"$i\" name=\"\" type=\"button\">";
+                    //echo "<a id=\"$i\" href=\"detailsofBook.php\"></a>";
+                    echo "<input type=\"hidden\" name=\"select\" value=$i>";
                     echo "<br><br>";
+                    echo "<br><br><br><br><br><br>";
                 }
-                echo "<br><br><br><br><br><br>";
             ?>
+            </form>
 		</p>
 
 		<script>
