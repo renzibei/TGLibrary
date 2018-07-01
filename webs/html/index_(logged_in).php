@@ -61,7 +61,7 @@
 				</a>
 
 
-                <a href="javascript:quit();" class="loggedin2">
+                <a href="../index.php" class="loggedin2">
                     <button type="button" class="btn btn-primary">退出登录</button>
 				</a>
 			</div>
@@ -78,19 +78,5 @@
         </form>
     </div>
 
-    <script>
-        function quit(){
-            <?php
-            $url = "../index.php";
-            unset($_SESSION['ID']);
-            unset($_SESSION['USER']);
-            echo "<script language='javascript' type='text/javascript'>";
-            echo "window.location.href='$url'";
-            echo "</div>";
-            ?>
-            void 0;
-        }
-
-    </script>
 
 </body>

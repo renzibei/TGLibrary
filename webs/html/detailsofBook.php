@@ -120,9 +120,6 @@
                 echo "</tr>";
             }
         }
-
-
-
         ?>
 		</tbody>
 	</table>
